@@ -8,4 +8,9 @@ class MutableMaxMinPair(
     val div: Float
         get() = max - min
 
+    fun reset() {
+        min = Float.MAX_VALUE
+        max = Float.MIN_VALUE
+    }
+
 }

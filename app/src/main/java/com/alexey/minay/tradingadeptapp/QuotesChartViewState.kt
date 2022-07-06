@@ -11,18 +11,21 @@ data class QuotesChartViewState(
         false -> null
     }
 
-    fun findMaxAndMin(pair: MutableMaxMinPair, lastVisibleIndex: Int) {
+    fun findMaxAndMin(pair: MutableMaxMinPair, firstVisibleIndex: Int, lastVisibleIndex: Int) {
+        pair.reset()
         quotes.forEachIndexed { index, quotation ->
-            if (index > lastVisibleIndex) {
-                return
-            }
+            if (index > firstVisibleIndex) {
+                if (index > lastVisibleIndex) {
+                    return
+                }
 
-            if (quotation.high > pair.max) {
-                pair.max = quotation.high
-            }
+                if (quotation.high > pair.max) {
+                    pair.max = quotation.high
+                }
 
-            if (quotation.low < pair.min) {
-                pair.min = quotation.low
+                if (quotation.low < pair.min) {
+                    pair.min = quotation.low
+                }
             }
         }
     }
