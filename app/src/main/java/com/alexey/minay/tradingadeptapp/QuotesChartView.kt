@@ -5,14 +5,16 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
+import android.util.Log
 import android.view.MotionEvent
+import android.view.ScaleGestureDetector
 import android.view.View
 import com.alexey.minay.tradingadeptapp.domain.Quotation
 
 class QuotesChartView(
     context: Context,
     attrs: AttributeSet
-) : View(context, attrs) {
+) : View(context, attrs), ScaleGestureDetector.OnScaleGestureListener {
 
     private var mQuotesChartViewState = QuotesChartViewState.default()
     private val mCandlestickPaint = Paint().apply {
@@ -29,6 +31,8 @@ class QuotesChartView(
     private var mFirstVisibleCandlePositionX: Float? = null
     private var mMaxMinPair = MutableMaxMinPair(Float.MAX_VALUE, Float.MIN_VALUE)
 
+    private val mDetector = ScaleGestureDetector(context, this)
+
     fun setValue(quotes: List<Quotation>) {
         mQuotesChartViewState = mQuotesChartViewState.copy(quotes = quotes)
         invalidate()
@@ -38,6 +42,16 @@ class QuotesChartView(
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
         var firstVisibleCandlePositionX = mFirstVisibleCandlePositionX ?: return false
+
+        if (event.pointerCount == 2) {
+            mDetector.onTouchEvent(event)
+            return true
+        }
+
+        if (event.pointerCount > 1) {
+            return false
+        }
+
         if (event.action == MotionEvent.ACTION_DOWN) {
             previousValue = event.x
         }
@@ -123,6 +137,18 @@ class QuotesChartView(
             }
         }
     }
+
+    override fun onScale(detector: ScaleGestureDetector): Boolean {
+        Log.d("QuotesChartView", "QuotesChartView ${detector.scaleFactor}")
+        mCandleWidth *= detector.scaleFactor
+        mCandleMargin *= detector.scaleFactor
+        invalidate()
+        return true
+    }
+
+    override fun onScaleBegin(detector: ScaleGestureDetector?): Boolean = true
+
+    override fun onScaleEnd(detector: ScaleGestureDetector?) = Unit
 
     private fun Float.extrapolate(y1: Float, y2: Float, x1: Float, x2: Float) =
         y1 + (y2 - y1) / (x2 - x1) * (this - x1)
