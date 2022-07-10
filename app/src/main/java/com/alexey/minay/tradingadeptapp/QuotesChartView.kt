@@ -58,12 +58,14 @@ class QuotesChartView(
 
         if (event.action == MotionEvent.ACTION_MOVE) {
             firstVisibleCandlePositionX += (event.x - previousValue)
-            if ((firstVisibleCandlePositionX - mCandleWidth * 2) > width) {
+            if ((firstVisibleCandlePositionX - mCandleWidth) > width) {
                 mFirstVisibleCandleIndex++
                 firstVisibleCandlePositionX -= (mCandleWidth + mCandleMargin)
             } else if ((firstVisibleCandlePositionX + mCandleWidth) < width && mFirstVisibleCandleIndex > 0) {
-                mFirstVisibleCandleIndex--
-                firstVisibleCandlePositionX += (mCandleWidth + mCandleMargin)
+                val count = ((width - firstVisibleCandlePositionX) /
+                        (mCandleWidth + mCandleMargin)).toInt()
+                mFirstVisibleCandleIndex -= count
+                firstVisibleCandlePositionX += (mCandleWidth + mCandleMargin) * count
             }
             mFirstVisibleCandlePositionX = firstVisibleCandlePositionX
             previousValue = event.x
