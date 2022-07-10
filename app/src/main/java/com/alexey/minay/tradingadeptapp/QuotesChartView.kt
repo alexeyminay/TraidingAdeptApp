@@ -2,13 +2,13 @@ package com.alexey.minay.tradingadeptapp
 
 import android.content.Context
 import android.graphics.Canvas
-import android.graphics.Color
+import android.graphics.DashPathEffect
 import android.graphics.Paint
 import android.util.AttributeSet
-import android.util.Log
 import android.view.MotionEvent
 import android.view.ScaleGestureDetector
 import android.view.View
+import androidx.core.content.ContextCompat
 import com.alexey.minay.tradingadeptapp.domain.Quotation
 
 class QuotesChartView(
@@ -19,9 +19,15 @@ class QuotesChartView(
     private var mQuotesChartViewState = QuotesChartViewState.default()
     private val mCandlestickPaint = Paint().apply {
         flags = Paint.ANTI_ALIAS_FLAG
-        color = Color.GREEN
         style = Paint.Style.FILL_AND_STROKE
         strokeWidth = 2f
+    }
+
+    private val mDotsLinePaint = Paint().apply {
+        flags = Paint.ANTI_ALIAS_FLAG
+        style = Paint.Style.STROKE
+        pathEffect = DashPathEffect(floatArrayOf(5f, 5f), 0f)
+        strokeWidth = 1f
     }
 
     private var mCandleWidth = 24f
@@ -75,32 +81,45 @@ class QuotesChartView(
         return true
     }
 
-    override fun onDraw(canvas: Canvas) {
+    override fun onDraw(canvas: Canvas) = with(canvas) {
         super.onDraw(canvas)
+        drawCandles(canvas)
+        drawLastValueLine()
+    }
+
+    override fun onScale(detector: ScaleGestureDetector): Boolean {
+        mCandleWidth *= detector.scaleFactor
+        mCandleMargin *= detector.scaleFactor
+        invalidate()
+        return true
+    }
+
+    override fun onScaleBegin(detector: ScaleGestureDetector?): Boolean = true
+
+    override fun onScaleEnd(detector: ScaleGestureDetector?) = Unit
+
+    private fun drawCandles(canvas: Canvas) {
         if (mFirstVisibleCandlePositionX == null) {
             mFirstVisibleCandlePositionX = width.toFloat() / 2
         }
 
         val firstVisibleCandlePositionX = mFirstVisibleCandlePositionX ?: return
-
         val maxCandleCount = (width / (mCandleWidth + mCandleMargin)).toInt()
-
         val candleCount = ((firstVisibleCandlePositionX / width) * maxCandleCount).toInt() + 1
-
         val lastVisibleIndex = mFirstVisibleCandleIndex + candleCount
         mQuotesChartViewState.findMaxAndMin(mMaxMinPair, mFirstVisibleCandleIndex, lastVisibleIndex)
-
         var drawXPos = firstVisibleCandlePositionX
+
         mQuotesChartViewState.quotes.forEachIndexed { index, quotation ->
             if (index >= mFirstVisibleCandleIndex) {
                 val top: Float
                 val bottom: Float
-                if (quotation.close >= quotation.open) {
-                    mCandlestickPaint.color = Color.GREEN
+                if (quotation.isGreen()) {
+                    mCandlestickPaint.color = ContextCompat.getColor(context, R.color.green)
                     top = quotation.close
                     bottom = quotation.open
                 } else {
-                    mCandlestickPaint.color = Color.RED
+                    mCandlestickPaint.color = ContextCompat.getColor(context, R.color.red)
                     bottom = quotation.close
                     top = quotation.open
                 }
@@ -150,17 +169,28 @@ class QuotesChartView(
         }
     }
 
-    override fun onScale(detector: ScaleGestureDetector): Boolean {
-        Log.d("QuotesChartView", "QuotesChartView ${detector.scaleFactor}")
-        mCandleWidth *= detector.scaleFactor
-        mCandleMargin *= detector.scaleFactor
-        invalidate()
-        return true
+    private fun Canvas.drawLastValueLine() {
+        val lastCandle = mQuotesChartViewState.quotes.firstOrNull() ?: return
+
+        if (lastCandle.close < mMaxMinPair.min && lastCandle.close > mMaxMinPair.max) {
+            return
+        }
+
+        mDotsLinePaint.color = when {
+            lastCandle.isGreen() -> ContextCompat.getColor(context, R.color.green)
+            else -> ContextCompat.getColor(context, R.color.red)
+        }
+
+        val y = height - lastCandle.close.extrapolate(
+            0f,
+            height.toFloat(),
+            mMaxMinPair.min,
+            mMaxMinPair.max
+        )
+        drawLine(0f, y, height.toFloat(), y, mDotsLinePaint)
     }
 
-    override fun onScaleBegin(detector: ScaleGestureDetector?): Boolean = true
-
-    override fun onScaleEnd(detector: ScaleGestureDetector?) = Unit
+    private fun Quotation.isGreen() = close >= open
 
     private fun Float.extrapolate(y1: Float, y2: Float, x1: Float, x2: Float) =
         y1 + (y2 - y1) / (x2 - x1) * (this - x1)
