@@ -105,14 +105,14 @@ class QuotesChartView(
 
                 canvas.drawLine(
                     drawXPos,
-                    quotation.low.extrapolate(
+                    height - quotation.low.extrapolate(
                         0f,
                         height.toFloat(),
                         mMaxMinPair.min,
                         mMaxMinPair.max
                     ),
                     drawXPos,
-                    quotation.high.extrapolate(
+                    height - quotation.high.extrapolate(
                         0f,
                         height.toFloat(),
                         mMaxMinPair.min,
@@ -123,9 +123,19 @@ class QuotesChartView(
 
                 canvas.drawRect(
                     drawXPos - mCandleWidth / 2,
-                    top.extrapolate(0f, height.toFloat(), mMaxMinPair.min, mMaxMinPair.max),
+                    height - top.extrapolate(
+                        0f,
+                        height.toFloat(),
+                        mMaxMinPair.min,
+                        mMaxMinPair.max
+                    ),
                     drawXPos + mCandleWidth / 2,
-                    bottom.extrapolate(0f, height.toFloat(), mMaxMinPair.min, mMaxMinPair.max),
+                    height - bottom.extrapolate(
+                        0f,
+                        height.toFloat(),
+                        mMaxMinPair.min,
+                        mMaxMinPair.max
+                    ),
                     mCandlestickPaint
                 )
 
