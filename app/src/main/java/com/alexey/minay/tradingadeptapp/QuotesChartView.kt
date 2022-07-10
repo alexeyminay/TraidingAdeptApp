@@ -63,7 +63,18 @@ class QuotesChartView(
         }
 
         if (event.action == MotionEvent.ACTION_MOVE) {
-            firstVisibleCandlePositionX += (event.x - previousValue)
+            val moveValue = event.x - previousValue
+            val lastVisibleIndex = findLastVisibleIndex(firstVisibleCandlePositionX)
+            val cantMoveLeft =
+                moveValue < 0 && mFirstVisibleCandleIndex == 0 && lastVisibleIndex < 8
+
+            val cantMoveRight =
+                moveValue > 0 && lastVisibleIndex == mQuotesChartViewState.quotes.lastIndex
+            if (cantMoveLeft || cantMoveRight) {
+                return true
+            }
+
+            firstVisibleCandlePositionX += moveValue
             if ((firstVisibleCandlePositionX - mCandleWidth) > width) {
                 mFirstVisibleCandleIndex++
                 firstVisibleCandlePositionX -= (mCandleWidth + mCandleMargin)
@@ -104,9 +115,7 @@ class QuotesChartView(
         }
 
         val firstVisibleCandlePositionX = mFirstVisibleCandlePositionX ?: return
-        val maxCandleCount = (width / (mCandleWidth + mCandleMargin)).toInt()
-        val candleCount = ((firstVisibleCandlePositionX / width) * maxCandleCount).toInt() + 1
-        val lastVisibleIndex = mFirstVisibleCandleIndex + candleCount
+        val lastVisibleIndex = findLastVisibleIndex(firstVisibleCandlePositionX)
         mQuotesChartViewState.findMaxAndMin(mMaxMinPair, mFirstVisibleCandleIndex, lastVisibleIndex)
         var drawXPos = firstVisibleCandlePositionX
 
@@ -191,6 +200,12 @@ class QuotesChartView(
     }
 
     private fun Quotation.isGreen() = close >= open
+
+    private fun findLastVisibleIndex(firstVisibleCandlePositionX: Float): Int {
+        val maxCandleCount = (width / (mCandleWidth + mCandleMargin)).toInt()
+        val candleCount = ((firstVisibleCandlePositionX / width) * maxCandleCount).toInt() + 1
+        return mFirstVisibleCandleIndex + candleCount
+    }
 
     private fun Float.extrapolate(y1: Float, y2: Float, x1: Float, x2: Float) =
         y1 + (y2 - y1) / (x2 - x1) * (this - x1)
