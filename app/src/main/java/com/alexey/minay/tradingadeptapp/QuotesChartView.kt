@@ -2,6 +2,7 @@ package com.alexey.minay.tradingadeptapp
 
 import android.content.Context
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.DashPathEffect
 import android.graphics.Paint
 import android.util.AttributeSet
@@ -28,6 +29,13 @@ class QuotesChartView(
         style = Paint.Style.STROKE
         pathEffect = DashPathEffect(floatArrayOf(5f, 5f), 0f)
         strokeWidth = 1f
+    }
+
+    private val mGridLinePaint = Paint().apply {
+        flags = Paint.ANTI_ALIAS_FLAG
+        style = Paint.Style.STROKE
+        strokeWidth = 1f
+        color = ContextCompat.getColor(context, R.color.grey)
     }
 
     private var mCandleWidth = 24f
@@ -94,7 +102,16 @@ class QuotesChartView(
 
     override fun onDraw(canvas: Canvas) = with(canvas) {
         super.onDraw(canvas)
-        drawCandles(canvas)
+        if (mFirstVisibleCandlePositionX == null) {
+            mFirstVisibleCandlePositionX = width.toFloat() / 2
+        }
+
+        val firstVisibleCandlePositionX = mFirstVisibleCandlePositionX ?: return
+        val lastVisibleIndex = findLastVisibleIndex(firstVisibleCandlePositionX)
+        mQuotesChartViewState.findMaxAndMin(mMaxMinPair, mFirstVisibleCandleIndex, lastVisibleIndex)
+
+        drawGrid()
+        drawCandles(canvas, firstVisibleCandlePositionX, lastVisibleIndex)
         drawLastValueLine()
     }
 
@@ -109,14 +126,7 @@ class QuotesChartView(
 
     override fun onScaleEnd(detector: ScaleGestureDetector?) = Unit
 
-    private fun drawCandles(canvas: Canvas) {
-        if (mFirstVisibleCandlePositionX == null) {
-            mFirstVisibleCandlePositionX = width.toFloat() / 2
-        }
-
-        val firstVisibleCandlePositionX = mFirstVisibleCandlePositionX ?: return
-        val lastVisibleIndex = findLastVisibleIndex(firstVisibleCandlePositionX)
-        mQuotesChartViewState.findMaxAndMin(mMaxMinPair, mFirstVisibleCandleIndex, lastVisibleIndex)
+    private fun drawCandles(canvas: Canvas, firstVisibleCandlePositionX: Float, lastVisibleIndex: Int) {
         var drawXPos = firstVisibleCandlePositionX
 
         mQuotesChartViewState.quotes.forEachIndexed { index, quotation ->
@@ -196,7 +206,20 @@ class QuotesChartView(
             mMaxMinPair.min,
             mMaxMinPair.max
         )
-        drawLine(0f, y, height.toFloat(), y, mDotsLinePaint)
+        drawLine(0f, y, width.toFloat(), y, mDotsLinePaint)
+    }
+
+    private fun Canvas.drawGrid() {
+        val stepY = mMaxMinPair.div / 16
+        repeat(16) {
+            val y = (mMaxMinPair.min + it * stepY).extrapolate(
+                0f,
+                height.toFloat(),
+                mMaxMinPair.min,
+                mMaxMinPair.max
+            )
+            drawLine(0f, y, width.toFloat(), y, mGridLinePaint)
+        }
     }
 
     private fun Quotation.isGreen() = close >= open
