@@ -15,6 +15,8 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField "String", "API_KEY", "\"${getLocalProperty("api.key", "demo")}\""
     }
 
     buildTypes {
@@ -52,4 +54,10 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$ktxVersion"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$ktxVersion"
     implementation "androidx.fragment:fragment-ktx:1.5.0"
+}
+
+def getLocalProperty(name, defaultValue) {
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+    return properties.getProperty(name, defaultValue)
 }

@@ -1,5 +1,6 @@
 package com.alexey.minay.tradingadeptapp.data
 
+import com.alexey.minay.tradingadeptapp.BuildConfig
 import com.alexey.minay.tradingadeptapp.domain.Quotation
 import com.squareup.moshi.Moshi
 import kotlinx.coroutines.Dispatchers
@@ -18,7 +19,7 @@ class QuotesChartGateway {
 
     suspend fun getQuotes() = withContext(Dispatchers.IO) {
         val request = Request.Builder()
-            .url("https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=IBM&interval=5min&apikey=demo")
+            .url("https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=IBM&interval=5min&apikey=${BuildConfig.API_KEY}")
             .build()
 
         try {

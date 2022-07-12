@@ -2,7 +2,6 @@ package com.alexey.minay.tradingadeptapp
 
 import android.content.Context
 import android.graphics.Canvas
-import android.graphics.Color
 import android.graphics.DashPathEffect
 import android.graphics.Paint
 import android.util.AttributeSet
@@ -47,6 +46,9 @@ class QuotesChartView(
 
     private val mDetector = ScaleGestureDetector(context, this)
 
+    private val mWidth: Float
+        get() = width.toFloat() - resources.getDimensionPixelSize(R.dimen.chart_margin)
+
     fun setValue(quotes: List<Quotation>) {
         mQuotesChartViewState = mQuotesChartViewState.copy(quotes = quotes)
         invalidate()
@@ -83,11 +85,13 @@ class QuotesChartView(
             }
 
             firstVisibleCandlePositionX += moveValue
-            if ((firstVisibleCandlePositionX - mCandleWidth) > width) {
-                mFirstVisibleCandleIndex++
-                firstVisibleCandlePositionX -= (mCandleWidth + mCandleMargin)
-            } else if ((firstVisibleCandlePositionX + mCandleWidth) < width && mFirstVisibleCandleIndex > 0) {
-                val count = ((width - firstVisibleCandlePositionX) /
+            if ((firstVisibleCandlePositionX - mCandleWidth) > mWidth) {
+                val count = ((mWidth + firstVisibleCandlePositionX) /
+                        (mCandleWidth + mCandleMargin)).toInt()
+                mFirstVisibleCandleIndex += count
+                firstVisibleCandlePositionX -= (mCandleWidth + mCandleMargin) * count
+            } else if ((firstVisibleCandlePositionX + mCandleWidth) < mWidth && mFirstVisibleCandleIndex > 0) {
+                val count = ((mWidth - firstVisibleCandlePositionX) /
                         (mCandleWidth + mCandleMargin)).toInt()
                 mFirstVisibleCandleIndex -= count
                 firstVisibleCandlePositionX += (mCandleWidth + mCandleMargin) * count
@@ -103,7 +107,7 @@ class QuotesChartView(
     override fun onDraw(canvas: Canvas) = with(canvas) {
         super.onDraw(canvas)
         if (mFirstVisibleCandlePositionX == null) {
-            mFirstVisibleCandlePositionX = width.toFloat() / 2
+            mFirstVisibleCandlePositionX = mWidth / 2
         }
 
         val firstVisibleCandlePositionX = mFirstVisibleCandlePositionX ?: return
@@ -126,7 +130,11 @@ class QuotesChartView(
 
     override fun onScaleEnd(detector: ScaleGestureDetector?) = Unit
 
-    private fun drawCandles(canvas: Canvas, firstVisibleCandlePositionX: Float, lastVisibleIndex: Int) {
+    private fun drawCandles(
+        canvas: Canvas,
+        firstVisibleCandlePositionX: Float,
+        lastVisibleIndex: Int
+    ) {
         var drawXPos = firstVisibleCandlePositionX
 
         mQuotesChartViewState.quotes.forEachIndexed { index, quotation ->
@@ -206,7 +214,7 @@ class QuotesChartView(
             mMaxMinPair.min,
             mMaxMinPair.max
         )
-        drawLine(0f, y, width.toFloat(), y, mDotsLinePaint)
+        drawLine(0f, y, mWidth, y, mDotsLinePaint)
     }
 
     private fun Canvas.drawGrid() {
@@ -218,15 +226,15 @@ class QuotesChartView(
                 mMaxMinPair.min,
                 mMaxMinPair.max
             )
-            drawLine(0f, y, width.toFloat(), y, mGridLinePaint)
+            drawLine(0f, y, mWidth, y, mGridLinePaint)
         }
     }
 
     private fun Quotation.isGreen() = close >= open
 
     private fun findLastVisibleIndex(firstVisibleCandlePositionX: Float): Int {
-        val maxCandleCount = (width / (mCandleWidth + mCandleMargin)).toInt()
-        val candleCount = ((firstVisibleCandlePositionX / width) * maxCandleCount).toInt() + 1
+        val maxCandleCount = (mWidth / (mCandleWidth + mCandleMargin)).toInt()
+        val candleCount = ((firstVisibleCandlePositionX / mWidth) * maxCandleCount).toInt() + 1
         return mFirstVisibleCandleIndex + candleCount
     }
 

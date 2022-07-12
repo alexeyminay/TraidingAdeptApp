@@ -6,11 +6,6 @@ data class QuotesChartViewState(
     val quotes: List<Quotation>,
 ) {
 
-    val stepSec = when (quotes.size > 1) {
-        true -> quotes[2].dateTime.toEpochSecond() - quotes[1].dateTime.toEpochSecond()
-        false -> null
-    }
-
     fun findMaxAndMin(pair: MutableMaxMinPair, firstVisibleIndex: Int, lastVisibleIndex: Int) {
         pair.reset()
         quotes.forEachIndexed { index, quotation ->
