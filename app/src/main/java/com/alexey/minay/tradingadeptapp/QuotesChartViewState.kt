@@ -1,10 +1,11 @@
 package com.alexey.minay.tradingadeptapp
 
 import com.alexey.minay.tradingadeptapp.domain.Quotation
+import java.io.Serializable
 
 data class QuotesChartViewState(
     val quotes: List<Quotation>,
-) {
+) : Serializable {
 
     fun findMaxAndMin(pair: MutableMaxMinPair, firstVisibleIndex: Int, lastVisibleIndex: Int) {
         pair.reset()

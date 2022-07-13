@@ -1,5 +1,6 @@
 package com.alexey.minay.tradingadeptapp.domain
 
+import java.io.Serializable
 import java.time.ZonedDateTime
 
 data class Quotation(
@@ -9,4 +10,4 @@ data class Quotation(
     val low: Float,
     val close: Float,
     val volume: Float,
-)
+) : Serializable

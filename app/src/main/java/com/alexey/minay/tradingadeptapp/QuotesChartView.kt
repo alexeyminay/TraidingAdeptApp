@@ -4,12 +4,16 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.DashPathEffect
 import android.graphics.Paint
+import android.os.Bundle
+import android.os.Parcelable
 import android.util.AttributeSet
+import android.util.Log
 import android.view.MotionEvent
 import android.view.ScaleGestureDetector
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.alexey.minay.tradingadeptapp.domain.Quotation
+import kotlin.math.abs
 
 class QuotesChartView(
     context: Context,
@@ -43,18 +47,44 @@ class QuotesChartView(
     private var mFirstVisibleCandleIndex = 0
     private var mFirstVisibleCandlePositionX: Float? = null
     private var mMaxMinPair = MutableMaxMinPair(Float.MAX_VALUE, Float.MIN_VALUE)
-
     private val mDetector = ScaleGestureDetector(context, this)
 
     private val mWidth: Float
         get() = width.toFloat() - resources.getDimensionPixelSize(R.dimen.chart_margin)
 
     fun setValue(quotes: List<Quotation>) {
+        if (mQuotesChartViewState.quotes == quotes) {
+            return
+        }
+
         mQuotesChartViewState = mQuotesChartViewState.copy(quotes = quotes)
         invalidate()
     }
 
     var previousValue = 0f
+
+    override fun onSaveInstanceState(): Parcelable {
+        val bundle = Bundle()
+        bundle.putParcelable(SUPER_STATE, super.onSaveInstanceState())
+        bundle.putInt(INDEX, mFirstVisibleCandleIndex)
+        bundle.putSerializable(STATE, mQuotesChartViewState)
+        mFirstVisibleCandlePositionX?.let { bundle.putFloat(POSITION, it) }
+        return bundle
+    }
+
+    override fun onRestoreInstanceState(state: Parcelable?) {
+        var restoredState = state
+        if (state is Bundle) {
+            mFirstVisibleCandleIndex = state.getInt(INDEX)
+            //mFirstVisibleCandlePositionX = state.getFloat(POSITION)
+            mQuotesChartViewState = state.getSerializable(STATE) as QuotesChartViewState
+            mMaxMinPair.reset()
+
+            restoredState = state.getParcelable(SUPER_STATE)
+            invalidate()
+        }
+        super.onRestoreInstanceState(restoredState)
+    }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
         var firstVisibleCandlePositionX = mFirstVisibleCandlePositionX ?: return false
@@ -75,24 +105,29 @@ class QuotesChartView(
         if (event.action == MotionEvent.ACTION_MOVE) {
             val moveValue = event.x - previousValue
             val lastVisibleIndex = findLastVisibleIndex(firstVisibleCandlePositionX)
-            val cantMoveLeft =
-                moveValue < 0 && mFirstVisibleCandleIndex == 0 && lastVisibleIndex < 8
+            val cantMoveLeft = moveValue < 0 &&
+                    ((mFirstVisibleCandlePositionX!! - abs(moveValue)) < mCenterCandleInterval * 7)
 
             val cantMoveRight =
                 moveValue > 0 && lastVisibleIndex == mQuotesChartViewState.quotes.lastIndex
+            Log.d(
+                "QuotesChartView",
+                "$mFirstVisibleCandleIndex $lastVisibleIndex $firstVisibleCandlePositionX $moveValue"
+            )
             if (cantMoveLeft || cantMoveRight) {
                 return true
             }
 
             firstVisibleCandlePositionX += moveValue
             if ((firstVisibleCandlePositionX - mCandleWidth) > mWidth) {
-                val count = ((mWidth + firstVisibleCandlePositionX) /
+                val count = ((firstVisibleCandlePositionX - mWidth) /
                         (mCandleWidth + mCandleMargin)).toInt()
                 mFirstVisibleCandleIndex += count
                 firstVisibleCandlePositionX -= (mCandleWidth + mCandleMargin) * count
             } else if ((firstVisibleCandlePositionX + mCandleWidth) < mWidth && mFirstVisibleCandleIndex > 0) {
                 val count = ((mWidth - firstVisibleCandlePositionX) /
                         (mCandleWidth + mCandleMargin)).toInt()
+                    .takeIf { it - mFirstVisibleCandleIndex < 0 } ?: 0
                 mFirstVisibleCandleIndex -= count
                 firstVisibleCandlePositionX += (mCandleWidth + mCandleMargin) * count
             }
@@ -107,7 +142,7 @@ class QuotesChartView(
     override fun onDraw(canvas: Canvas) = with(canvas) {
         super.onDraw(canvas)
         if (mFirstVisibleCandlePositionX == null) {
-            mFirstVisibleCandlePositionX = mWidth / 2
+            mFirstVisibleCandlePositionX = mWidth
         }
 
         val firstVisibleCandlePositionX = mFirstVisibleCandlePositionX ?: return
@@ -240,5 +275,12 @@ class QuotesChartView(
 
     private fun Float.extrapolate(y1: Float, y2: Float, x1: Float, x2: Float) =
         y1 + (y2 - y1) / (x2 - x1) * (this - x1)
+
+    companion object {
+        private const val SUPER_STATE = "super_state"
+        private const val INDEX = "index"
+        private const val STATE = "state"
+        private const val POSITION = "position"
+    }
 
 }
