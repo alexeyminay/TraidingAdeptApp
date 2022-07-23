@@ -4,6 +4,9 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/otus/TradingAdept/TradingAdeptApp/app/src/main/res/layout/activity_main.xml" value="0.25416666666666665" />
+        <entry key="..\:/otus/TradingAdept/TradingAdeptApp/core_ui/src/main/res/drawable/ic_baseline_notes_24.xml" value="0.1675" />
+        <entry key="..\:/otus/TradingAdept/TradingAdeptApp/core_ui/src/main/res/drawable/ic_baseline_request_quote_24.xml" value="0.1675" />
+        <entry key="..\:/otus/TradingAdept/TradingAdeptApp/core_ui/src/main/res/drawable/ic_chart.xml" value="0.1675" />
         <entry key="..\:/otus/TradingAdept/TradingAdeptApp/feature_menu_impl/src/main/res/layout/fragment_menu.xml" value="0.25416666666666665" />
         <entry key="..\:/otus/TradingAdept/TradingAdeptApp/feature_menu_impl/src/main/res/menu/menu_menu.xml" value="0.25416666666666665" />
       </map>

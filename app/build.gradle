@@ -37,6 +37,11 @@ android {
 
 dependencies {
     implementation project(":core_ui")
+    implementation project(":core_utils")
+    implementation project(":feature_menu_impl")
+    implementation project(":feature_onboarding_impl")
+    implementation project(":feature_quotes_chart_api")
+    implementation project(":feature_quotes_chart_impl")
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

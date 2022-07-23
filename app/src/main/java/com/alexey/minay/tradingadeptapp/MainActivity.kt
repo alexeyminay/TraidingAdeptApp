@@ -3,10 +3,8 @@ package com.alexey.minay.tradingadeptapp
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.flowWithLifecycle
-import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import androidx.fragment.app.commit
+import com.alexey.minay.feature_menu_impl.MenuFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -15,13 +13,16 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        mViewModel.fetch()
-        subscribeToViewModel()
+//        mViewModel.fetch()
+//        subscribeToViewModel()
+        supportFragmentManager.commit {
+            add(R.id.fragmentContainer, MenuFragment.newInstance(), null)
+        }
     }
 
-    private fun subscribeToViewModel() {
-        mViewModel.state.flowWithLifecycle(lifecycle)
-            .onEach { findViewById<QuotesChartView>(R.id.chart).setValue(quotes = it.quotes) }
-            .launchIn(lifecycleScope)
-    }
+//    private fun subscribeToViewModel() {
+//        mViewModel.state.flowWithLifecycle(lifecycle)
+//            .onEach { /*findViewById<QuotesChartView>(R.id.chart).setValue(quotes = it.quotes)*/ }
+//            .launchIn(lifecycleScope)
+//    }
 }
