@@ -4,6 +4,8 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/otus/TradingAdept/TradingAdeptApp/app/src/main/res/layout/activity_main.xml" value="0.25416666666666665" />
+        <entry key="..\:/otus/TradingAdept/TradingAdeptApp/feature_menu_impl/src/main/res/layout/fragment_menu.xml" value="0.25416666666666665" />
+        <entry key="..\:/otus/TradingAdept/TradingAdeptApp/feature_menu_impl/src/main/res/menu/menu_menu.xml" value="0.25416666666666665" />
       </map>
     </option>
   </component>

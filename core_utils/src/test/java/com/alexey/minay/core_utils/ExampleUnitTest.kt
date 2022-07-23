@@ -1,4 +1,4 @@
-package com.alexey.minay.tradingadeptapp
+package com.alexey.minay.core_utils
 
 import org.junit.Test
 

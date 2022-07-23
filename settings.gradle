@@ -14,3 +14,9 @@ dependencyResolutionManagement {
 }
 rootProject.name = "TradingAdeptApp"
 include ':app'
+include ':feature_menu_impl'
+include ':feature_quotes_chart_impl'
+include ':feature_quotes_chart_api'
+include ':feature_onboarding_impl'
+include ':core_utils'
+include ':core_ui'
