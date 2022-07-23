@@ -14,6 +14,7 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import com.alexey.minay.tradingadeptapp.domain.Quotation
 import kotlin.math.abs
+import com.alexey.minay.core_ui.R as CoreuiR
 
 class QuotesChartView(
     context: Context,
@@ -38,7 +39,7 @@ class QuotesChartView(
         flags = Paint.ANTI_ALIAS_FLAG
         style = Paint.Style.STROKE
         strokeWidth = 1f
-        color = ContextCompat.getColor(context, R.color.grey)
+        color = ContextCompat.getColor(context, CoreuiR.color.grey)
     }
 
     private var mCandleWidth = 24f
@@ -177,11 +178,11 @@ class QuotesChartView(
                 val top: Float
                 val bottom: Float
                 if (quotation.isGreen()) {
-                    mCandlestickPaint.color = ContextCompat.getColor(context, R.color.green)
+                    mCandlestickPaint.color = ContextCompat.getColor(context, CoreuiR.color.green)
                     top = quotation.close
                     bottom = quotation.open
                 } else {
-                    mCandlestickPaint.color = ContextCompat.getColor(context, R.color.red)
+                    mCandlestickPaint.color = ContextCompat.getColor(context, CoreuiR.color.red)
                     bottom = quotation.close
                     top = quotation.open
                 }
@@ -239,8 +240,8 @@ class QuotesChartView(
         }
 
         mDotsLinePaint.color = when {
-            lastCandle.isGreen() -> ContextCompat.getColor(context, R.color.green)
-            else -> ContextCompat.getColor(context, R.color.red)
+            lastCandle.isGreen() -> ContextCompat.getColor(context, CoreuiR.color.green)
+            else -> ContextCompat.getColor(context, CoreuiR.color.red)
         }
 
         val y = height - lastCandle.close.extrapolate(
