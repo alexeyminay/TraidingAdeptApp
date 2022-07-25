@@ -1,7 +1,7 @@
-package com.alexey.minay.tradingadeptapp.data
+package com.alexey.minay.feature_quotes_chart_impl.data
 
-import com.alexey.minay.tradingadeptapp.BuildConfig
-import com.alexey.minay.tradingadeptapp.domain.Quotation
+import com.alexey.minay.feature_quotes_chart_impl.BuildConfig
+import com.alexey.minay.feature_quotes_chart_impl.domain.Quotation
 import com.squareup.moshi.Moshi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

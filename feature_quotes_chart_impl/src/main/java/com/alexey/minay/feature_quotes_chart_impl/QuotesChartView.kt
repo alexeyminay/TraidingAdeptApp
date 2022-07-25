@@ -1,4 +1,4 @@
-package com.alexey.minay.tradingadeptapp
+package com.alexey.minay.feature_quotes_chart_impl
 
 import android.content.Context
 import android.graphics.Canvas
@@ -12,7 +12,7 @@ import android.view.MotionEvent
 import android.view.ScaleGestureDetector
 import android.view.View
 import androidx.core.content.ContextCompat
-import com.alexey.minay.tradingadeptapp.domain.Quotation
+import com.alexey.minay.feature_quotes_chart_impl.domain.Quotation
 import kotlin.math.abs
 import com.alexey.minay.core_ui.R as CoreuiR
 

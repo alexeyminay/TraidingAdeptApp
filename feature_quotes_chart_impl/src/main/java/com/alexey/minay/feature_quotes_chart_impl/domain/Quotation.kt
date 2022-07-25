@@ -1,4 +1,4 @@
-package com.alexey.minay.tradingadeptapp.domain
+package com.alexey.minay.feature_quotes_chart_impl.domain
 
 import java.io.Serializable
 import java.time.ZonedDateTime

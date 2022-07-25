@@ -30,7 +30,10 @@ android {
 }
 
 dependencies {
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1'
+    implementation project(':core_utils')
+    implementation project(':core_ui')
+    implementation project(':feature_navigation_api')
+    implementation project(':feature_quotes_chart_api')
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

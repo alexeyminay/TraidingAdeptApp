@@ -1,4 +1,4 @@
-package com.alexey.minay.tradingadeptapp
+package com.alexey.minay.feature_quotes_chart_impl
 
 class MutableMaxMinPair(
     var min: Float,

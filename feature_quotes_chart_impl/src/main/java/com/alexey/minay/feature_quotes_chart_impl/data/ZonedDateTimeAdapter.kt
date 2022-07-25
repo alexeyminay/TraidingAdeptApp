@@ -1,4 +1,4 @@
-package com.alexey.minay.tradingadeptapp.data
+package com.alexey.minay.feature_quotes_chart_impl.data
 
 import com.squareup.moshi.FromJson
 import com.squareup.moshi.ToJson

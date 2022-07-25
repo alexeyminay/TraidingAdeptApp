@@ -1,8 +1,8 @@
-package com.alexey.minay.tradingadeptapp
+package com.alexey.minay.feature_quotes_chart_impl
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.alexey.minay.tradingadeptapp.data.QuotesChartGateway
+import com.alexey.minay.feature_quotes_chart_impl.data.QuotesChartGateway
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
