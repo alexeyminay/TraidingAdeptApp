@@ -9,8 +9,9 @@ import com.alexey.minay.core_utils.modify
 import com.alexey.minay.feature_quotes_chart_api.IQuotesFragmentsProvider
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.*
+import javax.inject.Inject
 
-class ScreenNavigator(
+class ScreenNavigator @Inject constructor(
     private val quotesFragmentsProvider: IQuotesFragmentsProvider,
     private val reducer: ScreenReducer,
     coroutineScope: CoroutineScope,

@@ -2,10 +2,11 @@ package com.alexey.minay.tradingadeptapp
 
 import androidx.lifecycle.ViewModel
 import com.alexey.minay.feature_navigation_impl.ScreenNavigator
+import javax.inject.Inject
 
-class MainViewModel(
+class TradingAdeptViewModel @Inject constructor(
     private val navigator: ScreenNavigator
-): ViewModel() {
+) : ViewModel() {
 
     val screenFlow get() = navigator.mainFragmentFlow
 

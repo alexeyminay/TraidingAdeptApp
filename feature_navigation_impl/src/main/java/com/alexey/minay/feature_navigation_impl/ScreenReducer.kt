@@ -1,8 +1,9 @@
 package com.alexey.minay.feature_navigation_impl
 
 import com.alexey.minay.core_navigation.Action
+import javax.inject.Inject
 
-class ScreenReducer {
+class ScreenReducer @Inject constructor() {
 
     fun Screen.reduce(action: Action) = when (action) {
         Action.OpenMenu -> reduceOpenMenu()
