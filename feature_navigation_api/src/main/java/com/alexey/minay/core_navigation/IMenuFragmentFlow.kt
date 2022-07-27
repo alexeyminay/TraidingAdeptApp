@@ -4,5 +4,5 @@ import androidx.fragment.app.Fragment
 import kotlinx.coroutines.flow.Flow
 
 interface IMenuFragmentFlow {
-    val menuFragment: Flow<Fragment?>
+    val menuFragmentFlow: Flow<Fragment?>
 }

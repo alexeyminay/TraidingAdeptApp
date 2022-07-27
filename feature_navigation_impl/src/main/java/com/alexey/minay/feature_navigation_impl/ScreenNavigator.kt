@@ -17,10 +17,10 @@ class ScreenNavigator(
     initScreen: Screen
 ) : INavigator, IMenuFragmentFlow {
 
-    val mainFragment: Flow<Fragment>
+    val mainFragmentFlow: Flow<Fragment>
         get() = mCurrentScreen.map { it.asMainFragment() }
 
-    override val menuFragment: Flow<Fragment?>
+    override val menuFragmentFlow: Flow<Fragment?>
         get() = mCurrentScreen.map { it.asMenuFragment() }
 
     private val mCurrentScreen = MutableStateFlow(initScreen)
