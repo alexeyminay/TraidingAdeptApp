@@ -7,17 +7,19 @@ import com.alexey.minay.core_navigation.IMenuFragmentFlow
 import com.alexey.minay.core_navigation.INavigator
 import com.alexey.minay.core_utils.exhaustive
 import com.alexey.minay.core_utils.modify
+import com.alexey.minay.feature_menu_api.IMenuFragmentProvider
 import com.alexey.minay.feature_onboarding_api.IOnBoardingFragmentProvider
 import com.alexey.minay.feature_quotes_chart_api.IQuotesFragmentsProvider
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 @FeatureScope
 class ScreenNavigator @Inject constructor(
     private val quotesFragmentsProvider: IQuotesFragmentsProvider,
     private val onBoardingFragmentProvider: IOnBoardingFragmentProvider,
+    private val menuFragmentProvider: IMenuFragmentProvider,
     private val reducer: ScreenReducer,
     initScreen: Screen
 ) : INavigator, IMenuFragmentFlow {
@@ -38,7 +40,7 @@ class ScreenNavigator @Inject constructor(
 
     private fun Screen.asMainFragment(): Fragment {
         return when (this) {
-            is Screen.Menu -> TODO()
+            is Screen.Menu -> menuFragmentProvider.provideMenuFragment()
             Screen.OnBoarding -> onBoardingFragmentProvider.provideOnBoardingFragment()
         }.exhaustive
     }

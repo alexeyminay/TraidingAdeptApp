@@ -37,6 +37,7 @@ dependencies {
     implementation project(':feature_navigation_api')
     implementation project(':feature_quotes_chart_api')
     implementation project(':feature_onboarding_api')
+    implementation project(':feature_menu_api')
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
