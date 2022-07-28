@@ -1,20 +1,24 @@
 package com.alexey.minay.feature_navigation_impl
 
 import androidx.fragment.app.Fragment
+import com.alexey.minay.core_dagger2.FeatureScope
 import com.alexey.minay.core_navigation.Action
 import com.alexey.minay.core_navigation.IMenuFragmentFlow
 import com.alexey.minay.core_navigation.INavigator
 import com.alexey.minay.core_utils.exhaustive
 import com.alexey.minay.core_utils.modify
+import com.alexey.minay.feature_onboarding_api.IOnBoardingFragmentProvider
 import com.alexey.minay.feature_quotes_chart_api.IQuotesFragmentsProvider
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
+@FeatureScope
 class ScreenNavigator @Inject constructor(
     private val quotesFragmentsProvider: IQuotesFragmentsProvider,
+    private val onBoardingFragmentProvider: IOnBoardingFragmentProvider,
     private val reducer: ScreenReducer,
-    coroutineScope: CoroutineScope,
     initScreen: Screen
 ) : INavigator, IMenuFragmentFlow {
 
@@ -26,11 +30,6 @@ class ScreenNavigator @Inject constructor(
 
     private val mCurrentScreen = MutableStateFlow(initScreen)
 
-    init {
-        mCurrentScreen.onEach { }
-            .launchIn(coroutineScope)
-    }
-
     override fun perform(action: Action) {
         with(reducer) {
             mCurrentScreen.modify { reduce(action) }
@@ -38,11 +37,10 @@ class ScreenNavigator @Inject constructor(
     }
 
     private fun Screen.asMainFragment(): Fragment {
-        when (this) {
+        return when (this) {
             is Screen.Menu -> TODO()
-            Screen.OnBoarding -> TODO()
+            Screen.OnBoarding -> onBoardingFragmentProvider.provideOnBoardingFragment()
         }.exhaustive
-        TODO()
     }
 
     private fun Screen.asMenuFragment(): Fragment? =

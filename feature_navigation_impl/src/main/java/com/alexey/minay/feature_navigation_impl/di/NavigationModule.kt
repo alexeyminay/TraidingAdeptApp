@@ -15,6 +15,6 @@ class NavigationModule {
     fun provideCoroutineScope(): CoroutineScope = CoroutineScope(Job())
 
     @Provides
-    fun provideInitScreen(): Screen = Screen.Menu.default()
+    fun provideInitScreen(): Screen = Screen.OnBoarding
 
 }

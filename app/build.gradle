@@ -40,6 +40,7 @@ dependencies {
     implementation project(':feature_navigation_api')
     implementation project(':feature_navigation_impl')
     implementation project(":feature_menu_impl")
+    implementation project(":feature_onboarding_api")
     implementation project(":feature_onboarding_impl")
     implementation project(":feature_quotes_chart_api")
     implementation project(":feature_quotes_chart_impl")

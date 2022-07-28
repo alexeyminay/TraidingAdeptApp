@@ -17,6 +17,7 @@
             <option value="$PROJECT_DIR$/feature_menu_impl" />
             <option value="$PROJECT_DIR$/feature_navigation_api" />
             <option value="$PROJECT_DIR$/feature_navigation_impl" />
+            <option value="$PROJECT_DIR$/feature_onboarding_api" />
             <option value="$PROJECT_DIR$/feature_onboarding_impl" />
             <option value="$PROJECT_DIR$/feature_quotes_chart_api" />
             <option value="$PROJECT_DIR$/feature_quotes_chart_impl" />
