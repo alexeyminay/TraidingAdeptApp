@@ -1,28 +1,28 @@
-package com.alexey.minay.feature_onboarding_impl.di
+package com.alexey.minay.feature_menu_impl.di
 
 import com.alexey.minay.core_dagger2.NeedInitializeException
 import com.alexey.minay.core_dagger2.ViewModelProviderFactory
 import dagger.Component
 
 @Component(
-    modules = [OnBoardingBindings::class],
-    dependencies = [OnBoardingDependencies::class]
+    modules = [MenuBindings::class],
+    dependencies = [MenuDependencies::class]
 )
-interface OnBoardingComponent {
+interface MenuComponent {
 
     val viewModelProviderFactory: ViewModelProviderFactory
 
     companion object {
 
-        private var mDependencies: OnBoardingDependencies? = null
+        private var mDependencies: MenuDependencies? = null
 
-        fun init(dependencies: OnBoardingDependencies) {
+        fun init(dependencies: MenuDependencies) {
             this.mDependencies = dependencies
         }
 
-        internal fun create() = DaggerOnBoardingComponent
+        internal fun create() = DaggerMenuComponent
             .builder()
-            .onBoardingDependencies(
+            .menuDependencies(
                 mDependencies ?: throw NeedInitializeException()
             ).build()
 

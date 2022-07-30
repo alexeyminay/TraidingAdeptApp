@@ -34,6 +34,7 @@ dependencies {
     implementation project(":core_ui")
     implementation project(':core_dagger2')
     implementation project(':feature_menu_api')
+    implementation project(':feature_navigation_api')
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

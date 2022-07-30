@@ -8,7 +8,7 @@ class ScreenReducer @Inject constructor() {
     fun Screen.reduce(action: Action) = when (action) {
         Action.OpenMenu -> reduceOpenMenu()
         Action.Back -> reduceBack()
-        Action.OpenNew -> reduceOpenNews(action)
+        Action.OpenNews -> reduceOpenNews(action)
         Action.OpenQuotesChart -> reduceOpenQuotesChart(action)
         Action.OpenQuotesList -> reduceOpenQuotesList(action)
     }

@@ -11,7 +11,7 @@ class QuotesFragmentsProvider : IQuotesFragmentsProvider {
         return ChartFragment.newInstance()
     }
 
-    override fun provideListFragment(): Fragment {
+    override fun provideQuotesListFragment(): Fragment {
         return QuotesListFragment.newInstance()
     }
 

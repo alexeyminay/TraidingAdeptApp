@@ -3,7 +3,7 @@ package com.alexey.minay.feature_navigation_impl
 import androidx.fragment.app.Fragment
 import com.alexey.minay.core_dagger2.FeatureScope
 import com.alexey.minay.core_navigation.Action
-import com.alexey.minay.core_navigation.IMenuFragmentFlow
+import com.alexey.minay.core_navigation.IMenuFragmentFlowProvider
 import com.alexey.minay.core_navigation.INavigator
 import com.alexey.minay.core_utils.exhaustive
 import com.alexey.minay.core_utils.modify
@@ -22,7 +22,7 @@ class ScreenNavigator @Inject constructor(
     private val menuFragmentProvider: IMenuFragmentProvider,
     private val reducer: ScreenReducer,
     initScreen: Screen
-) : INavigator, IMenuFragmentFlow {
+) : INavigator, IMenuFragmentFlowProvider {
 
     val mainFragmentFlow: Flow<Fragment>
         get() = mCurrentScreen.map { it.asMainFragment() }
@@ -50,7 +50,7 @@ class ScreenNavigator @Inject constructor(
             is Screen.Menu -> when (item) {
                 Screen.MenuItem.News -> TODO()
                 Screen.MenuItem.QuotesChart -> quotesFragmentsProvider.provideChartFragment()
-                Screen.MenuItem.QuotesList -> quotesFragmentsProvider.provideListFragment()
+                Screen.MenuItem.QuotesList -> quotesFragmentsProvider.provideQuotesListFragment()
             }
             else -> null
         }

@@ -4,5 +4,5 @@ import androidx.fragment.app.Fragment
 
 interface IQuotesFragmentsProvider {
     fun provideChartFragment(): Fragment
-    fun provideListFragment(): Fragment
+    fun provideQuotesListFragment(): Fragment
 }

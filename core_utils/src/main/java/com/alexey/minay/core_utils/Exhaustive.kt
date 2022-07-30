@@ -1,4 +1,4 @@
 package com.alexey.minay.core_utils
 
-val <Type>Type.exhaustive: Type
+val <T>T.exhaustive: T
     get() = this

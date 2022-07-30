@@ -3,6 +3,8 @@ package com.alexey.minay.tradingadeptapp.di
 import com.alexey.minay.core_dagger2.NeedInitializeException
 import com.alexey.minay.core_dagger2.ViewModelProviderFactory
 import com.alexey.minay.feature_menu_impl.MenuFragmentProvider
+import com.alexey.minay.feature_menu_impl.di.MenuComponent
+import com.alexey.minay.feature_menu_impl.di.MenuDependencies
 import com.alexey.minay.feature_navigation_impl.di.NavigationComponent
 import com.alexey.minay.feature_navigation_impl.di.NavigationDependencies
 import com.alexey.minay.feature_onboarding_impl.OnBoardingFragmentProvider
@@ -41,9 +43,20 @@ interface TradingAdeptComponent {
             )
 
             OnBoardingComponent.init(
-                dependenciesProvider = object : OnBoardingDependencies {
+                dependencies = object : OnBoardingDependencies {
                     override fun provideNavigator() =
                         NavigationComponent.get().screenNavigator
+                }
+            )
+
+            MenuComponent.init(
+                dependencies = object : MenuDependencies {
+                    override fun provideNavigator() =
+                        NavigationComponent.get().screenNavigator
+
+                    override fun provideMenuFragmentFlowProvider() =
+                        NavigationComponent.get().screenNavigator
+
                 }
             )
 
