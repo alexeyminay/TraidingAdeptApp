@@ -5,6 +5,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
+import com.alexey.minay.core_ui.distinctUntilFragmentChanged
 import com.alexey.minay.core_ui.onEachWithLifecycle
 import com.alexey.minay.tradingadeptapp.di.TradingAdeptComponent
 
@@ -21,10 +22,17 @@ class TradingAdeptActivity : AppCompatActivity() {
     }
 
     private fun subscribeToViewModel() {
-        mViewModel.screenFlow.onEachWithLifecycle(this, ::navigateTo)
+        mViewModel.screenFlow
+            .distinctUntilFragmentChanged()
+            .onEachWithLifecycle(this, ::navigateTo)
     }
 
-    private fun navigateTo(fragment: Fragment) {
+    private fun navigateTo(fragment: Fragment?) {
+        if (fragment == null) {
+            finish()
+            return
+        }
+
         supportFragmentManager.commit {
             replace(R.id.fragmentContainer, fragment, null)
         }

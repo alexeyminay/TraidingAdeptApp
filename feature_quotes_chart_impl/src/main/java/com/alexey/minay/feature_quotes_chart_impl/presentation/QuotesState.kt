@@ -1,4 +1,4 @@
-package com.alexey.minay.feature_quotes_chart_impl
+package com.alexey.minay.feature_quotes_chart_impl.presentation
 
 import com.alexey.minay.feature_quotes_chart_impl.domain.Quotation
 

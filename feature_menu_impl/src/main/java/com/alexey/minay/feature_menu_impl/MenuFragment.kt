@@ -5,6 +5,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
+import com.alexey.minay.core_ui.distinctUntilFragmentChanged
 import com.alexey.minay.core_ui.onEachWithLifecycle
 import com.alexey.minay.feature_menu_impl.di.MenuComponentHolder
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -35,7 +36,9 @@ class MenuFragment : Fragment(R.layout.fragment_menu) {
     }
 
     private fun subscribeToViewModel() {
-        mViewModel.menuFragmentFlow.onEachWithLifecycle(viewLifecycleOwner) {
+        mViewModel.menuFragmentFlow
+            .distinctUntilFragmentChanged()
+            .onEachWithLifecycle(viewLifecycleOwner) {
             openFragment(it)
         }
     }

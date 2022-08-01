@@ -36,6 +36,7 @@ dependencies {
     implementation project(":core_ui")
     implementation project(":core_utils")
     implementation project(":core_dagger2")
+    implementation project(":core_remote")
     implementation project(':feature_navigation_api')
     implementation project(':feature_navigation_impl')
     implementation project(":feature_menu_api")

@@ -1,6 +1,7 @@
 package com.alexey.minay.feature_quotes_chart_impl.data
 
 import com.alexey.minay.feature_quotes_chart_impl.BuildConfig
+import com.alexey.minay.feature_quotes_chart_impl.domain.IQuotesChartGateway
 import com.alexey.minay.feature_quotes_chart_impl.domain.Quotation
 import com.squareup.moshi.Moshi
 import kotlinx.coroutines.Dispatchers
@@ -8,18 +9,19 @@ import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import java.time.ZonedDateTime
+import javax.inject.Inject
 
-class QuotesChartGateway {
+class QuotesChartGateway @Inject constructor(): IQuotesChartGateway {
 
     val client = OkHttpClient()
 
     val moshi = Moshi.Builder()
-        .add(ZonedDateTimeAdapter())
+        //.add(com.alexey.minay.core_remote.ZonedDateTimeAdapter())
         .build()
 
-    suspend fun getQuotes() = withContext(Dispatchers.IO) {
+    override suspend fun getQuotes() = withContext(Dispatchers.IO) {
         val request = Request.Builder()
-            .url("https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=IBM&interval=5min&apikey=${BuildConfig.API_KEY}")
+            .url("https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&outputsize=full&symbol=IBM&interval=5min&apikey=${BuildConfig.API_KEY}")
             .build()
 
         try {

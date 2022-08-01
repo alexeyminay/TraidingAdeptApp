@@ -12,6 +12,7 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/core_dagger2" />
+            <option value="$PROJECT_DIR$/core_remote" />
             <option value="$PROJECT_DIR$/core_ui" />
             <option value="$PROJECT_DIR$/core_utils" />
             <option value="$PROJECT_DIR$/feature_menu_api" />

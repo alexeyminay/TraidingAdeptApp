@@ -2,6 +2,7 @@ package com.alexey.minay.tradingadeptapp.di
 
 import com.alexey.minay.core_dagger2.NeedInitializeException
 import com.alexey.minay.core_dagger2.ViewModelProviderFactory
+import com.alexey.minay.core_remote.BasicApi
 import com.alexey.minay.feature_menu_impl.MenuFragmentProvider
 import com.alexey.minay.feature_menu_impl.di.MenuComponent
 import com.alexey.minay.feature_menu_impl.di.MenuDependencies
@@ -14,13 +15,17 @@ import com.alexey.minay.feature_quotes_chart_impl.navigation.QuotesFragmentsProv
 import dagger.Component
 
 @Component(
-    modules = [TradingAdeptViewModelBinding::class],
+    modules = [
+        TradingAdeptViewModelBinding::class,
+        TradingAdeptModule::class
+    ],
     dependencies = [TradingAdeptDependencies::class]
 )
-
+@AppScope
 interface TradingAdeptComponent {
 
     val viewModelProviderFactory: ViewModelProviderFactory
+    val basicApi: BasicApi
 
     companion object {
 

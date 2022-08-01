@@ -1,0 +1,47 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'com.google.devtools.ksp' version "1.6.10-1.0.4"
+}
+
+android {
+    compileSdk rootProject.ext.targetSdkVersion
+
+    defaultConfig {
+        minSdk rootProject.ext.minSdkVersion
+        targetSdk rootProject.ext.targetSdkVersion
+
+        buildConfigField "String", "API_KEY", "\"${getLocalProperty("api.key", "demo")}\""
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+    api "com.google.dagger:dagger:$dagger2Version"
+    kapt "com.google.dagger:dagger-compiler:$dagger2Version"
+
+    implementation "com.squareup.okhttp3:okhttp:4.10.0"
+    implementation "com.squareup.moshi:moshi-kotlin:1.13.0"
+    ksp "com.squareup.moshi:moshi-kotlin-codegen:1.13.0"
+
+    implementation 'com.facebook.stetho:stetho-okhttp3:1.6.0'
+}
+
+def getLocalProperty(name, defaultValue) {
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+    return properties.getProperty(name, defaultValue)
+}
