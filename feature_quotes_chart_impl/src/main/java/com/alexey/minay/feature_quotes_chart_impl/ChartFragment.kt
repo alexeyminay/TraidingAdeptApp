@@ -6,13 +6,16 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import com.alexey.minay.feature_quotes_chart_impl.di.QuotesChartComponent
 import com.alexey.minay.feature_quotes_chart_impl.presentation.QuotesChartViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
 class ChartFragment : Fragment(R.layout.fragment_chart) {
 
-    private val mViewModel by viewModels<QuotesChartViewModel>()
+    private val mViewModel by viewModels<QuotesChartViewModel> {
+        QuotesChartComponent.get().viewModelProviderFactory
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

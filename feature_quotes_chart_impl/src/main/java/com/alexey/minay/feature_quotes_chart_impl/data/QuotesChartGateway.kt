@@ -1,36 +1,30 @@
 package com.alexey.minay.feature_quotes_chart_impl.data
 
-import com.alexey.minay.feature_quotes_chart_impl.BuildConfig
+import com.alexey.minay.core_remote.IBasicApi
 import com.alexey.minay.feature_quotes_chart_impl.domain.IQuotesChartGateway
 import com.alexey.minay.feature_quotes_chart_impl.domain.Quotation
-import com.squareup.moshi.Moshi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import okhttp3.OkHttpClient
-import okhttp3.Request
 import java.time.ZonedDateTime
 import javax.inject.Inject
 
-class QuotesChartGateway @Inject constructor(): IQuotesChartGateway {
-
-    val client = OkHttpClient()
-
-    val moshi = Moshi.Builder()
-        //.add(com.alexey.minay.core_remote.ZonedDateTimeAdapter())
-        .build()
+class QuotesChartGateway @Inject constructor(
+    private val basicApi: IBasicApi
+) : IQuotesChartGateway {
 
     override suspend fun getQuotes() = withContext(Dispatchers.IO) {
-        val request = Request.Builder()
-            .url("https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&outputsize=full&symbol=IBM&interval=5min&apikey=${BuildConfig.API_KEY}")
-            .build()
-
         try {
-            val response = client.newCall(request)
-                .execute()
-
-            val adapter = moshi.adapter(QuotesChartResponseJson::class.java)
-
-            return@withContext adapter.fromJson(response.body?.string())?.timeSeries?.asDomain()
+            val result = basicApi.get(
+                path = "query",
+                resultClass = QuotesChartResponseJson::class.java,
+                query = mapOf(
+                    "function" to "TIME_SERIES_INTRADAY",
+                    "outputsize" to "full",
+                    "symbol" to "IBM",
+                    "interval" to "5min",
+                )
+            )
+            return@withContext result?.timeSeries?.asDomain()
         } catch (e: Exception) {
             e.printStackTrace()
             null

@@ -11,6 +11,8 @@ import com.alexey.minay.feature_navigation_impl.di.NavigationDependencies
 import com.alexey.minay.feature_onboarding_impl.OnBoardingFragmentProvider
 import com.alexey.minay.feature_onboarding_impl.di.OnBoardingComponent
 import com.alexey.minay.feature_onboarding_impl.di.OnBoardingDependencies
+import com.alexey.minay.feature_quotes_chart_impl.di.QuotesChartComponent
+import com.alexey.minay.feature_quotes_chart_impl.di.QuotesChartDependencies
 import com.alexey.minay.feature_quotes_chart_impl.navigation.QuotesFragmentsProvider
 import dagger.Component
 
@@ -62,6 +64,12 @@ interface TradingAdeptComponent {
                     override fun provideMenuFragmentFlowProvider() =
                         NavigationComponent.get().screenNavigator
 
+                }
+            )
+
+            QuotesChartComponent.init(
+                dependencies = object : QuotesChartDependencies {
+                    override fun provideBasicApi() = get().basicApi
                 }
             )
 
