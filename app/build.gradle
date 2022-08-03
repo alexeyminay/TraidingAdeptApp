@@ -47,4 +47,5 @@ dependencies {
     implementation project(":feature_quotes_chart_impl")
 
     kapt "com.google.dagger:dagger-compiler:$dagger2Version"
+    implementation "com.facebook.stetho:stetho-okhttp3:$stethoVersion"
 }

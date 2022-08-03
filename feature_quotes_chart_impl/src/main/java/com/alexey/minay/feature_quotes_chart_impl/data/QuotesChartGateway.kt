@@ -9,11 +9,12 @@ import java.time.ZonedDateTime
 import javax.inject.Inject
 
 class QuotesChartGateway @Inject constructor(
-    private val basicApi: IBasicApi
+    private val basicApi: IBasicApi,
+    private val requestWrapper: RequestWrapper
 ) : IQuotesChartGateway {
 
     override suspend fun getQuotes() = withContext(Dispatchers.IO) {
-        try {
+        requestWrapper.wrap<List<Quotation>?, Nothing> {
             val result = basicApi.get(
                 path = "query",
                 resultClass = QuotesChartResponseJson::class.java,
@@ -24,10 +25,7 @@ class QuotesChartGateway @Inject constructor(
                     "interval" to "5min",
                 )
             )
-            return@withContext result?.timeSeries?.asDomain()
-        } catch (e: Exception) {
-            e.printStackTrace()
-            null
+            result?.timeSeries?.asDomain()
         }
     }
 

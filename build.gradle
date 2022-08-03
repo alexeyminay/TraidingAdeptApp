@@ -10,6 +10,7 @@ ext {
     minSdkVersion = 26
     coreKtxVersion = '1.7.0'
     dagger2Version = '2.43'
+    stethoVersion = '1.6.0'
 }
 
 task clean(type: Delete) {

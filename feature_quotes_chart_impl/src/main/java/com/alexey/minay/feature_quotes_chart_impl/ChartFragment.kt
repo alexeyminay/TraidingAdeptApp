@@ -8,8 +8,10 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.alexey.minay.feature_quotes_chart_impl.di.QuotesChartComponent
 import com.alexey.minay.feature_quotes_chart_impl.presentation.QuotesChartViewModel
+import com.alexey.minay.feature_quotes_chart_impl.presentation.QuotesStore
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import javax.inject.Inject
 
 class ChartFragment : Fragment(R.layout.fragment_chart) {
 
@@ -17,9 +19,13 @@ class ChartFragment : Fragment(R.layout.fragment_chart) {
         QuotesChartComponent.get().viewModelProviderFactory
     }
 
+    @Inject
+    lateinit var store: QuotesStore
+    private val mComponent get() = QuotesChartComponent.get()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        mComponent.inject(this)
         mViewModel.fetch()
         subscribeToViewModel()
     }

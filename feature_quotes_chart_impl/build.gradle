@@ -1,8 +1,8 @@
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
-    id 'com.google.devtools.ksp' version "1.6.10-1.0.4"
     id 'kotlin-kapt'
+    id 'com.google.devtools.ksp' version "1.6.10-1.0.4"
 }
 
 android {
@@ -11,8 +11,6 @@ android {
     defaultConfig {
         minSdk rootProject.ext.minSdkVersion
         targetSdk rootProject.ext.targetSdkVersion
-
-        buildConfigField "String", "API_KEY", "\"${getLocalProperty("api.key", "demo")}\""
     }
 
     buildTypes {
@@ -32,19 +30,13 @@ android {
 
 dependencies {
     implementation project(":core_ui")
+    implementation project(":core_utils")
     implementation project(':core_dagger2')
     implementation project(':core_remote')
     implementation project(":feature_quotes_chart_api")
 
-    implementation "com.squareup.okhttp3:okhttp:4.10.0"
-    implementation "com.squareup.moshi:moshi-kotlin:1.13.0"
     ksp "com.squareup.moshi:moshi-kotlin-codegen:1.13.0"
-
     kapt "com.google.dagger:dagger-compiler:$dagger2Version"
-}
 
-def getLocalProperty(name, defaultValue) {
-    Properties properties = new Properties()
-    properties.load(project.rootProject.file('local.properties').newDataInputStream())
-    return properties.getProperty(name, defaultValue)
+    implementation 'com.github.alexeyminay:BaseMVI:0.0.5'
 }
