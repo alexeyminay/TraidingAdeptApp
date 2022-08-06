@@ -6,6 +6,7 @@ sealed interface Result<out TData, TError> {
 
     sealed interface ErrorType<TError> {
         class NoInternet<TError> : ErrorType<TError>
+        class Unknown<TError> : ErrorType<TError>
         class ServerConnectionError<TError> : ErrorType<TError>
         class Domain<TError>(val domainErrorType: TError) : ErrorType<TError>
     }

@@ -1,4 +1,4 @@
-package com.alexey.minay.feature_quotes_chart_impl.data
+package com.alexey.minay.feature_quotes_chart_impl.data.gateway.json
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass

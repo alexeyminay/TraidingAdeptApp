@@ -3,7 +3,8 @@ package com.alexey.minay.feature_quotes_chart_impl.di
 import com.alexey.minay.core_dagger2.FeatureScope
 import com.alexey.minay.core_dagger2.NeedInitializeException
 import com.alexey.minay.core_dagger2.ViewModelProviderFactory
-import com.alexey.minay.feature_quotes_chart_impl.ChartFragment
+import com.alexey.minay.feature_quotes_chart_impl.ui.ChartFragment
+import com.alexey.minay.feature_quotes_chart_impl.ui.list.QuotesListFragment
 import dagger.Component
 
 @Component(
@@ -16,6 +17,7 @@ interface QuotesChartComponent {
     val viewModelProviderFactory: ViewModelProviderFactory
 
     fun inject(fragment: ChartFragment)
+    fun inject(fragment: QuotesListFragment)
 
     companion object {
 

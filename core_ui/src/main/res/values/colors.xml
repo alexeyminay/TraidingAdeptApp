@@ -5,9 +5,15 @@
 
     <color name="red">#C93C20</color>
     <color name="green">#50C878</color>
+    <color name="blue">#00bfff</color>
     <color name="grey">#cc353535</color>
 
     <color name="pageBackground">#FFF7F9</color>
     <color name="primary">#c5e1a5</color>
     <color name="primaryVariant">#94af76</color>
+
+    <color name="title_1">#393838</color>
+    <color name="subtitle_1">#717171</color>
+    <color name="separator">#E3E3E3</color>
+
 </resources>

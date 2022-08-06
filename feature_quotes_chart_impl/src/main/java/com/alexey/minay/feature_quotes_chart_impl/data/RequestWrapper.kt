@@ -4,9 +4,9 @@ import javax.inject.Inject
 
 class RequestWrapper @Inject constructor() {
 
-    fun <TResult, TError> wrap(perform: () -> TResult): Result<TResult, TError> {
+    fun <TResult, TError> wrap(perform: () -> TResult?): Result<TResult, TError> {
         return try {
-            val data = perform()
+            val data = perform() ?: return Result.Error(Result.ErrorType.Unknown())
             Result.Success(data)
         } catch (ex: Exception) {
             ex.printStackTrace()

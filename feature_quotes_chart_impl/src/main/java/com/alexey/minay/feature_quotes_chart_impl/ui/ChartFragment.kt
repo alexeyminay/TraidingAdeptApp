@@ -1,4 +1,4 @@
-package com.alexey.minay.feature_quotes_chart_impl
+package com.alexey.minay.feature_quotes_chart_impl.ui
 
 import android.os.Bundle
 import android.view.View
@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import com.alexey.minay.feature_quotes_chart_impl.QuotesChartView
+import com.alexey.minay.feature_quotes_chart_impl.R
 import com.alexey.minay.feature_quotes_chart_impl.di.QuotesChartComponent
 import com.alexey.minay.feature_quotes_chart_impl.presentation.QuotesChartViewModel
 import com.alexey.minay.feature_quotes_chart_impl.presentation.QuotesStore

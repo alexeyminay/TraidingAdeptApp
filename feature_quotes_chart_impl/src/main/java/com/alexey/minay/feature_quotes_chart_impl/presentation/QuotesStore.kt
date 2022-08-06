@@ -14,4 +14,10 @@ class QuotesStore @Inject constructor(
     initialState = initialState,
     reducer = reducer,
     actor = actor
-)
+) {
+
+    init {
+        accept(QuotesAction.FetchQuotesList)
+    }
+
+}
