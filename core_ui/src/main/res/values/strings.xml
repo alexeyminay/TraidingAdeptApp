@@ -5,4 +5,7 @@
     <string name="news">Новости</string>
     <string name="currencies">"Currencies:"</string>
     <string name="lastRefreshed">"Last refreshed: %s"</string>
+    <string name="loading">Loading...</string>
+    <string name="empty">Empty data..Try refresh later</string>
+    <string name="refresh">Try again</string>
 </resources>

@@ -7,10 +7,15 @@
         <entry key="..\:/otus/TradingAdept/TradingAdeptApp/core_ui/src/main/res/drawable/ic_baseline_notes_24.xml" value="0.1675" />
         <entry key="..\:/otus/TradingAdept/TradingAdeptApp/core_ui/src/main/res/drawable/ic_baseline_request_quote_24.xml" value="0.1675" />
         <entry key="..\:/otus/TradingAdept/TradingAdeptApp/core_ui/src/main/res/drawable/ic_chart.xml" value="0.1675" />
+        <entry key="..\:/otus/TradingAdept/TradingAdeptApp/core_ui/src/main/res/drawable/ic_news.xml" value="0.2025" />
+        <entry key="..\:/otus/TradingAdept/TradingAdeptApp/core_ui/src/main/res/drawable/ic_quotation.xml" value="0.2025" />
+        <entry key="..\:/otus/TradingAdept/TradingAdeptApp/core_ui/src/main/res/layout/lay_empty.xml" value="0.6" />
+        <entry key="..\:/otus/TradingAdept/TradingAdeptApp/core_ui/src/main/res/layout/lay_loading.xml" value="0.25416666666666665" />
         <entry key="..\:/otus/TradingAdept/TradingAdeptApp/feature_menu_impl/src/main/res/drawable/selector_item_color.xml" value="0.1675" />
         <entry key="..\:/otus/TradingAdept/TradingAdeptApp/feature_menu_impl/src/main/res/layout/fragment_menu.xml" value="0.25416666666666665" />
         <entry key="..\:/otus/TradingAdept/TradingAdeptApp/feature_menu_impl/src/main/res/menu/menu_menu.xml" value="0.25416666666666665" />
         <entry key="..\:/otus/TradingAdept/TradingAdeptApp/feature_onboarding_impl/src/main/res/layout/fragmetn_onboarding.xml" value="0.25416666666666665" />
+        <entry key="..\:/otus/TradingAdept/TradingAdeptApp/feature_quotes_chart_impl/src/main/res/drawable/ic_loading.xml" value="0.16" />
         <entry key="..\:/otus/TradingAdept/TradingAdeptApp/feature_quotes_chart_impl/src/main/res/layout/fragment_list.xml" value="0.25416666666666665" />
         <entry key="..\:/otus/TradingAdept/TradingAdeptApp/feature_quotes_chart_impl/src/main/res/layout/fragmetn_chart.xml" value="0.25416666666666665" />
         <entry key="..\:/otus/TradingAdept/TradingAdeptApp/feature_quotes_chart_impl/src/main/res/layout/item_header.xml" value="0.25416666666666665" />

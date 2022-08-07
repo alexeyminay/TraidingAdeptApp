@@ -13,12 +13,18 @@ class QuotesActor @Inject constructor(
     override suspend fun execute(action: QuotesAction, getState: () -> QuotesState) {
         when (action) {
             QuotesAction.FetchQuotesList -> fetchQuotesList()
+            QuotesAction.RefreshQuotesList -> refreshQuotesList()
         }.exhaustive
     }
 
     private suspend fun fetchQuotesList() {
         val results = getQuotesListUseCase()
         reduce { QuotesResult.UpdateQuotesList(results) }
+    }
+
+    private suspend fun refreshQuotesList() {
+        reduce { QuotesResult.StartRefreshingList }
+        fetchQuotesList()
     }
 
 }
