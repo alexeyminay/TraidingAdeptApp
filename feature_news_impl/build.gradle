@@ -2,6 +2,7 @@ plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
+    id 'com.google.devtools.ksp' version "1.6.10-1.0.4"
 }
 
 android {
@@ -15,6 +16,7 @@ android {
     buildTypes {
         release {
             minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
     compileOptions {
@@ -24,17 +26,19 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    buildFeatures {
+        viewBinding true
+    }
 }
 
 dependencies {
-    implementation project(':core_utils')
-    implementation project(':core_ui')
+    implementation project(":core_ui")
+    implementation project(":core_utils")
     implementation project(':core_dagger2')
-    implementation project(':feature_navigation_api')
-    implementation project(':feature_quotes_chart_api')
-    implementation project(':feature_onboarding_api')
-    implementation project(':feature_menu_api')
+    implementation project(':core_remote')
     implementation project(":feature_news_api")
+    implementation project(":feature_navigation_api")
 
+    ksp "com.squareup.moshi:moshi-kotlin-codegen:1.13.0"
     kapt "com.google.dagger:dagger-compiler:$dagger2Version"
 }

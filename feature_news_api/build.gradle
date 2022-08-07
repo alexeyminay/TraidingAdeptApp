@@ -1,7 +1,6 @@
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
-    id 'kotlin-kapt'
 }
 
 android {
@@ -27,14 +26,5 @@ android {
 }
 
 dependencies {
-    implementation project(':core_utils')
-    implementation project(':core_ui')
-    implementation project(':core_dagger2')
-    implementation project(':feature_navigation_api')
-    implementation project(':feature_quotes_chart_api')
-    implementation project(':feature_onboarding_api')
-    implementation project(':feature_menu_api')
-    implementation project(":feature_news_api")
-
-    kapt "com.google.dagger:dagger-compiler:$dagger2Version"
+    implementation project(":core_ui")
 }

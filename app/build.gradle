@@ -45,6 +45,8 @@ dependencies {
     implementation project(":feature_onboarding_impl")
     implementation project(":feature_quotes_chart_api")
     implementation project(":feature_quotes_chart_impl")
+    implementation project(":feature_news_api")
+    implementation project(":feature_news_impl")
 
     kapt "com.google.dagger:dagger-compiler:$dagger2Version"
     implementation "com.facebook.stetho:stetho-okhttp3:$stethoVersion"

@@ -8,6 +8,7 @@ import com.alexey.minay.feature_menu_impl.di.MenuComponent
 import com.alexey.minay.feature_menu_impl.di.MenuDependencies
 import com.alexey.minay.feature_navigation_impl.di.NavigationComponent
 import com.alexey.minay.feature_navigation_impl.di.NavigationDependencies
+import com.alexey.minay.feature_news_impl.NewsFragmentProvider
 import com.alexey.minay.feature_onboarding_impl.OnBoardingFragmentProvider
 import com.alexey.minay.feature_onboarding_impl.di.OnBoardingComponent
 import com.alexey.minay.feature_onboarding_impl.di.OnBoardingDependencies
@@ -46,6 +47,9 @@ interface TradingAdeptComponent {
 
                     override fun provideMenuFragmentProvider() =
                         MenuFragmentProvider()
+
+                    override fun provideNewsFragmentProvider() =
+                        NewsFragmentProvider()
                 }
             )
 
