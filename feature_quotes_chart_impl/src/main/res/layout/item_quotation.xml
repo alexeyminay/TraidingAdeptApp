@@ -48,6 +48,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="18dp"
+        android:layout_marginEnd="12dp"
         android:ellipsize="end"
         android:fontFamily="sans-serif-medium"
         android:maxLines="1"
@@ -63,6 +64,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
+        android:layout_marginEnd="12dp"
         android:ellipsize="end"
         android:fontFamily="sans-serif-medium"
         android:maxLines="1"
@@ -92,6 +94,18 @@
         app:barrierDirection="bottom"
         app:constraint_referenced_ids="bottomIcon, subtitle" />
 
+    <TextView
+        android:id="@+id/lastRefreshed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="11dp"
+        android:textColor="@color/blue"
+        android:textSize="11sp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintStart_toStartOf="@id/title"
+        app:layout_constraintTop_toBottomOf="@id/barrier"
+        tools:text="Last refreshed: 20:21:01 06.08.22" />
+
     <View
         android:layout_width="0dp"
         android:layout_height="1dp"
@@ -100,6 +114,6 @@
         android:background="@color/separator"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/barrier" />
+        app:layout_constraintTop_toBottomOf="@id/lastRefreshed" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

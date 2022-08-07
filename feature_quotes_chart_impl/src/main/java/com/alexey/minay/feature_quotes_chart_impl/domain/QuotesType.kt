@@ -4,6 +4,9 @@ sealed interface QuotesType {
     class Currencies(val type: CurrenciesType): QuotesType
 
     enum class CurrenciesType(val from: String, val to: String) {
-        USD_RU("USD", "RUB")
+        USD_RUB("USD", "RUB"),
+        EUR_USD("EUR", "USD"),
+        EUR_RUB("EUR", "RUB"),
+        GBP_USD("GBP", "USD"),
     }
 }

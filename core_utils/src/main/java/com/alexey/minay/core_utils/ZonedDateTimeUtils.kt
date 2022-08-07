@@ -1,19 +1,11 @@
-package com.alexey.minay.core_remote
+package com.alexey.minay.core_utils
 
-import com.squareup.moshi.FromJson
-import com.squareup.moshi.ToJson
 import java.time.ZoneId
 import java.time.ZonedDateTime
 
-class ZonedDateTimeAdapter {
+object ZonedDateTimeUtils {
 
-    @ToJson()
-    fun toJson(date: ZonedDateTime): String {
-        return ""
-    }
-
-    @FromJson
-    fun fromJson(date: String): ZonedDateTime {
+    fun fromJson(date: String, zoneId: String): ZonedDateTime {
         val regex = """(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})""".toRegex()
         val values = regex.find(date)?.groupValues
 
@@ -24,7 +16,7 @@ class ZonedDateTimeAdapter {
             values?.get(4)?.toInt() ?: 0,
             values?.get(5)?.toInt() ?: 0,
             values?.get(6)?.toInt() ?: 0,
-            0, ZoneId.systemDefault()
+            0, ZoneId.of(zoneId)
         )
     }
 

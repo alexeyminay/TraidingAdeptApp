@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    compileSdk targetSdkVersion
+    compileSdk rootProject.ext.targetSdkVersion
 
     defaultConfig {
-        minSdk minSdkVersion
-        targetSdk targetSdkVersion
+        minSdk rootProject.ext.minSdkVersion
+        targetSdk rootProject.ext.targetSdkVersion
     }
 
     buildTypes {

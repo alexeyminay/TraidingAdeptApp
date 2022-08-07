@@ -2,13 +2,13 @@ package com.alexey.minay.feature_quotes_chart_impl.data.gateway
 
 import com.alexey.minay.core_remote.IBasicApi
 import com.alexey.minay.core_utils.DispatchersProvider
+import com.alexey.minay.core_utils.ZonedDateTimeUtils
 import com.alexey.minay.feature_quotes_chart_impl.data.RequestWrapper
 import com.alexey.minay.feature_quotes_chart_impl.data.gateway.json.CurrencyResponseJson
 import com.alexey.minay.feature_quotes_chart_impl.data.gateway.json.QuotationJson
 import com.alexey.minay.feature_quotes_chart_impl.data.gateway.json.QuotesChartResponseJson
 import com.alexey.minay.feature_quotes_chart_impl.domain.*
 import kotlinx.coroutines.withContext
-import java.time.ZonedDateTime
 import javax.inject.Inject
 
 class QuotesGateway @Inject constructor(
@@ -29,7 +29,7 @@ class QuotesGateway @Inject constructor(
                     "interval" to "5min",
                 )
             )
-            result?.timeSeries?.asDomain()
+            result?.timeSeries?.asDomain(result.metadata.timeZone)
         }
     }
 
@@ -42,17 +42,17 @@ class QuotesGateway @Inject constructor(
                     query = mapOf(
                         "function" to "CURRENCY_EXCHANGE_RATE",
                         "from_currency" to currenciesType.from,
-                        "to_currency" to "RUB"
+                        "to_currency" to currenciesType.to
                     )
                 )
                 result?.asDomain(currenciesType)
             }
         }
 
-    private fun Map<ZonedDateTime, QuotationJson>.asDomain() =
+    private fun Map<String, QuotationJson>.asDomain(timeZone: String) =
         map {
             Quotation(
-                dateTime = it.key,
+                dateTime = ZonedDateTimeUtils.fromJson(it.key, timeZone),
                 open = it.value.open.toFloat(),
                 close = it.value.close.toFloat(),
                 high = it.value.high.toFloat(),
@@ -70,7 +70,7 @@ class QuotesGateway @Inject constructor(
                 toCode = toCode,
                 toName = toName,
                 exchangeRate = exchangeRate,
-                lastRefresh = lastRefresh
+                lastRefresh = ZonedDateTimeUtils.fromJson(lastRefresh, timeZone)
             )
         }
 

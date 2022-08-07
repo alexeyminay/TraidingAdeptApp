@@ -6,7 +6,6 @@ object MoshiFactory {
 
     fun create() =
         Moshi.Builder()
-            .add(ZonedDateTimeAdapter())
             .build()
 
 }

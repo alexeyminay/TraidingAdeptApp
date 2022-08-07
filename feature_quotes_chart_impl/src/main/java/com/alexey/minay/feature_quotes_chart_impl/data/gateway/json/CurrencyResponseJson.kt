@@ -23,5 +23,7 @@ data class CurrencyExchangeRateJson(
     @Json(name = "5. Exchange Rate")
     val exchangeRate: Float,
     @Json(name = "6. Last Refreshed")
-    val lastRefresh: ZonedDateTime
+    val lastRefresh: String,
+    @Json(name = "7. Time Zone")
+    val timeZone: String
 )

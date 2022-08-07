@@ -8,7 +8,8 @@ sealed class QuotesListItem(val itemType: Int) {
         val title: String,
         val subtitle: String,
         val value: String,
-        val type: QuotesType
+        val type: QuotesType,
+        val lastRefreshed: String?
     ) : QuotesListItem(QUOTES)
 
     enum class HeaderType {

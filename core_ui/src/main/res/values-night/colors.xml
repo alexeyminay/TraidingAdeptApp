@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="pageBackground">#191214</color>
-    <color name="primary">#9FB587</color>
-    <color name="primaryVariant">#697A56</color>
+    <color name="primary">#728160</color>
+    <color name="primaryVariant">#5A684A</color>
 
     <color name="blue">#00A6DD</color>
 

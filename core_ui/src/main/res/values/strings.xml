@@ -3,5 +3,6 @@
     <string name="quotation">Котировки</string>
     <string name="chart">График</string>
     <string name="news">Новости</string>
-    <string name="currencies">"Currencies"</string>
+    <string name="currencies">"Currencies:"</string>
+    <string name="lastRefreshed">"Last refreshed: %s"</string>
 </resources>

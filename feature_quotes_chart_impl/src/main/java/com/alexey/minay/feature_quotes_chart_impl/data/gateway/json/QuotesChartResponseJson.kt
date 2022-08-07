@@ -2,12 +2,13 @@ package com.alexey.minay.feature_quotes_chart_impl.data.gateway.json
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
-import java.time.ZonedDateTime
 
 @JsonClass(generateAdapter = true)
 data class QuotesChartResponseJson(
     @Json(name = "Time Series (5min)")
-    val timeSeries: Map<ZonedDateTime, QuotationJson>
+    val timeSeries: Map<String, QuotationJson>,
+    @Json(name = "Meta Data")
+    val metadata: MetaDataJson
 )
 
 @JsonClass(generateAdapter = true)
@@ -22,4 +23,10 @@ data class QuotationJson(
     val close: String,
     @Json(name = "5. volume")
     val volume: String,
+)
+
+@JsonClass(generateAdapter = true)
+data class MetaDataJson(
+    @Json(name = "7. Time Zone")
+    val timeZone: String
 )
