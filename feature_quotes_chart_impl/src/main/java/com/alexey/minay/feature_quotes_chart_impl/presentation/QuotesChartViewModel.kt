@@ -3,7 +3,7 @@ package com.alexey.minay.feature_quotes_chart_impl.presentation
 import androidx.lifecycle.viewModelScope
 import com.alexey.minay.core_ui.SingleStateViewModel
 import com.alexey.minay.core_utils.exhaustive
-import com.alexey.minay.feature_quotes_chart_impl.data.Result
+import com.alexey.minay.core_utils.Result
 import com.alexey.minay.feature_quotes_chart_impl.domain.IQuotesChartGateway
 import kotlinx.coroutines.launch
 import javax.inject.Inject

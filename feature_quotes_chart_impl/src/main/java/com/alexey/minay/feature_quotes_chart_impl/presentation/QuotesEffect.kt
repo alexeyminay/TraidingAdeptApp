@@ -1,6 +1,6 @@
 package com.alexey.minay.feature_quotes_chart_impl.presentation
 
-import com.alexey.minay.feature_quotes_chart_impl.data.Result
+import com.alexey.minay.core_utils.Result
 import com.alexey.minay.feature_quotes_chart_impl.domain.ExchangeRateInfo
 
 sealed interface QuotesAction {

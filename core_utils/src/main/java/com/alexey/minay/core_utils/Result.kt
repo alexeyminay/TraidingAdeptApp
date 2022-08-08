@@ -1,4 +1,4 @@
-package com.alexey.minay.feature_quotes_chart_impl.data
+package com.alexey.minay.core_utils
 
 sealed interface Result<out TData, TError> {
     class Success<TData, TError>(val data: TData) : Result<TData, TError>

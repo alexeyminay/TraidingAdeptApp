@@ -3,7 +3,7 @@ package com.alexey.minay.feature_quotes_chart_impl.data.gateway
 import com.alexey.minay.core_remote.IBasicApi
 import com.alexey.minay.core_utils.DispatchersProvider
 import com.alexey.minay.core_utils.ZonedDateTimeUtils
-import com.alexey.minay.feature_quotes_chart_impl.data.RequestWrapper
+import com.alexey.minay.core_utils.RequestWrapper
 import com.alexey.minay.feature_quotes_chart_impl.data.gateway.json.CurrencyResponseJson
 import com.alexey.minay.feature_quotes_chart_impl.data.gateway.json.QuotationJson
 import com.alexey.minay.feature_quotes_chart_impl.data.gateway.json.QuotesChartResponseJson

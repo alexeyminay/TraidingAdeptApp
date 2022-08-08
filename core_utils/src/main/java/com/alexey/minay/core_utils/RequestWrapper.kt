@@ -1,8 +1,6 @@
-package com.alexey.minay.feature_quotes_chart_impl.data
+package com.alexey.minay.core_utils
 
-import javax.inject.Inject
-
-class RequestWrapper @Inject constructor() {
+class RequestWrapper {
 
     fun <TResult, TError> wrap(perform: () -> TResult?): Result<TResult, TError> {
         return try {

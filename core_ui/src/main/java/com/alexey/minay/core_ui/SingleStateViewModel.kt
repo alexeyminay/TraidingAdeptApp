@@ -16,11 +16,11 @@ abstract class SingleStateViewModel<State, Event>(
     private val mState = MutableStateFlow(initialState)
     private val mEvent = MutableSharedFlow<Event>(extraBufferCapacity = 1)
 
-    fun modify(modifier: State.() -> State) {
+    protected fun modify(modifier: State.() -> State) {
         mState.value = mState.value.modifier()
     }
 
-    fun event(event: Event) {
+    protected fun event(event: Event) {
         mEvent.tryEmit(event)
     }
 

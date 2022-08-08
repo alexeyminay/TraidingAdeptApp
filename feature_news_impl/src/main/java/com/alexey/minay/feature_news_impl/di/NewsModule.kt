@@ -1,7 +1,7 @@
 package com.alexey.minay.feature_news_impl.di
 
 import com.alexey.minay.core_utils.DispatchersProvider
-import com.alexey.minay.feature_news_impl.presentation.NewsListState
+import com.alexey.minay.feature_news_impl.presentation.list.NewsListState
 import dagger.Module
 import dagger.Provides
 

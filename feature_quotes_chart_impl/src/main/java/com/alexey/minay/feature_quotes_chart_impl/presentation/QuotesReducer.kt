@@ -2,7 +2,7 @@ package com.alexey.minay.feature_quotes_chart_impl.presentation
 
 import com.alexey.minay.base_mvi.Reducer
 import com.alexey.minay.core_utils.DateFormatter
-import com.alexey.minay.feature_quotes_chart_impl.data.Result
+import com.alexey.minay.core_utils.Result
 import com.alexey.minay.feature_quotes_chart_impl.domain.ExchangeRateInfo
 import com.alexey.minay.feature_quotes_chart_impl.presentation.state.QuotesState
 import com.alexey.minay.feature_quotes_chart_impl.presentation.state.list.QuotesListItem
