@@ -9,13 +9,18 @@
         <entry key="..\:/otus/TradingAdept/TradingAdeptApp/core_ui/src/main/res/drawable/ic_chart.xml" value="0.1675" />
         <entry key="..\:/otus/TradingAdept/TradingAdeptApp/core_ui/src/main/res/drawable/ic_news.xml" value="0.2025" />
         <entry key="..\:/otus/TradingAdept/TradingAdeptApp/core_ui/src/main/res/drawable/ic_quotation.xml" value="0.2025" />
+        <entry key="..\:/otus/TradingAdept/TradingAdeptApp/core_ui/src/main/res/layout/lay_button.xml" value="0.25416666666666665" />
         <entry key="..\:/otus/TradingAdept/TradingAdeptApp/core_ui/src/main/res/layout/lay_empty.xml" value="0.6" />
         <entry key="..\:/otus/TradingAdept/TradingAdeptApp/core_ui/src/main/res/layout/lay_loading.xml" value="0.25416666666666665" />
         <entry key="..\:/otus/TradingAdept/TradingAdeptApp/feature_menu_impl/src/main/res/drawable/selector_item_color.xml" value="0.1675" />
         <entry key="..\:/otus/TradingAdept/TradingAdeptApp/feature_menu_impl/src/main/res/layout/fragment_menu.xml" value="0.25416666666666665" />
         <entry key="..\:/otus/TradingAdept/TradingAdeptApp/feature_menu_impl/src/main/res/menu/menu_menu.xml" value="0.25416666666666665" />
+        <entry key="..\:/otus/TradingAdept/TradingAdeptApp/feature_news_impl/src/main/res/drawable/ic_fire.xml" value="0.2025" />
         <entry key="..\:/otus/TradingAdept/TradingAdeptApp/feature_news_impl/src/main/res/layout/fragment_news.xml" value="0.25416666666666665" />
-        <entry key="..\:/otus/TradingAdept/TradingAdeptApp/feature_news_impl/src/main/res/layout/fragment_news_list.xml" value="0.25416666666666665" />
+        <entry key="..\:/otus/TradingAdept/TradingAdeptApp/feature_news_impl/src/main/res/layout/fragment_news_list.xml" value="0.16799999999999998" />
+        <entry key="..\:/otus/TradingAdept/TradingAdeptApp/feature_news_impl/src/main/res/layout/fragment_news_summary.xml" value="0.4" />
+        <entry key="..\:/otus/TradingAdept/TradingAdeptApp/feature_news_impl/src/main/res/layout/item_news_list.xml" value="0.4" />
+        <entry key="..\:/otus/TradingAdept/TradingAdeptApp/feature_news_impl/src/main/res/layout/item_ticker.xml" value="1.6" />
         <entry key="..\:/otus/TradingAdept/TradingAdeptApp/feature_onboarding_impl/src/main/res/layout/fragmetn_onboarding.xml" value="0.25416666666666665" />
         <entry key="..\:/otus/TradingAdept/TradingAdeptApp/feature_quotes_chart_impl/src/main/res/drawable/ic_loading.xml" value="0.16" />
         <entry key="..\:/otus/TradingAdept/TradingAdeptApp/feature_quotes_chart_impl/src/main/res/layout/fragment_list.xml" value="0.25416666666666665" />

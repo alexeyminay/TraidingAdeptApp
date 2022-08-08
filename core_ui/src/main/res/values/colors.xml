@@ -9,6 +9,9 @@
     <color name="grey">#cc353535</color>
 
     <color name="pageBackground">#FFF7F9</color>
+    <color name="pageBackground_2">#FFD3DE</color>
+    <color name="cardBackground">#FFF7F9</color>
+
     <color name="primary">#c5e1a5</color>
     <color name="primaryVariant">#94af76</color>
 
