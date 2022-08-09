@@ -37,19 +37,21 @@ class MenuFragment : Fragment(R.layout.fragment_menu) {
 
     private fun subscribeToViewModel() {
         mViewModel.menuFragmentFlow
-            .distinctUntilFragmentChanged()
+            //.distinctUntilFragmentChanged()
             .onEachWithLifecycle(viewLifecycleOwner) {
             openFragment(it)
         }
     }
 
-    private fun openFragment(fragment: Fragment?) {
+    private fun openFragment(pair: Pair<Fragment?, View?>) {
+        val fragment = pair.first
         if (fragment == null) {
             childFragmentManager.popBackStack()
             return
         }
 
         childFragmentManager.commit {
+            pair.second?.let { addSharedElement(it, it.transitionName) }
             replace(R.id.fragmentContainer, fragment, null)
         }
     }

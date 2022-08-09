@@ -15,6 +15,11 @@ class NewsRepository @Inject constructor(
     private var mNews = emptyList<News>()
 
     override suspend fun getAllNews(): Result<List<News>, Nothing> {
+        // FIXME:
+        if (mNews.isNotEmpty()) {
+            return Result.Success(mNews)
+        }
+
         val result = gateway.getNews()
         when (result) {
             is Result.Success -> {

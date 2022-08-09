@@ -38,6 +38,7 @@ dependencies {
     implementation project(':core_remote')
     implementation project(":feature_news_api")
     implementation project(":feature_navigation_api")
+    implementation project(":feature_menu_impl")
 
     ksp "com.squareup.moshi:moshi-kotlin-codegen:1.13.0"
     kapt "com.google.dagger:dagger-compiler:$dagger2Version"

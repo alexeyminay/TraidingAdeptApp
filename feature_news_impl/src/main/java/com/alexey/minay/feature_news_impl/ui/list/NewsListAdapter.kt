@@ -1,6 +1,7 @@
 package com.alexey.minay.feature_news_impl.ui.list
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -12,7 +13,7 @@ import com.alexey.minay.feature_news_impl.presentation.list.NewsListItem
 import com.bumptech.glide.Glide
 
 class NewsListAdapter(
-    private val openNewsSummary: (NewsId) -> Unit
+    private val openNewsSummary: (NewsId, View) -> Unit
 ) : ListAdapter<NewsListItem, NewsListAdapter.NewsViewHolder>(NewsListDiffUtilCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
@@ -30,10 +31,11 @@ class NewsListAdapter(
 
     class NewsViewHolder(
         private val binding: ItemNewsListBinding,
-        private val openNewsSummary: (NewsId) -> Unit
+        private val openNewsSummary: (NewsId, View) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: NewsListItem) = with(binding) {
+            binding.root.transitionName = item.id.value
             title.text = item.title
             subTitle.text = item.summary
             Glide.with(itemView)
@@ -41,7 +43,7 @@ class NewsListAdapter(
                 .error(R.drawable.ic_default_thumbnail)
                 .into(binding.image)
 
-            root.setOnClickListener { openNewsSummary(item.id) }
+            root.setOnClickListener { openNewsSummary(item.id, itemView) }
         }
 
     }

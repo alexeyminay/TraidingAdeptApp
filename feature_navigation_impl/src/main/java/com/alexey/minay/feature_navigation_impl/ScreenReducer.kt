@@ -26,7 +26,7 @@ class ScreenReducer @Inject constructor() {
                 Screen.MenuItem.NewsList,
                 Screen.MenuItem.QuotesChart -> Screen.Menu(Screen.MenuItem.QuotesList)
                 Screen.MenuItem.QuotesList -> TODO()
-                is Screen.MenuItem.NewsSummary -> TODO()
+                is Screen.MenuItem.NewsSummary -> Screen.Menu(Screen.MenuItem.NewsList)
             }
             Screen.OnBoarding -> TODO()
         }
@@ -71,7 +71,9 @@ class ScreenReducer @Inject constructor() {
                 is Screen.MenuItem.NewsSummary,
                 Screen.MenuItem.QuotesList -> throw NotSupportedPathException(this, action)
                 Screen.MenuItem.NewsList -> when (action) {
-                    is Action.OpenNewsSummary -> Screen.Menu(Screen.MenuItem.NewsSummary(action.newsId))
+                    is Action.OpenNewsSummary -> Screen.Menu(
+                        Screen.MenuItem.NewsSummary(action.newsId, action.sharedView)
+                    )
                     else -> throw NotSupportedPathException(this, action)
                 }
             }

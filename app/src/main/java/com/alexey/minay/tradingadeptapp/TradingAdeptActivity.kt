@@ -38,4 +38,12 @@ class TradingAdeptActivity : AppCompatActivity() {
         }
     }
 
+    override fun onBackPressed() {
+        if(onBackPressedDispatcher.hasEnabledCallbacks()) {
+            onBackPressedDispatcher.onBackPressed()
+        } else {
+            mViewModel.onBackPressed()
+        }
+    }
+
 }

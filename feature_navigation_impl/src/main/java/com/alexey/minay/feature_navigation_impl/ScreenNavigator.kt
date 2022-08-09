@@ -1,5 +1,6 @@
 package com.alexey.minay.feature_navigation_impl
 
+import android.view.View
 import androidx.fragment.app.Fragment
 import com.alexey.minay.core_dagger2.FeatureScope
 import com.alexey.minay.core_navigation.Action
@@ -29,7 +30,7 @@ class ScreenNavigator @Inject constructor(
     val mainFragmentFlow: Flow<Fragment>
         get() = mCurrentScreen.map { it.asMainFragment() }
 
-    override val menuFragmentFlow: Flow<Fragment?>
+    override val menuFragmentFlow: Flow<Pair<Fragment?, View?>>
         get() = mCurrentScreen.map { it.asMenuFragment() }
 
     private val mCurrentScreen = MutableStateFlow(initScreen)
@@ -47,15 +48,16 @@ class ScreenNavigator @Inject constructor(
         }.exhaustive
     }
 
-    private fun Screen.asMenuFragment(): Fragment? =
+    private fun Screen.asMenuFragment(): Pair<Fragment?, View?> =
         when (this) {
             is Screen.Menu -> when (item) {
-                Screen.MenuItem.NewsList -> newsFragmentProvider.provideNewsFragment()
-                Screen.MenuItem.QuotesChart -> quotesFragmentsProvider.provideChartFragment()
-                Screen.MenuItem.QuotesList -> quotesFragmentsProvider.provideQuotesListFragment()
-                is Screen.MenuItem.NewsSummary -> newsFragmentProvider.provideNewsSummary(item.newsId)
+                Screen.MenuItem.NewsList -> Pair(newsFragmentProvider.provideNewsFragment(), null)
+                Screen.MenuItem.QuotesChart -> Pair(quotesFragmentsProvider.provideChartFragment(), null)
+                Screen.MenuItem.QuotesList -> Pair(quotesFragmentsProvider.provideQuotesListFragment(), null)
+                is Screen.MenuItem.NewsSummary ->
+                    Pair(newsFragmentProvider.provideNewsSummary(item.newsId), item.sharedView)
             }
-            else -> null
+            else -> Pair(null, null)
         }
 
 }
