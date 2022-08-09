@@ -6,4 +6,5 @@ sealed interface Action {
     object OpenQuotesList : Action
     object OpenNews : Action
     object Back : Action
+    class OpenNewsSummary(val newsId: String): Action
 }

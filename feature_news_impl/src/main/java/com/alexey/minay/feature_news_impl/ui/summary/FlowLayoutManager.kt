@@ -1,4 +1,4 @@
-package com.alexey.minay.feature_news_impl.ui
+package com.alexey.minay.feature_news_impl.ui.summary
 
 import androidx.core.view.marginBottom
 import androidx.core.view.marginEnd

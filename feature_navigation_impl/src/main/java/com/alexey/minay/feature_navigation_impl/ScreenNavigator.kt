@@ -50,9 +50,10 @@ class ScreenNavigator @Inject constructor(
     private fun Screen.asMenuFragment(): Fragment? =
         when (this) {
             is Screen.Menu -> when (item) {
-                Screen.MenuItem.News -> newsFragmentProvider.provideNewsFragment()
+                Screen.MenuItem.NewsList -> newsFragmentProvider.provideNewsFragment()
                 Screen.MenuItem.QuotesChart -> quotesFragmentsProvider.provideChartFragment()
                 Screen.MenuItem.QuotesList -> quotesFragmentsProvider.provideQuotesListFragment()
+                is Screen.MenuItem.NewsSummary -> newsFragmentProvider.provideNewsSummary(item.newsId)
             }
             else -> null
         }

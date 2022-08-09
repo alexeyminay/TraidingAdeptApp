@@ -12,6 +12,7 @@ sealed interface Screen {
     sealed interface MenuItem {
         object QuotesList : MenuItem
         object QuotesChart : MenuItem
-        object News : MenuItem
+        object NewsList : MenuItem
+        class NewsSummary(val newsId: String) : MenuItem
     }
 }

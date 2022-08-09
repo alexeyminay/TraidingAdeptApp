@@ -8,4 +8,6 @@
     <string name="loading">Loading...</string>
     <string name="empty">Empty data..Try refresh later</string>
     <string name="refresh">Try again</string>
+    <string name="authors">Authors: %s</string>
+    <string name="open_news">Open news</string>
 </resources>

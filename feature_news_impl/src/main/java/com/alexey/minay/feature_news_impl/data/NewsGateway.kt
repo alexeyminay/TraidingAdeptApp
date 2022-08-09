@@ -4,6 +4,7 @@ import com.alexey.minay.core_remote.IBasicApi
 import com.alexey.minay.core_utils.DispatchersProvider
 import com.alexey.minay.core_utils.RequestWrapper
 import com.alexey.minay.feature_news_impl.domain.News
+import com.alexey.minay.feature_news_impl.domain.NewsId
 import com.alexey.minay.feature_news_impl.domain.Ticker
 import com.alexey.minay.feature_news_impl.domain.Topic
 import kotlinx.coroutines.withContext
@@ -36,7 +37,7 @@ class NewsGateway @Inject constructor(
                 url = newsJson.url,
                 authors = newsJson.authors,
                 summary = newsJson.summary,
-                thimbnailUrl = newsJson.bannerImageUrl,
+                thumbnailUrl = newsJson.bannerImageUrl,
                 source = newsJson.source,
                 sourceDomain = newsJson.sourceDomain,
                 topics = newsJson.topics.map { topicJson ->
@@ -53,7 +54,7 @@ class NewsGateway @Inject constructor(
                     )
                 },
                 overallSentimentLabel = newsJson.overallSentimentLabel,
-                uid = UUID.randomUUID().toString()
+                uid = NewsId(UUID.randomUUID().toString())
             )
         }
 

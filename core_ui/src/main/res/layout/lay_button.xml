@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
@@ -8,7 +8,6 @@
         android:id="@+id/refreshButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
         android:layout_marginTop="16dp"
         android:backgroundTint="@color/pageBackground"
         android:text="@string/refresh"
@@ -18,4 +17,4 @@
         app:strokeColor="@color/primary"
         app:strokeWidth="2dp" />
 
-</merge>
+</FrameLayout>

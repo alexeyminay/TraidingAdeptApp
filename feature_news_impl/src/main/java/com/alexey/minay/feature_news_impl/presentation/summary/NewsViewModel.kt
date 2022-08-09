@@ -1,4 +1,4 @@
-package com.alexey.minay.feature_news_impl.presentation
+package com.alexey.minay.feature_news_impl.presentation.summary
 
 import com.alexey.minay.core_ui.SingleStateViewModel
 import com.alexey.minay.feature_news_impl.domain.INewsRepository

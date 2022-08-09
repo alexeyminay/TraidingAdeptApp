@@ -5,4 +5,5 @@ import androidx.fragment.app.Fragment
 interface INewsFragmentProvider {
     fun provideNewsListFragment(): Fragment
     fun provideNewsFragment(): Fragment
+    fun provideNewsSummary(newsId: String): Fragment
 }

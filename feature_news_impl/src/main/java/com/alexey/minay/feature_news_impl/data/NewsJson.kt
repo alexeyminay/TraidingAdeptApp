@@ -20,7 +20,7 @@ data class NewsJson(
     @Json(name = "summary")
     val summary: String,
     @Json(name = "banner_image")
-    val bannerImageUrl: String,
+    val bannerImageUrl: String?,
     @Json(name = "source")
     val source: String,
     @Json(name = "source_domain")

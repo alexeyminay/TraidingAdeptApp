@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="pageBackground">#191214</color>
+    <color name="pageBackground_2">#FD8EAB</color>
 
     <color name="cardBackground">#372B2E</color>
 

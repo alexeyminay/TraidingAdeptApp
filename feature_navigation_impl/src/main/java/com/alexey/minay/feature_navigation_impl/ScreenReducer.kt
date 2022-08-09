@@ -11,6 +11,7 @@ class ScreenReducer @Inject constructor() {
         Action.OpenNews -> reduceOpenNews(action)
         Action.OpenQuotesChart -> reduceOpenQuotesChart(action)
         Action.OpenQuotesList -> reduceOpenQuotesList(action)
+        is Action.OpenNewsSummary -> reduceOpenNewsSummary(action)
     }
 
     private fun Screen.reduceOpenMenu() =
@@ -22,9 +23,10 @@ class ScreenReducer @Inject constructor() {
     private fun Screen.reduceBack() =
         when (this) {
             is Screen.Menu -> when (item) {
-                Screen.MenuItem.News,
+                Screen.MenuItem.NewsList,
                 Screen.MenuItem.QuotesChart -> Screen.Menu(Screen.MenuItem.QuotesList)
                 Screen.MenuItem.QuotesList -> TODO()
+                is Screen.MenuItem.NewsSummary -> TODO()
             }
             Screen.OnBoarding -> TODO()
         }
@@ -32,9 +34,10 @@ class ScreenReducer @Inject constructor() {
     private fun Screen.reduceOpenNews(action: Action) =
         when (this) {
             is Screen.Menu -> when (item) {
-                Screen.MenuItem.News -> this
+                Screen.MenuItem.NewsList -> this
                 Screen.MenuItem.QuotesChart,
-                Screen.MenuItem.QuotesList -> Screen.Menu(Screen.MenuItem.News)
+                Screen.MenuItem.QuotesList -> Screen.Menu(Screen.MenuItem.NewsList)
+                is Screen.MenuItem.NewsSummary -> TODO()
             }
             else -> throw NotSupportedPathException(this, action)
         }
@@ -43,8 +46,9 @@ class ScreenReducer @Inject constructor() {
         when (this) {
             is Screen.Menu -> when (item) {
                 Screen.MenuItem.QuotesChart -> this
-                Screen.MenuItem.News,
+                Screen.MenuItem.NewsList,
                 Screen.MenuItem.QuotesList -> Screen.Menu(Screen.MenuItem.QuotesChart)
+                is Screen.MenuItem.NewsSummary -> TODO()
             }
             else -> throw NotSupportedPathException(this, action)
         }
@@ -53,10 +57,25 @@ class ScreenReducer @Inject constructor() {
         when (this) {
             is Screen.Menu -> when (item) {
                 Screen.MenuItem.QuotesList -> this
-                Screen.MenuItem.News,
+                Screen.MenuItem.NewsList,
                 Screen.MenuItem.QuotesChart -> Screen.Menu(Screen.MenuItem.QuotesList)
+                is Screen.MenuItem.NewsSummary -> TODO()
             }
             else -> throw NotSupportedPathException(this, action)
+        }
+
+    private fun Screen.reduceOpenNewsSummary(action: Action) =
+        when (this) {
+            is Screen.Menu -> when (item) {
+                Screen.MenuItem.QuotesChart,
+                is Screen.MenuItem.NewsSummary,
+                Screen.MenuItem.QuotesList -> throw NotSupportedPathException(this, action)
+                Screen.MenuItem.NewsList -> when (action) {
+                    is Action.OpenNewsSummary -> Screen.Menu(Screen.MenuItem.NewsSummary(action.newsId))
+                    else -> throw NotSupportedPathException(this, action)
+                }
+            }
+            Screen.OnBoarding -> throw NotSupportedPathException(this, action)
         }
 
     class NotSupportedPathException(

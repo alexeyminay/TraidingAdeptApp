@@ -4,7 +4,8 @@ import androidx.lifecycle.ViewModel
 import com.alexey.minay.core_dagger2.ViewModelKey
 import com.alexey.minay.feature_news_impl.data.NewsRepository
 import com.alexey.minay.feature_news_impl.domain.INewsRepository
-import com.alexey.minay.feature_news_impl.presentation.NewsViewModel
+import com.alexey.minay.feature_news_impl.presentation.news.NewsSummaryViewModel
+import com.alexey.minay.feature_news_impl.presentation.summary.NewsViewModel
 import com.alexey.minay.feature_news_impl.presentation.list.NewsListViewModel
 import dagger.Binds
 import dagger.Module
@@ -20,6 +21,10 @@ interface NewsBinding {
     @Binds
     @[IntoMap ViewModelKey(NewsListViewModel::class)]
     fun bindNewsListViewModel(quotesChartViewModel: NewsListViewModel): ViewModel
+
+    @Binds
+    @[IntoMap ViewModelKey(NewsSummaryViewModel::class)]
+    fun bindNewsSummaryViewModel(quotesChartViewModel: NewsSummaryViewModel): ViewModel
 
     @Binds
     fun bindQuotesChartGRepository(repository: NewsRepository): INewsRepository

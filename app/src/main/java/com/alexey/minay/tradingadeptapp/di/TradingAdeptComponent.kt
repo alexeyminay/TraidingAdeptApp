@@ -85,6 +85,7 @@ interface TradingAdeptComponent {
                 dependencies = object : NewsDependencies {
                     override fun provideBasicApi() = get().basicApi
                     override fun provideRequestWrapper() = RequestWrapper()
+                    override fun provideNavigator() = NavigationComponent.get().screenNavigator
                 }
             )
 
