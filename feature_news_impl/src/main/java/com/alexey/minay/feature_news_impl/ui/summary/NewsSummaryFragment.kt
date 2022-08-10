@@ -1,13 +1,14 @@
 package com.alexey.minay.feature_news_impl.ui.summary
 
 import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.activity.addCallback
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.interpolator.view.animation.FastOutSlowInInterpolator
+import androidx.interpolator.view.animation.FastOutLinearInInterpolator
 import com.alexey.minay.core_navigation.Extras
 import com.alexey.minay.core_ui.onEachWithLifecycle
 import com.alexey.minay.core_ui.uiLazy
@@ -41,12 +42,23 @@ class NewsSummaryFragment : Fragment(R.layout.fragment_news_summary) {
         mBinding.itemGroup.root.transitionName = mNewsId
         super.onViewCreated(view, savedInstanceState)
         savedInstanceState ?: mViewModel.fetchNews(NewsId(mNewsId))
+        initCardView(savedInstanceState == null)
         initList()
         initButton()
         subscribeToViewModel()
 
         requireActivity().onBackPressedDispatcher.addCallback {
             mViewModel.openNewsList(Extras(mBinding.itemGroup.root))
+        }
+    }
+
+    private fun initCardView(isFirstLoading: Boolean) {
+        if (isFirstLoading) {
+            mBinding.infoCard.alpha = 0.1f
+            mBinding.infoCard.animate()
+                .setDuration(800)
+                .alpha(1f)
+                .start()
         }
     }
 
@@ -89,10 +101,11 @@ class NewsSummaryFragment : Fragment(R.layout.fragment_news_summary) {
 
     private fun buildContainerTransform(entering: Boolean) =
         MaterialContainerTransform(requireContext(), entering).apply {
-            interpolator = FastOutSlowInInterpolator()
+            interpolator = FastOutLinearInInterpolator()
             fadeMode = MaterialContainerTransform.FADE_MODE_OUT
-            duration = 300
+            duration = 600
             drawingViewId = R.id.itemGroup
+            scrimColor = Color.TRANSPARENT
         }
 
     companion object {

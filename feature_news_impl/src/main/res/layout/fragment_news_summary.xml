@@ -39,6 +39,7 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
+        android:id="@+id/infoCard"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="28dp"
         android:layout_marginTop="264dp"

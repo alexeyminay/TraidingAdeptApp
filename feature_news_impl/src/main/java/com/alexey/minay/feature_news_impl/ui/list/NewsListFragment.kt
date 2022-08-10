@@ -1,5 +1,6 @@
 package com.alexey.minay.feature_news_impl.ui.list
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
@@ -7,6 +8,7 @@ import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.alexey.minay.core_navigation.Extras
 import com.alexey.minay.core_ui.onEachWithLifecycle
 import com.alexey.minay.core_ui.uiLazy
@@ -14,6 +16,7 @@ import com.alexey.minay.core_ui.viewBindings
 import com.alexey.minay.feature_news_impl.R
 import com.alexey.minay.feature_news_impl.databinding.FragmentNewsListBinding
 import com.alexey.minay.feature_news_impl.di.NewsComponent
+import com.alexey.minay.feature_news_impl.domain.NewsId
 import com.alexey.minay.feature_news_impl.presentation.list.NewsListState
 import com.alexey.minay.feature_news_impl.presentation.list.NewsListViewModel
 import com.google.android.material.transition.MaterialContainerTransform
@@ -23,12 +26,14 @@ class NewsListFragment : Fragment(R.layout.fragment_news_list) {
 
     private val mBinding by viewBindings(FragmentNewsListBinding::bind)
     private val mAdapter by uiLazy {
-        NewsListAdapter(openNewsSummary = { id, view ->
-            mViewModel.openNewsSummary(id, Extras(view))
-        })
+        NewsListAdapter(::openNewsSummary)
     }
     private val mViewModel by viewModels<NewsListViewModel> {
         NewsComponent.get().viewModelProviderFactory
+    }
+
+    private fun openNewsSummary(id: NewsId, view: View) {
+        mViewModel.openNewsSummary(id, Extras(view))
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,7 +45,7 @@ class NewsListFragment : Fragment(R.layout.fragment_news_list) {
         super.onViewCreated(view, savedInstanceState)
         postponeEnterTransition()
         initSwipeRefreshLayout()
-        initList()
+        initList(savedInstanceState == null)
         subscribeToViewModel()
     }
 
@@ -52,8 +57,15 @@ class NewsListFragment : Fragment(R.layout.fragment_news_list) {
         }
     }
 
-    private fun initList() {
-        mBinding.quotes.adapter = mAdapter
+    private fun initList(isFirstLoading: Boolean) {
+        mBinding.newsList.adapter = mAdapter
+        if (isFirstLoading) {
+            mBinding.newsList.alpha = 0.3f
+            mBinding.newsList.animate()
+                .setDuration(600)
+                .alpha(1f)
+                .start()
+        }
     }
 
     private fun subscribeToViewModel() {
@@ -72,8 +84,9 @@ class NewsListFragment : Fragment(R.layout.fragment_news_list) {
         MaterialContainerTransform(requireContext(), entering).apply {
             interpolator = FastOutSlowInInterpolator()
             fadeMode = MaterialContainerTransform.FADE_MODE_OUT
-            duration = 300
+            duration = 600
             drawingViewId = R.id.card
+            scrimColor = Color.TRANSPARENT
         }
 
     companion object {
