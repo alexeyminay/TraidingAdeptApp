@@ -92,6 +92,7 @@ class NewsSummaryFragment : Fragment(R.layout.fragment_news_summary) {
             interpolator = FastOutSlowInInterpolator()
             fadeMode = MaterialContainerTransform.FADE_MODE_OUT
             duration = 300
+            drawingViewId = R.id.itemGroup
         }
 
     companion object {

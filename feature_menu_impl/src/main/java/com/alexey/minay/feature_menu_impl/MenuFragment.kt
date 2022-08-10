@@ -51,7 +51,10 @@ class MenuFragment : Fragment(R.layout.fragment_menu) {
         }
 
         childFragmentManager.commit {
-            pair.second?.let { addSharedElement(it.sharedView, it.sharedView.transitionName) }
+            pair.second?.let {
+                setReorderingAllowed(true)
+                addSharedElement(it.sharedView, it.sharedView.transitionName)
+            }
             replace(R.id.fragmentContainer, fragment, null)
         }
     }

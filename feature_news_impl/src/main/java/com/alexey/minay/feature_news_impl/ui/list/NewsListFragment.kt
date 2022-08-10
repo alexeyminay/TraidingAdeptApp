@@ -2,6 +2,8 @@ package com.alexey.minay.feature_news_impl.ui.list
 
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
+import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
@@ -59,11 +61,10 @@ class NewsListFragment : Fragment(R.layout.fragment_news_list) {
     }
 
     private fun render(state: NewsListState) {
-        if (state.items.isEmpty()) return
-        mAdapter.submitList(state.items) {
-            requireView().post {
-                startPostponedEnterTransition()
-            }
+        mAdapter.submitList(state.items)
+
+        (requireView().parent as? ViewGroup)?.doOnPreDraw {
+            startPostponedEnterTransition()
         }
     }
 
@@ -72,6 +73,7 @@ class NewsListFragment : Fragment(R.layout.fragment_news_list) {
             interpolator = FastOutSlowInInterpolator()
             fadeMode = MaterialContainerTransform.FADE_MODE_OUT
             duration = 300
+            drawingViewId = R.id.card
         }
 
     companion object {
