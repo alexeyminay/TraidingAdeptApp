@@ -1,18 +1,13 @@
 package com.alexey.minay.feature_navigation_impl
 
 sealed interface Screen {
-    class Menu(val item: MenuItem) : Screen {
-        companion object {
-            fun default() = Menu(item = MenuItem.QuotesList)
-        }
-    }
-
+    object Menu : Screen
     object OnBoarding : Screen
 
-    sealed interface MenuItem {
-        object QuotesList : MenuItem
-        object QuotesChart : MenuItem
-        object NewsList : MenuItem
-        class NewsSummary(val newsId: String) : MenuItem
+    sealed interface MenuItemScreen {
+        object QuotesList : MenuItemScreen
+        object QuotesChart : MenuItemScreen
+        object NewsList : MenuItemScreen
+        class NewsSummary(val newsId: String) : MenuItemScreen
     }
 }

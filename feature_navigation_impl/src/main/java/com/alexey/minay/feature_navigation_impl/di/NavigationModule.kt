@@ -1,6 +1,7 @@
 package com.alexey.minay.feature_navigation_impl.di
 
 import com.alexey.minay.core_dagger2.FeatureScope
+import com.alexey.minay.feature_navigation_impl.AppState
 import com.alexey.minay.feature_navigation_impl.Screen
 import dagger.Module
 import dagger.Provides
@@ -15,6 +16,6 @@ class NavigationModule {
     fun provideCoroutineScope(): CoroutineScope = CoroutineScope(Job())
 
     @Provides
-    fun provideInitScreen(): Screen = Screen.OnBoarding
+    fun provideInitAppState(): AppState = AppState.default()
 
 }

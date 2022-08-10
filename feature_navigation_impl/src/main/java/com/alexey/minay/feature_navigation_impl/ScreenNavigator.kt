@@ -1,6 +1,5 @@
 package com.alexey.minay.feature_navigation_impl
 
-import android.view.View
 import androidx.fragment.app.Fragment
 import com.alexey.minay.core_dagger2.FeatureScope
 import com.alexey.minay.core_navigation.Action
@@ -25,7 +24,7 @@ class ScreenNavigator @Inject constructor(
     private val onBoardingFragmentProvider: IOnBoardingFragmentProvider,
     private val menuFragmentProvider: IMenuFragmentProvider,
     private val reducer: ScreenReducer,
-    initialScreen: Screen
+    initialState: AppState
 ) : INavigator, IMenuFragmentFlowProvider {
 
     val mainFragmentFlow: Flow<Fragment>
@@ -34,7 +33,7 @@ class ScreenNavigator @Inject constructor(
     override val menuFragmentFlow: Flow<Pair<Fragment?, Extras?>>
         get() = mCurrentScreen.map { it.asMenuFragment() }
 
-    private val mCurrentScreen = MutableStateFlow(initialScreen)
+    private val mCurrentScreen = MutableStateFlow(initialState)
     private var mExtras: Extras? = null
 
     override fun perform(action: Action, extras: Extras?) {
@@ -44,24 +43,31 @@ class ScreenNavigator @Inject constructor(
         }
     }
 
-    private fun Screen.asMainFragment(): Fragment {
-        return when (this) {
+    private fun AppState.asMainFragment(): Fragment {
+        return when (screen) {
             is Screen.Menu -> menuFragmentProvider.provideMenuFragment()
             Screen.OnBoarding -> onBoardingFragmentProvider.provideOnBoardingFragment()
         }.exhaustive
     }
 
-    private fun Screen.asMenuFragment(): Pair<Fragment?, Extras?> =
-        when (this) {
-            is Screen.Menu -> when (item) {
-                is Screen.MenuItem.NewsList ->
-                    Pair(newsFragmentProvider.provideNewsListFragment(), mExtras)
-                Screen.MenuItem.QuotesChart ->
-                    Pair(quotesFragmentsProvider.provideChartFragment(), null)
-                Screen.MenuItem.QuotesList ->
+    private fun AppState.asMenuFragment(): Pair<Fragment?, Extras?> =
+        when (screen) {
+            is Screen.Menu -> when (mainMenuState.selectedItem) {
+                MainMenuState.MainMenuItem.QUOTES_LIST ->
                     Pair(quotesFragmentsProvider.provideQuotesListFragment(), null)
-                is Screen.MenuItem.NewsSummary ->
-                    Pair(newsFragmentProvider.provideNewsSummary(item.newsId), mExtras)
+                MainMenuState.MainMenuItem.QUOTES_CHART ->
+                    Pair(quotesFragmentsProvider.provideChartFragment(), null)
+                MainMenuState.MainMenuItem.NEWS_LIST ->
+                    when (val newsItemState = mainMenuState.news) {
+                        Screen.MenuItemScreen.NewsList ->
+                            Pair(newsFragmentProvider.provideNewsListFragment(), mExtras)
+                        is Screen.MenuItemScreen.NewsSummary ->
+                            Pair(
+                                newsFragmentProvider.provideNewsSummary(newsItemState.newsId),
+                                mExtras
+                            )
+                        else -> Pair(newsFragmentProvider.provideNewsListFragment(), null)
+                    }
             }
             else -> Pair(null, null)
         }.also { mExtras = null }

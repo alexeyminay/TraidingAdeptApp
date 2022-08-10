@@ -14,15 +14,15 @@ class MenuViewModel @Inject constructor(
     val menuFragmentFlow get() = menuFragmentFlowProvider.menuFragmentFlow
 
     fun openQuotesList() {
-        navigator.perform(Action.OpenQuotesList)
+        navigator.perform(Action.SelectQuotesListItem)
     }
 
     fun openQuotesChart() {
-        navigator.perform(Action.OpenQuotesChart)
+        navigator.perform(Action.SelectQuotesChartItem)
     }
 
     fun openNewsList() {
-        navigator.perform(Action.OpenNewsList)
+        navigator.perform(Action.SelectNewsListItem)
     }
 
 }

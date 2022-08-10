@@ -42,7 +42,7 @@ class TradingAdeptActivity : AppCompatActivity() {
         if(onBackPressedDispatcher.hasEnabledCallbacks()) {
             onBackPressedDispatcher.onBackPressed()
         } else {
-            mViewModel.onBackPressed()
+            super.onBackPressed()
         }
     }
 
