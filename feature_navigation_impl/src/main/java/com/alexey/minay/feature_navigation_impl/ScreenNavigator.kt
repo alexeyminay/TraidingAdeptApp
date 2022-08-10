@@ -4,6 +4,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import com.alexey.minay.core_dagger2.FeatureScope
 import com.alexey.minay.core_navigation.Action
+import com.alexey.minay.core_navigation.Extras
 import com.alexey.minay.core_navigation.IMenuFragmentFlowProvider
 import com.alexey.minay.core_navigation.INavigator
 import com.alexey.minay.core_utils.exhaustive
@@ -24,18 +25,20 @@ class ScreenNavigator @Inject constructor(
     private val onBoardingFragmentProvider: IOnBoardingFragmentProvider,
     private val menuFragmentProvider: IMenuFragmentProvider,
     private val reducer: ScreenReducer,
-    initScreen: Screen
+    initialScreen: Screen
 ) : INavigator, IMenuFragmentFlowProvider {
 
     val mainFragmentFlow: Flow<Fragment>
         get() = mCurrentScreen.map { it.asMainFragment() }
 
-    override val menuFragmentFlow: Flow<Pair<Fragment?, View?>>
+    override val menuFragmentFlow: Flow<Pair<Fragment?, Extras?>>
         get() = mCurrentScreen.map { it.asMenuFragment() }
 
-    private val mCurrentScreen = MutableStateFlow(initScreen)
+    private val mCurrentScreen = MutableStateFlow(initialScreen)
+    private var mExtras: Extras? = null
 
-    override fun perform(action: Action) {
+    override fun perform(action: Action, extras: Extras?) {
+        mExtras = extras
         with(reducer) {
             mCurrentScreen.modify { reduce(action) }
         }
@@ -48,16 +51,19 @@ class ScreenNavigator @Inject constructor(
         }.exhaustive
     }
 
-    private fun Screen.asMenuFragment(): Pair<Fragment?, View?> =
+    private fun Screen.asMenuFragment(): Pair<Fragment?, Extras?> =
         when (this) {
             is Screen.Menu -> when (item) {
-                Screen.MenuItem.NewsList -> Pair(newsFragmentProvider.provideNewsFragment(), null)
-                Screen.MenuItem.QuotesChart -> Pair(quotesFragmentsProvider.provideChartFragment(), null)
-                Screen.MenuItem.QuotesList -> Pair(quotesFragmentsProvider.provideQuotesListFragment(), null)
+                is Screen.MenuItem.NewsList ->
+                    Pair(newsFragmentProvider.provideNewsListFragment(), mExtras)
+                Screen.MenuItem.QuotesChart ->
+                    Pair(quotesFragmentsProvider.provideChartFragment(), null)
+                Screen.MenuItem.QuotesList ->
+                    Pair(quotesFragmentsProvider.provideQuotesListFragment(), null)
                 is Screen.MenuItem.NewsSummary ->
-                    Pair(newsFragmentProvider.provideNewsSummary(item.newsId), item.sharedView)
+                    Pair(newsFragmentProvider.provideNewsSummary(item.newsId), mExtras)
             }
             else -> Pair(null, null)
-        }
+        }.also { mExtras = null }
 
 }

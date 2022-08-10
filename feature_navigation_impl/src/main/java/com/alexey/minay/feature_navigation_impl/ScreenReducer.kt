@@ -8,7 +8,7 @@ class ScreenReducer @Inject constructor() {
     fun Screen.reduce(action: Action) = when (action) {
         Action.OpenMenu -> reduceOpenMenu()
         Action.Back -> reduceBack()
-        Action.OpenNews -> reduceOpenNews(action)
+        is Action.OpenNewsList -> reduceOpenNewsList(action)
         Action.OpenQuotesChart -> reduceOpenQuotesChart(action)
         Action.OpenQuotesList -> reduceOpenQuotesList(action)
         is Action.OpenNewsSummary -> reduceOpenNewsSummary(action)
@@ -23,7 +23,7 @@ class ScreenReducer @Inject constructor() {
     private fun Screen.reduceBack() =
         when (this) {
             is Screen.Menu -> when (item) {
-                Screen.MenuItem.NewsList,
+                is Screen.MenuItem.NewsList,
                 Screen.MenuItem.QuotesChart -> Screen.Menu(Screen.MenuItem.QuotesList)
                 Screen.MenuItem.QuotesList -> TODO()
                 is Screen.MenuItem.NewsSummary -> Screen.Menu(Screen.MenuItem.NewsList)
@@ -31,13 +31,14 @@ class ScreenReducer @Inject constructor() {
             Screen.OnBoarding -> TODO()
         }
 
-    private fun Screen.reduceOpenNews(action: Action) =
+    private fun Screen.reduceOpenNewsList(action: Action.OpenNewsList) =
         when (this) {
             is Screen.Menu -> when (item) {
-                Screen.MenuItem.NewsList -> this
+                is Screen.MenuItem.NewsList -> this
                 Screen.MenuItem.QuotesChart,
-                Screen.MenuItem.QuotesList -> Screen.Menu(Screen.MenuItem.NewsList)
-                is Screen.MenuItem.NewsSummary -> TODO()
+                Screen.MenuItem.QuotesList,
+                is Screen.MenuItem.NewsSummary ->
+                    Screen.Menu(Screen.MenuItem.NewsList)
             }
             else -> throw NotSupportedPathException(this, action)
         }
@@ -46,9 +47,9 @@ class ScreenReducer @Inject constructor() {
         when (this) {
             is Screen.Menu -> when (item) {
                 Screen.MenuItem.QuotesChart -> this
-                Screen.MenuItem.NewsList,
-                Screen.MenuItem.QuotesList -> Screen.Menu(Screen.MenuItem.QuotesChart)
-                is Screen.MenuItem.NewsSummary -> TODO()
+                is Screen.MenuItem.NewsList,
+                Screen.MenuItem.QuotesList,
+                is Screen.MenuItem.NewsSummary -> Screen.Menu(Screen.MenuItem.QuotesChart)
             }
             else -> throw NotSupportedPathException(this, action)
         }
@@ -57,25 +58,22 @@ class ScreenReducer @Inject constructor() {
         when (this) {
             is Screen.Menu -> when (item) {
                 Screen.MenuItem.QuotesList -> this
-                Screen.MenuItem.NewsList,
-                Screen.MenuItem.QuotesChart -> Screen.Menu(Screen.MenuItem.QuotesList)
-                is Screen.MenuItem.NewsSummary -> TODO()
+                is Screen.MenuItem.NewsList,
+                Screen.MenuItem.QuotesChart,
+                is Screen.MenuItem.NewsSummary -> Screen.Menu(Screen.MenuItem.QuotesList)
             }
             else -> throw NotSupportedPathException(this, action)
         }
 
-    private fun Screen.reduceOpenNewsSummary(action: Action) =
+    private fun Screen.reduceOpenNewsSummary(action: Action.OpenNewsSummary) =
         when (this) {
             is Screen.Menu -> when (item) {
                 Screen.MenuItem.QuotesChart,
                 is Screen.MenuItem.NewsSummary,
                 Screen.MenuItem.QuotesList -> throw NotSupportedPathException(this, action)
-                Screen.MenuItem.NewsList -> when (action) {
-                    is Action.OpenNewsSummary -> Screen.Menu(
-                        Screen.MenuItem.NewsSummary(action.newsId, action.sharedView)
-                    )
-                    else -> throw NotSupportedPathException(this, action)
-                }
+                is Screen.MenuItem.NewsList -> Screen.Menu(
+                    Screen.MenuItem.NewsSummary(action.newsId)
+                )
             }
             Screen.OnBoarding -> throw NotSupportedPathException(this, action)
         }

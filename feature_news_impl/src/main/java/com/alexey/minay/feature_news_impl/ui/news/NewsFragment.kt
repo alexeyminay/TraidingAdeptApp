@@ -8,7 +8,7 @@ class NewsFragment : Fragment(R.layout.fragment_news) {
 
 
     companion object {
-        fun newInstance() = NewsListFragment()
+        fun newInstance() = NewsFragment()
     }
 
 }

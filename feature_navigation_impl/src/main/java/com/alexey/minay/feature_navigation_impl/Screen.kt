@@ -1,7 +1,5 @@
 package com.alexey.minay.feature_navigation_impl
 
-import android.view.View
-
 sealed interface Screen {
     class Menu(val item: MenuItem) : Screen {
         companion object {
@@ -15,6 +13,6 @@ sealed interface Screen {
         object QuotesList : MenuItem
         object QuotesChart : MenuItem
         object NewsList : MenuItem
-        class NewsSummary(val newsId: String, val sharedView: View) : MenuItem
+        class NewsSummary(val newsId: String) : MenuItem
     }
 }

@@ -1,8 +1,8 @@
 package com.alexey.minay.feature_news_impl.presentation.list
 
-import android.view.View
 import androidx.lifecycle.viewModelScope
 import com.alexey.minay.core_navigation.Action
+import com.alexey.minay.core_navigation.Extras
 import com.alexey.minay.core_navigation.INavigator
 import com.alexey.minay.core_ui.SingleStateViewModel
 import com.alexey.minay.core_utils.Result
@@ -47,8 +47,8 @@ class NewsListViewModel @Inject constructor(
         }
     }
 
-    fun openNewsSummary(newsId: NewsId, sharedView: View) {
-        navigator.perform(Action.OpenNewsSummary(newsId.value, sharedView))
+    fun openNewsSummary(newsId: NewsId, extras: Extras) {
+        navigator.perform(Action.OpenNewsSummary(newsId.value), extras)
     }
 
 }

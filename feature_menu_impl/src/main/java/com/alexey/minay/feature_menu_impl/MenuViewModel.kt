@@ -21,8 +21,8 @@ class MenuViewModel @Inject constructor(
         navigator.perform(Action.OpenQuotesChart)
     }
 
-    fun openQuotesNews() {
-        navigator.perform(Action.OpenNews)
+    fun openNewsList() {
+        navigator.perform(Action.OpenNewsList)
     }
 
 }

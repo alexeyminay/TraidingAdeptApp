@@ -3,12 +3,12 @@ package com.alexey.minay.feature_news_impl.ui.summary
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
+import com.alexey.minay.core_navigation.Extras
 import com.alexey.minay.core_ui.onEachWithLifecycle
 import com.alexey.minay.core_ui.uiLazy
 import com.alexey.minay.core_ui.viewBindings
@@ -46,7 +46,7 @@ class NewsSummaryFragment : Fragment(R.layout.fragment_news_summary) {
         subscribeToViewModel()
 
         requireActivity().onBackPressedDispatcher.addCallback {
-            Toast.makeText(requireContext(), "asdf", Toast.LENGTH_SHORT).show()
+            mViewModel.openNewsList(Extras(mBinding.itemGroup.root))
         }
     }
 
@@ -89,17 +89,14 @@ class NewsSummaryFragment : Fragment(R.layout.fragment_news_summary) {
 
     private fun buildContainerTransform(entering: Boolean) =
         MaterialContainerTransform(requireContext(), entering).apply {
-            drawingViewId = com.alexey.minay.feature_menu_impl.R.id.fragmentContainer
             interpolator = FastOutSlowInInterpolator()
-//            containerColor = MaterialColors
-//                .getColor(requireActivity().findViewById(android.R.id.content), R.attr.colorSurface)
             fadeMode = MaterialContainerTransform.FADE_MODE_OUT
             duration = 300
         }
 
     companion object {
-        private const val NEWS_ID = "new_id"
 
+        private const val NEWS_ID = "new_id"
         fun newInstance(id: String) = NewsSummaryFragment().withArgs {
             putString(NEWS_ID, id)
         }

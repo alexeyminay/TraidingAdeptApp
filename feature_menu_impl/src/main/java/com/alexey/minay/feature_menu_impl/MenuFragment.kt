@@ -5,7 +5,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
-import com.alexey.minay.core_ui.distinctUntilFragmentChanged
+import com.alexey.minay.core_navigation.Extras
 import com.alexey.minay.core_ui.onEachWithLifecycle
 import com.alexey.minay.feature_menu_impl.di.MenuComponentHolder
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -28,7 +28,7 @@ class MenuFragment : Fragment(R.layout.fragment_menu) {
             when (it.itemId) {
                 R.id.quotes -> mViewModel.openQuotesList()
                 R.id.chart -> mViewModel.openQuotesChart()
-                R.id.news -> mViewModel.openQuotesNews()
+                R.id.news -> mViewModel.openNewsList()
             }
 
             return@setOnItemSelectedListener true
@@ -43,7 +43,7 @@ class MenuFragment : Fragment(R.layout.fragment_menu) {
         }
     }
 
-    private fun openFragment(pair: Pair<Fragment?, View?>) {
+    private fun openFragment(pair: Pair<Fragment?, Extras?>) {
         val fragment = pair.first
         if (fragment == null) {
             childFragmentManager.popBackStack()
@@ -51,7 +51,7 @@ class MenuFragment : Fragment(R.layout.fragment_menu) {
         }
 
         childFragmentManager.commit {
-            pair.second?.let { addSharedElement(it, it.transitionName) }
+            pair.second?.let { addSharedElement(it.sharedView, it.sharedView.transitionName) }
             replace(R.id.fragmentContainer, fragment, null)
         }
     }
