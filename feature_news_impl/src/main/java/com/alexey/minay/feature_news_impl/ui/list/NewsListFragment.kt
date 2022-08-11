@@ -8,7 +8,6 @@ import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.alexey.minay.core_navigation.Extras
 import com.alexey.minay.core_ui.onEachWithLifecycle
 import com.alexey.minay.core_ui.uiLazy
@@ -33,7 +32,8 @@ class NewsListFragment : Fragment(R.layout.fragment_news_list) {
     }
 
     private fun openNewsSummary(id: NewsId, view: View) {
-        mViewModel.openNewsSummary(id, Extras(view))
+        val scrollState = mBinding.newsList.layoutManager?.onSaveInstanceState()
+        mViewModel.openNewsSummary(id, Extras(view), scrollState)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,6 +47,11 @@ class NewsListFragment : Fragment(R.layout.fragment_news_list) {
         initSwipeRefreshLayout()
         initList(savedInstanceState == null)
         subscribeToViewModel()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        mViewModel.saveScrollState(mBinding.newsList.layoutManager?.onSaveInstanceState())
     }
 
     private fun initSwipeRefreshLayout() = with(mBinding) {
@@ -76,6 +81,7 @@ class NewsListFragment : Fragment(R.layout.fragment_news_list) {
         mAdapter.submitList(state.items)
 
         (requireView().parent as? ViewGroup)?.doOnPreDraw {
+            mBinding.newsList.layoutManager?.onRestoreInstanceState(state.scrollState)
             startPostponedEnterTransition()
         }
     }

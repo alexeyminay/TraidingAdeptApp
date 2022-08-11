@@ -1,5 +1,6 @@
 package com.alexey.minay.feature_news_impl.presentation.list
 
+import android.os.Parcelable
 import androidx.lifecycle.viewModelScope
 import com.alexey.minay.core_navigation.Action
 import com.alexey.minay.core_navigation.Extras
@@ -14,8 +15,8 @@ import javax.inject.Inject
 class NewsListViewModel @Inject constructor(
     private val newsRepository: INewsRepository,
     private val navigator: INavigator,
-    initialState: NewsListState
-) : SingleStateViewModel<NewsListState, Nothing>(initialState) {
+    private val stateHolder: NewsListStateHolder
+) : SingleStateViewModel<NewsListState, Nothing>(stateHolder.state) {
 
     init {
         fetch()
@@ -47,8 +48,18 @@ class NewsListViewModel @Inject constructor(
         }
     }
 
-    fun openNewsSummary(newsId: NewsId, extras: Extras) {
+    fun openNewsSummary(newsId: NewsId, extras: Extras, scrollState: Parcelable?) {
+        saveScrollState(scrollState)
         navigator.perform(Action.OpenNewsSummary(newsId.value), extras)
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        stateHolder.state = state.value
+    }
+
+    fun saveScrollState(scrollState: Parcelable?) {
+        modify { copy(scrollState = scrollState) }
     }
 
 }
