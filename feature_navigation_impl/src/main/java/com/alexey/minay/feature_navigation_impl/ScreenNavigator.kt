@@ -47,6 +47,7 @@ class ScreenNavigator @Inject constructor(
         return when (screen) {
             is Screen.Menu -> menuFragmentProvider.provideMenuFragment()
             Screen.OnBoarding -> onBoardingFragmentProvider.provideOnBoardingFragment()
+            is Screen.News -> newsFragmentProvider.provideNewsFragment(screen.url, screen.newsId)
         }.exhaustive
     }
 

@@ -18,8 +18,8 @@ import com.alexey.minay.feature_news_impl.R
 import com.alexey.minay.feature_news_impl.databinding.FragmentNewsSummaryBinding
 import com.alexey.minay.feature_news_impl.di.NewsComponent
 import com.alexey.minay.feature_news_impl.domain.NewsId
-import com.alexey.minay.feature_news_impl.presentation.news.NewsSummaryState
-import com.alexey.minay.feature_news_impl.presentation.news.NewsSummaryViewModel
+import com.alexey.minay.feature_news_impl.presentation.summary.NewsSummaryState
+import com.alexey.minay.feature_news_impl.presentation.summary.NewsSummaryViewModel
 import com.bumptech.glide.Glide
 import com.google.android.material.transition.MaterialContainerTransform
 import com.alexey.minay.core_ui.R as CoreUiR
@@ -68,10 +68,13 @@ class NewsSummaryFragment : Fragment(R.layout.fragment_news_summary) {
     }
 
     private fun initButton() = with(mBinding) {
-        button.refreshButton.backgroundTintList = ColorStateList.valueOf(
+        buttonGroup.button.backgroundTintList = ColorStateList.valueOf(
             ContextCompat.getColor(requireContext(), CoreUiR.color.cardBackground)
         )
-        button.refreshButton.text = getText(CoreUiR.string.open_news)
+        buttonGroup.button.text = getText(CoreUiR.string.open_news)
+        buttonGroup.button.setOnClickListener {
+            mViewModel.openNews()
+        }
     }
 
     private fun subscribeToViewModel() {

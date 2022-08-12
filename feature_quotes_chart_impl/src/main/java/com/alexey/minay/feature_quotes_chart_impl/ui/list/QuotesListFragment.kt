@@ -44,7 +44,7 @@ class QuotesListFragment : Fragment(R.layout.fragment_list) {
     }
 
     private fun initEmptyListButton() {
-        mBinding.emptyGroup.refreshButton.setOnClickListener {
+        mBinding.emptyGroup.button.setOnClickListener {
             store.accept(QuotesAction.RefreshQuotesList)
         }
     }

@@ -109,7 +109,7 @@
                 tools:listitem="@layout/item_ticker" />
 
             <include
-                android:id="@+id/button"
+                android:id="@+id/buttonGroup"
                 layout="@layout/lay_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

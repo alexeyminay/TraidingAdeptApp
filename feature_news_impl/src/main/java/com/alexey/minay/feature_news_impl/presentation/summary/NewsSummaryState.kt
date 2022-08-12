@@ -1,4 +1,4 @@
-package com.alexey.minay.feature_news_impl.presentation.news
+package com.alexey.minay.feature_news_impl.presentation.summary
 
 import com.alexey.minay.feature_news_impl.domain.News
 

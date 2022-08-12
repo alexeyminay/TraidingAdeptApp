@@ -19,7 +19,11 @@ class NewsListViewModel @Inject constructor(
 ) : SingleStateViewModel<NewsListState, Nothing>(stateHolder.state) {
 
     init {
-        fetch()
+        when (stateHolder.state.type) {
+            NewsListState.Type.INIT,
+            NewsListState.Type.EMPTY -> fetch()
+            else -> Unit
+        }
     }
 
     fun refresh() {
@@ -40,10 +44,14 @@ class NewsListViewModel @Inject constructor(
                                 thumbnailUrl = news.thumbnailUrl
                             )
                         },
-                        isRefreshing = false
+                        isRefreshing = false,
+                        type = when (items.isEmpty()) {
+                            true -> NewsListState.Type.EMPTY
+                            false -> NewsListState.Type.DATA
+                        }
                     )
                 }
-                is Result.Error -> Unit
+                is Result.Error -> NewsListState.Type.EMPTY
             }
         }
     }

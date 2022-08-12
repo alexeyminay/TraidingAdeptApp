@@ -12,12 +12,14 @@ class ScreenReducer @Inject constructor() {
         Action.SelectQuotesListItem -> reduceSelectQuotesListItem()
         is Action.OpenNewsSummary -> reduceOpenNewsSummary(action)
         Action.OpenNewsList -> reduceOpenNewsList()
+        is Action.OpenNews -> reduceOpenNews(action)
     }
 
     private fun AppState.reduceOpenMenu() =
         when (this.screen) {
             is Screen.Menu -> this
-            Screen.OnBoarding -> copy(screen = Screen.Menu)
+            Screen.OnBoarding,
+            is Screen.News -> copy(screen = Screen.Menu)
         }
 
     private fun AppState.reduceSelectNewsListIItem() =
@@ -31,6 +33,7 @@ class ScreenReducer @Inject constructor() {
 
     private fun AppState.reduceOpenNewsSummary(action: Action.OpenNewsSummary) =
         copy(
+            screen = Screen.Menu,
             mainMenuState = mainMenuState.copy(
                 selectedItem = MainMenuState.MainMenuItem.NEWS_LIST,
                 news = Screen.MenuItemScreen.NewsSummary(action.newsId)
@@ -44,5 +47,12 @@ class ScreenReducer @Inject constructor() {
                 news = Screen.MenuItemScreen.NewsList
             )
         )
+
+    private fun AppState.reduceOpenNews(action: Action.OpenNews) =
+        when (this.screen) {
+            is Screen.News -> this
+            Screen.OnBoarding,
+            Screen.Menu -> copy(screen = Screen.News(action.url, action.newsId))
+        }
 
 }

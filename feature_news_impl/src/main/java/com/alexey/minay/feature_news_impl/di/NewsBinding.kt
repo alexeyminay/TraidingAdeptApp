@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import com.alexey.minay.core_dagger2.ViewModelKey
 import com.alexey.minay.feature_news_impl.data.NewsRepository
 import com.alexey.minay.feature_news_impl.domain.INewsRepository
-import com.alexey.minay.feature_news_impl.presentation.news.NewsSummaryViewModel
-import com.alexey.minay.feature_news_impl.presentation.summary.NewsViewModel
+import com.alexey.minay.feature_news_impl.presentation.summary.NewsSummaryViewModel
+import com.alexey.minay.feature_news_impl.presentation.news.NewsViewModel
 import com.alexey.minay.feature_news_impl.presentation.list.NewsListViewModel
 import dagger.Binds
 import dagger.Module

@@ -1,4 +1,4 @@
-package com.alexey.minay.feature_news_impl.presentation.news
+package com.alexey.minay.feature_news_impl.presentation.summary
 
 import com.alexey.minay.core_navigation.Action
 import com.alexey.minay.core_navigation.Extras
@@ -25,6 +25,10 @@ class NewsSummaryViewModel @Inject constructor(
 
     fun openNewsList(extras: Extras) {
         navigator.perform(Action.OpenNewsList, extras)
+    }
+
+    fun openNews() {
+        state.value.news?.let { navigator.perform(Action.OpenNews(it.url, it.uid.value)) }
     }
 
 }

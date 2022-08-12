@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.doOnPreDraw
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
@@ -46,6 +47,7 @@ class NewsListFragment : Fragment(R.layout.fragment_news_list) {
         postponeEnterTransition()
         initSwipeRefreshLayout()
         initList(savedInstanceState == null)
+        initButton()
         subscribeToViewModel()
     }
 
@@ -73,11 +75,47 @@ class NewsListFragment : Fragment(R.layout.fragment_news_list) {
         }
     }
 
+    private fun initButton() {
+        mBinding.emptyGroup.button.setOnClickListener {
+            mViewModel.refresh()
+        }
+    }
+
     private fun subscribeToViewModel() {
         mViewModel.state.onEachWithLifecycle(viewLifecycleOwner, ::render)
     }
 
     private fun render(state: NewsListState) {
+        renderType(state.type)
+        renderSwipeRefresher(state.isRefreshing)
+        renderList(state)
+    }
+
+    private fun renderType(type: NewsListState.Type) = with(mBinding) {
+        when (type) {
+            NewsListState.Type.INIT -> {
+                newsList.isVisible = false
+                loadingGroup.root.isVisible = true
+                emptyGroup.root.isVisible = false
+            }
+            NewsListState.Type.DATA -> {
+                newsList.isVisible = true
+                loadingGroup.root.isVisible = false
+                emptyGroup.root.isVisible = false
+            }
+            NewsListState.Type.EMPTY -> {
+                newsList.isVisible = false
+                loadingGroup.root.isVisible = false
+                emptyGroup.root.isVisible = true
+            }
+        }
+    }
+
+    private fun renderSwipeRefresher(isRefreshing: Boolean) {
+        mBinding.swipeRefreshLayout.isRefreshing = isRefreshing
+    }
+
+    private fun renderList(state: NewsListState) {
         mAdapter.submitList(state.items)
 
         (requireView().parent as? ViewGroup)?.doOnPreDraw {
