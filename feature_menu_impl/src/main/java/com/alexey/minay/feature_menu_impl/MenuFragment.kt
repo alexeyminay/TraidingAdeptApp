@@ -5,10 +5,17 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.alexey.minay.core_navigation.Extras
+import com.alexey.minay.core_navigation.MainMenuItem
 import com.alexey.minay.core_ui.onEachWithLifecycle
+import com.alexey.minay.core_ui.viewBindings
+import com.alexey.minay.feature_menu_impl.databinding.FragmentMenuBinding
 import com.alexey.minay.feature_menu_impl.di.MenuComponentHolder
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 
 class MenuFragment : Fragment(R.layout.fragment_menu) {
 
@@ -16,6 +23,7 @@ class MenuFragment : Fragment(R.layout.fragment_menu) {
     private val mViewModel by viewModels<MenuViewModel> {
         mComponentHolder.component.viewModelProviderFactory
     }
+    private val mBinding by viewBindings(FragmentMenuBinding::bind)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -24,7 +32,7 @@ class MenuFragment : Fragment(R.layout.fragment_menu) {
     }
 
     private fun initMenu() {
-        requireView().findViewById<BottomNavigationView>(R.id.menu).setOnItemSelectedListener {
+        mBinding.menu.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.quotes -> mViewModel.openQuotesList()
                 R.id.chart -> mViewModel.openQuotesChart()
@@ -37,9 +45,18 @@ class MenuFragment : Fragment(R.layout.fragment_menu) {
 
     private fun subscribeToViewModel() {
         mViewModel.menuFragmentFlow
-            //.distinctUntilFragmentChanged()
             .onEachWithLifecycle(viewLifecycleOwner) {
-            openFragment(it)
+                openFragment(it)
+            }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                val menuItem = mViewModel.selectedMenuItem.first()
+                mBinding.menu.selectedItemId = when (menuItem) {
+                    MainMenuItem.QUOTES_LIST -> R.id.quotes
+                    MainMenuItem.QUOTES_CHART -> R.id.chart
+                    MainMenuItem.NEWS_LIST -> R.id.news
+                }
+            }
         }
     }
 

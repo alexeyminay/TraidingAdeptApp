@@ -1,5 +1,7 @@
 package com.alexey.minay.feature_navigation_impl
 
+import com.alexey.minay.core_navigation.MainMenuItem
+
 data class AppState(
     val screen: Screen,
     val mainMenuState: MainMenuState
@@ -27,9 +29,4 @@ data class MainMenuState(
         )
     }
 
-    enum class MainMenuItem {
-        QUOTES_LIST,
-        QUOTES_CHART,
-        NEWS_LIST
-    }
 }

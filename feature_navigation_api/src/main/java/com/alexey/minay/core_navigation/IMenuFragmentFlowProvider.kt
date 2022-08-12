@@ -5,4 +5,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface IMenuFragmentFlowProvider {
     val menuFragmentFlow: Flow<Pair<Fragment?, Extras?>>
+    val selectedMenuItemFlow: Flow<MainMenuItem>
 }

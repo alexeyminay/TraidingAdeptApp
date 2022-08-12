@@ -2,10 +2,7 @@ package com.alexey.minay.feature_navigation_impl
 
 import androidx.fragment.app.Fragment
 import com.alexey.minay.core_dagger2.FeatureScope
-import com.alexey.minay.core_navigation.Action
-import com.alexey.minay.core_navigation.Extras
-import com.alexey.minay.core_navigation.IMenuFragmentFlowProvider
-import com.alexey.minay.core_navigation.INavigator
+import com.alexey.minay.core_navigation.*
 import com.alexey.minay.core_utils.exhaustive
 import com.alexey.minay.core_utils.modify
 import com.alexey.minay.feature_menu_api.IMenuFragmentProvider
@@ -33,6 +30,9 @@ class ScreenNavigator @Inject constructor(
     override val menuFragmentFlow: Flow<Pair<Fragment?, Extras?>>
         get() = mCurrentScreen.map { it.asMenuFragment() }
 
+    override val selectedMenuItemFlow: Flow<MainMenuItem>
+        get() = mCurrentScreen.map { it.mainMenuState.selectedItem }
+
     private val mCurrentScreen = MutableStateFlow(initialState)
     private var mExtras: Extras? = null
 
@@ -54,11 +54,11 @@ class ScreenNavigator @Inject constructor(
     private fun AppState.asMenuFragment(): Pair<Fragment?, Extras?> =
         when (screen) {
             is Screen.Menu -> when (mainMenuState.selectedItem) {
-                MainMenuState.MainMenuItem.QUOTES_LIST ->
+                MainMenuItem.QUOTES_LIST ->
                     Pair(quotesFragmentsProvider.provideQuotesListFragment(), null)
-                MainMenuState.MainMenuItem.QUOTES_CHART ->
+                MainMenuItem.QUOTES_CHART ->
                     Pair(quotesFragmentsProvider.provideChartFragment(), null)
-                MainMenuState.MainMenuItem.NEWS_LIST ->
+                MainMenuItem.NEWS_LIST ->
                     when (val newsItemState = mainMenuState.news) {
                         Screen.MenuItemScreen.NewsList ->
                             Pair(newsFragmentProvider.provideNewsListFragment(), mExtras)

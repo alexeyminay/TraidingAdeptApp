@@ -1,6 +1,7 @@
 package com.alexey.minay.feature_navigation_impl
 
 import com.alexey.minay.core_navigation.Action
+import com.alexey.minay.core_navigation.MainMenuItem
 import javax.inject.Inject
 
 class ScreenReducer @Inject constructor() {
@@ -23,19 +24,19 @@ class ScreenReducer @Inject constructor() {
         }
 
     private fun AppState.reduceSelectNewsListIItem() =
-        copy(mainMenuState = mainMenuState.copy(selectedItem = MainMenuState.MainMenuItem.NEWS_LIST))
+        copy(mainMenuState = mainMenuState.copy(selectedItem = MainMenuItem.NEWS_LIST))
 
     private fun AppState.reduceNewsQuotesChartItem() =
-        copy(mainMenuState = mainMenuState.copy(selectedItem = MainMenuState.MainMenuItem.QUOTES_CHART))
+        copy(mainMenuState = mainMenuState.copy(selectedItem = MainMenuItem.QUOTES_CHART))
 
     private fun AppState.reduceSelectQuotesListItem() =
-        copy(mainMenuState = mainMenuState.copy(selectedItem = MainMenuState.MainMenuItem.QUOTES_LIST))
+        copy(mainMenuState = mainMenuState.copy(selectedItem = MainMenuItem.QUOTES_LIST))
 
     private fun AppState.reduceOpenNewsSummary(action: Action.OpenNewsSummary) =
         copy(
             screen = Screen.Menu,
             mainMenuState = mainMenuState.copy(
-                selectedItem = MainMenuState.MainMenuItem.NEWS_LIST,
+                selectedItem = MainMenuItem.NEWS_LIST,
                 news = Screen.MenuItemScreen.NewsSummary(action.newsId)
             )
         )
@@ -43,7 +44,7 @@ class ScreenReducer @Inject constructor() {
     private fun AppState.reduceOpenNewsList() =
         copy(
             mainMenuState = mainMenuState.copy(
-                selectedItem = MainMenuState.MainMenuItem.NEWS_LIST,
+                selectedItem = MainMenuItem.NEWS_LIST,
                 news = Screen.MenuItemScreen.NewsList
             )
         )

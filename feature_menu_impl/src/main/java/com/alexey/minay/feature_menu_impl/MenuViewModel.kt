@@ -12,6 +12,7 @@ class MenuViewModel @Inject constructor(
 ): SingleStateViewModel<Unit, Nothing>(Unit) {
 
     val menuFragmentFlow get() = menuFragmentFlowProvider.menuFragmentFlow
+    val selectedMenuItem get() = menuFragmentFlowProvider.selectedMenuItemFlow
 
     fun openQuotesList() {
         navigator.perform(Action.SelectQuotesListItem)
