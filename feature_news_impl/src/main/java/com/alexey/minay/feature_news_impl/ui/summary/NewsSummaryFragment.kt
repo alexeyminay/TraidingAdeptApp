@@ -20,6 +20,7 @@ import com.alexey.minay.feature_news_impl.di.NewsComponent
 import com.alexey.minay.feature_news_impl.domain.NewsId
 import com.alexey.minay.feature_news_impl.presentation.summary.NewsSummaryState
 import com.alexey.minay.feature_news_impl.presentation.summary.NewsSummaryViewModel
+import com.alexey.minay.feature_news_impl.ui.SentimentLabelMapper
 import com.bumptech.glide.Glide
 import com.google.android.material.transition.MaterialContainerTransform
 import com.alexey.minay.core_ui.R as CoreUiR
@@ -100,6 +101,13 @@ class NewsSummaryFragment : Fragment(R.layout.fragment_news_summary) {
             .error(R.drawable.ic_default_thumbnail)
             .into(itemGroup.image)
         mAdapter.submitList(state.news?.tickers ?: emptyList())
+        state.news?.overallSentimentLabel?.let {
+            SentimentLabelMapper.map(
+                sentimentLabel = it,
+                icon = itemGroup.icon,
+                subIcon = itemGroup.subIcon
+            )
+        }
     }
 
     private fun buildContainerTransform(entering: Boolean) =

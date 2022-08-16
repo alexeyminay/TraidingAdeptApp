@@ -2,12 +2,12 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="16dp"
-    android:id="@+id/card"
-    app:cardElevation="16dp"
-    android:layout_marginTop="16dp">
+    android:layout_marginTop="16dp"
+    app:cardElevation="16dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -51,37 +51,38 @@
 
         <ImageView
             android:id="@+id/icon"
-            app:layout_constraintStart_toStartOf="@id/title"
-            app:layout_constraintTop_toBottomOf="@id/title"
-            android:layout_marginTop="8dp"
-            android:src="@drawable/ic_bull"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_bull"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toStartOf="@id/subTitle"
+            app:layout_constraintBottom_toBottomOf="@id/subTitle"
+            app:layout_constraintStart_toStartOf="@id/title"
+            app:layout_constraintTop_toTopOf="@id/subTitle" />
 
         <ImageView
             android:id="@+id/subIcon"
-            app:layout_constraintStart_toStartOf="@id/icon"
-            app:layout_constraintBottom_toBottomOf="@id/icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            android:layout_marginStart="8dp"
             android:src="@drawable/ic_fire"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            app:layout_constraintBottom_toBottomOf="@id/icon"
+            app:layout_constraintStart_toStartOf="@id/icon" />
 
         <TextView
             android:id="@+id/subTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:ellipsize="end"
             android:maxLines="1"
             android:textColor="#FFF"
             android:textSize="12sp"
-            android:layout_marginStart="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/icon"
-            app:layout_constraintTop_toTopOf="@id/icon"
-            app:layout_constraintBottom_toBottomOf="@id/icon"
+            app:layout_constraintTop_toBottomOf="@id/title"
             tools:text="Apple, Twitter And 2 Other Big Stocks Insiders Are Selling " />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

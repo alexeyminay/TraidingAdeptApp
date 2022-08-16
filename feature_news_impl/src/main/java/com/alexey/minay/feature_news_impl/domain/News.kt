@@ -11,5 +11,5 @@ data class News(
     val sourceDomain: String,
     val topics: List<Topic>,
     val tickers: List<Ticker>,
-    val overallSentimentLabel: String
+    val overallSentimentLabel: SentimentLabel
 )

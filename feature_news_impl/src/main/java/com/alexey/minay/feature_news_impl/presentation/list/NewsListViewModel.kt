@@ -41,7 +41,8 @@ class NewsListViewModel @Inject constructor(
                                 title = news.title,
                                 summary = news.summary,
                                 id = news.uid,
-                                thumbnailUrl = news.thumbnailUrl
+                                thumbnailUrl = news.thumbnailUrl,
+                                sentimentLabel = news.overallSentimentLabel
                             )
                         },
                         isRefreshing = false,

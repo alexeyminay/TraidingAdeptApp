@@ -10,6 +10,7 @@ import com.alexey.minay.feature_news_impl.R
 import com.alexey.minay.feature_news_impl.databinding.ItemNewsListBinding
 import com.alexey.minay.feature_news_impl.domain.NewsId
 import com.alexey.minay.feature_news_impl.presentation.list.NewsListItem
+import com.alexey.minay.feature_news_impl.ui.SentimentLabelMapper
 import com.bumptech.glide.Glide
 
 class NewsListAdapter(
@@ -44,6 +45,12 @@ class NewsListAdapter(
                 .into(binding.image)
 
             root.setOnClickListener { openNewsSummary(item.id, itemView) }
+
+            SentimentLabelMapper.map(
+                sentimentLabel = item.sentimentLabel,
+                icon = binding.icon,
+                subIcon = binding.subIcon
+            )
         }
 
     }

@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.alexey.minay.feature_news_impl.databinding.ItemTickerBinding
 import com.alexey.minay.feature_news_impl.domain.Ticker
+import com.alexey.minay.feature_news_impl.ui.SentimentLabelMapper
 
 class TickerAdapter :
     ListAdapter<Ticker, TickerAdapter.TickerViewHolder>(TickerDiffUtilCallback()) {
@@ -29,6 +30,11 @@ class TickerAdapter :
 
         fun bind(item: Ticker) = with(binding) {
             ticker.text = item.ticker
+            SentimentLabelMapper.map(
+                sentimentLabel = item.tickerSentimentLabel,
+                icon = icon,
+                subIcon = subIcon
+            )
         }
 
     }

@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginEnd="4dp"
     android:layout_marginVertical="2dp"
+    android:layout_marginEnd="4dp"
     app:cardBackgroundColor="@color/cardBackground"
     app:cardCornerRadius="8dp"
     app:cardElevation="4dp"
@@ -23,9 +23,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:src="@drawable/ic_bull"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/ticker"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@id/ticker" />
 
         <ImageView
             android:id="@+id/subIcon"
@@ -41,13 +41,14 @@
             android:id="@+id/ticker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginVertical="3dp"
+            android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             android:textColor="@color/title_1"
-            android:layout_marginStart="8dp"
-            app:layout_constraintBottom_toBottomOf="@id/icon"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/icon"
-            app:layout_constraintTop_toTopOf="@id/icon"
+            app:layout_constraintTop_toTopOf="parent"
             tools:text="AAPPL" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

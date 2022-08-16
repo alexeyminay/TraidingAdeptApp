@@ -3,10 +3,7 @@ package com.alexey.minay.feature_news_impl.data
 import com.alexey.minay.core_remote.IBasicApi
 import com.alexey.minay.core_utils.DispatchersProvider
 import com.alexey.minay.core_utils.RequestWrapper
-import com.alexey.minay.feature_news_impl.domain.News
-import com.alexey.minay.feature_news_impl.domain.NewsId
-import com.alexey.minay.feature_news_impl.domain.Ticker
-import com.alexey.minay.feature_news_impl.domain.Topic
+import com.alexey.minay.feature_news_impl.domain.*
 import kotlinx.coroutines.withContext
 import java.util.*
 import javax.inject.Inject
@@ -50,12 +47,20 @@ class NewsGateway @Inject constructor(
                     Ticker(
                         ticker = tickerJson.ticker,
                         relevantScore = tickerJson.relevantScore,
-                        tickerSentimentLabel = tickerJson.tickerSentimentLabel
+                        tickerSentimentLabel = tickerJson.tickerSentimentLabel.asSentimentLabel()
                     )
                 },
-                overallSentimentLabel = newsJson.overallSentimentLabel,
+                overallSentimentLabel = newsJson.overallSentimentLabel.asSentimentLabel(),
                 uid = NewsId(UUID.randomUUID().toString())
             )
         }
+
+    private fun String.asSentimentLabel() = when (this) {
+        "Bearish" -> SentimentLabel.BEARISH
+        "Somewhat-Bearish" -> SentimentLabel.SOMEWHAT_BEARISH
+        "Somewhat_Bullish" -> SentimentLabel.SOMEWHAT_BULLISH
+        "Bullish" -> SentimentLabel.BULLISH
+        else -> SentimentLabel.NEUTRAL
+    }
 
 }
