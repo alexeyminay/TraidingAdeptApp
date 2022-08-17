@@ -12,13 +12,14 @@ class BasicApi constructor(
 ) : IBasicApi {
 
     override fun <T> get(
+        baseUrl: String?,
         path: String,
         resultClass: Class<T>,
         query: Map<String, String>?
     ): T? {
         val request = Request.Builder()
             .get()
-            .url(createUrl(path, query))
+            .url(createUrl(url = baseUrl ?: this.baseUrl, path, query))
             .build()
 
         val response = httpClient.newCall(request)
@@ -29,6 +30,7 @@ class BasicApi constructor(
     }
 
     private fun createUrl(
+        url: String,
         path: String,
         query: Map<String, String>?
     ): String {
@@ -37,7 +39,7 @@ class BasicApi constructor(
             else -> "?${query.generateQueryRow()}"
         }
 
-        return "$baseUrl/$path${queryStr}"
+        return "$url/$path${queryStr}"
     }
 
     private fun Map<String, String>.generateQueryRow(): String {

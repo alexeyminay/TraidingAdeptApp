@@ -17,24 +17,24 @@ class QuotesReducer @Inject constructor() : Reducer<QuotesResult, QuotesState> {
         QuotesResult.StartRefreshingList -> startRefreshingList()
     }
 
-    private fun QuotesState.updateQuotesList(results: List<Result<ExchangeRateInfo, Nothing>>): QuotesState {
+    private fun QuotesState.updateQuotesList(result: Result<List<ExchangeRateInfo>, Nothing>): QuotesState {
         val items = mutableListOf<QuotesListItem>()
         items.add(QuotesListItem.Header(QuotesListItem.HeaderType.CURRENCY))
-        results.forEach { result ->
-            when (result) {
-                is Result.Success ->
+        when (result) {
+            is Result.Success ->
+                result.data.forEach { info ->
                     items.add(
                         QuotesListItem.Quotes(
-                            title = "${result.data.fromCode}/${result.data.toCode}",
-                            subtitle = "${result.data.fromName}/${result.data.fromName}",
-                            value = ((result.data.exchangeRate * 100).roundToInt().toFloat() / 100)
+                            title = "${info.fromCode}/${info.toCode}",
+                            subtitle = "${info.fromName}/${info.fromName}",
+                            value = ((info.exchangeRate * 100).roundToInt().toFloat() / 100)
                                 .toString(),
-                            type = result.data.type,
-                            lastRefreshed = DateFormatter.format1(result.data.lastRefresh)
+                            type = info.type,
+                            lastRefreshed = DateFormatter.format1(info.lastRefresh)
                         )
                     )
-                is Result.Error -> Unit
-            }
+                }
+            is Result.Error -> Unit
         }
 
         return copy(

@@ -1,6 +1,5 @@
 package com.alexey.minay.feature_quotes_chart_impl.domain
 
-import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import javax.inject.Inject
 
@@ -10,11 +9,7 @@ class GetQuotesListUseCase @Inject constructor(
 ) {
 
     suspend operator fun invoke() = coroutineScope {
-        storage.getCurrencies().map {
-            async { gateway.getCurrency(it) }
-        }.map { deferred ->
-            deferred.await()
-        }
+        gateway.getCurrency(storage.getCurrencies())
     }
 
 }
