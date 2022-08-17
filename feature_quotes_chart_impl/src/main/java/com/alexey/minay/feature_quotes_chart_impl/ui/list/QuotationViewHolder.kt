@@ -27,17 +27,13 @@ class QuotationViewHolder(
                     topImage.setImageResource(R.drawable.ic_us)
                     bottomImage.setImageResource(R.drawable.ic_rus)
                 }
-                QuotesType.CurrenciesType.EUR_USD -> {
-                    topImage.setImageResource(R.drawable.ic_eur)
-                    bottomImage.setImageResource(R.drawable.ic_us)
+                QuotesType.CurrenciesType.GBP_RUB -> {
+                    topImage.setImageResource(R.drawable.ic_gbp)
+                    bottomImage.setImageResource(R.drawable.ic_rus)
                 }
                 QuotesType.CurrenciesType.EUR_RUB -> {
                     topImage.setImageResource(R.drawable.ic_eur)
                     bottomImage.setImageResource(R.drawable.ic_rus)
-                }
-                QuotesType.CurrenciesType.GBP_USD -> {
-                    topImage.setImageResource(R.drawable.ic_gbp)
-                    bottomImage.setImageResource(R.drawable.ic_us)
                 }
             }
         }

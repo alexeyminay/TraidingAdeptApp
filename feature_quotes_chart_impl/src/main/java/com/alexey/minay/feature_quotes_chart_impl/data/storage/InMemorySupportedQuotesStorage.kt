@@ -9,9 +9,8 @@ class InMemorySupportedQuotesStorage @Inject constructor() : ISupportedQuotesSto
     override fun getCurrencies(): List<QuotesType.CurrenciesType> {
         return listOf(
             QuotesType.CurrenciesType.USD_RUB,
-//            QuotesType.CurrenciesType.EUR_RUB,
-//            QuotesType.CurrenciesType.EUR_USD,
-//            QuotesType.CurrenciesType.GBP_USD,
+            QuotesType.CurrenciesType.EUR_RUB,
+            QuotesType.CurrenciesType.GBP_RUB,
         )
     }
 

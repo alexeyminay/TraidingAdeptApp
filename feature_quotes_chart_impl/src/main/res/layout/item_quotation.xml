@@ -67,7 +67,7 @@
         android:layout_marginEnd="12dp"
         android:ellipsize="end"
         android:fontFamily="sans-serif-medium"
-        android:maxLines="1"
+        android:maxLines="2"
         android:textColor="@color/subtitle_1"
         android:textSize="13sp"
         app:layout_constraintEnd_toStartOf="@id/value"

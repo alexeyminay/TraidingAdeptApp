@@ -10,7 +10,6 @@ import com.alexey.minay.feature_quotes_chart_impl.data.gateway.json.QuotationJso
 import com.alexey.minay.feature_quotes_chart_impl.data.gateway.json.QuotesChartResponseJson
 import com.alexey.minay.feature_quotes_chart_impl.domain.*
 import kotlinx.coroutines.withContext
-import java.time.ZonedDateTime
 import javax.inject.Inject
 
 class QuotesGateway @Inject constructor(
@@ -51,7 +50,7 @@ class QuotesGateway @Inject constructor(
     private fun Map<String, QuotationJson>.asDomain(timeZone: String) =
         map {
             Quotation(
-                dateTime = ZonedDateTimeUtils.fromJson(it.key, timeZone),
+                dateTime = ZonedDateTimeUtils.parse(it.key, timeZone),
                 open = it.value.open.toFloat(),
                 close = it.value.close.toFloat(),
                 high = it.value.high.toFloat(),
@@ -70,10 +69,10 @@ class QuotesGateway @Inject constructor(
                         type = QuotesType.Currencies(type),
                         fromCode = it.value.code,
                         fromName = it.value.name,
-                        toCode = "Rub",
+                        toCode = "RUB",
                         toName = "Российский рубль",
                         exchangeRate = it.value.value,
-                        lastRefresh = ZonedDateTime.now()
+                        lastRefresh = ZonedDateTimeUtils.parse(date)
                     )
                 } else null
             }

@@ -26,7 +26,7 @@ class QuotesReducer @Inject constructor() : Reducer<QuotesResult, QuotesState> {
                     items.add(
                         QuotesListItem.Quotes(
                             title = "${info.fromCode}/${info.toCode}",
-                            subtitle = "${info.fromName}/${info.fromName}",
+                            subtitle = "${info.fromName}/${info.toName}",
                             value = ((info.exchangeRate * 100).roundToInt().toFloat() / 100)
                                 .toString(),
                             type = info.type,
