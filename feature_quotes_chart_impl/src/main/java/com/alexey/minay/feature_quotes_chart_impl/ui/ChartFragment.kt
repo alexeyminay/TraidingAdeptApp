@@ -4,39 +4,34 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.flowWithLifecycle
-import androidx.lifecycle.lifecycleScope
-import com.alexey.minay.feature_quotes_chart_impl.QuotesChartView
+import com.alexey.minay.core_ui.onEachWithLifecycle
+import com.alexey.minay.core_ui.viewBindings
 import com.alexey.minay.feature_quotes_chart_impl.R
+import com.alexey.minay.feature_quotes_chart_impl.databinding.FragmentChartBinding
 import com.alexey.minay.feature_quotes_chart_impl.di.QuotesChartComponent
+import com.alexey.minay.feature_quotes_chart_impl.presentation.QuotesAction
 import com.alexey.minay.feature_quotes_chart_impl.presentation.QuotesChartViewModel
 import com.alexey.minay.feature_quotes_chart_impl.presentation.QuotesStore
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 class ChartFragment : Fragment(R.layout.fragment_chart) {
 
-    private val mViewModel by viewModels<QuotesChartViewModel> {
-        QuotesChartComponent.get().viewModelProviderFactory
-    }
-
     @Inject
     lateinit var store: QuotesStore
     private val mComponent get() = QuotesChartComponent.get()
+    private val mBinding by viewBindings(FragmentChartBinding::bind)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mComponent.inject(this)
-        mViewModel.fetch()
+        store.accept(QuotesAction.FetchQuotes)
         subscribeToViewModel()
     }
 
     private fun subscribeToViewModel() {
-        mViewModel.state.flowWithLifecycle(viewLifecycleOwner.lifecycle)
-            .onEach {
-                requireView().findViewById<QuotesChartView>(R.id.chart).setValue(quotes = it.quotes)
-            }.launchIn(viewLifecycleOwner.lifecycleScope)
+        store.state.onEachWithLifecycle(viewLifecycleOwner) {
+            mBinding.chart.setValue(it.quotesChartState.quotation)
+        }
     }
 
     companion object {

@@ -24,10 +24,11 @@ class QuotesGateway @Inject constructor(
                 path = "query",
                 resultClass = QuotesChartResponseJson::class.java,
                 query = mapOf(
-                    "function" to "TIME_SERIES_INTRADAY",
-                    "outputsize" to "full",
-                    "symbol" to "IBM",
+                    "function" to "FX_INTRADAY",
+                    "from_symbol" to "EUR",
+                    "to_symbol" to "USD",
                     "interval" to "5min",
+                    "outputsize" to "full"
                 )
             )
             result?.timeSeries?.asDomain(result.metadata.timeZone)
@@ -55,7 +56,7 @@ class QuotesGateway @Inject constructor(
                 close = it.value.close.toFloat(),
                 high = it.value.high.toFloat(),
                 low = it.value.low.toFloat(),
-                volume = it.value.volume.toFloat(),
+                volume = 0f,
             )
         }
 
