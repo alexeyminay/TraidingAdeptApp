@@ -6,6 +6,7 @@ import com.alexey.minay.core_utils.Result
 import com.alexey.minay.feature_quotes_chart_impl.domain.ExchangeRateInfo
 import com.alexey.minay.feature_quotes_chart_impl.domain.Quotation
 import com.alexey.minay.feature_quotes_chart_impl.presentation.state.QuotesState
+import com.alexey.minay.feature_quotes_chart_impl.presentation.state.chart.QuotesChartState
 import com.alexey.minay.feature_quotes_chart_impl.presentation.state.list.QuotesListItem
 import com.alexey.minay.feature_quotes_chart_impl.presentation.state.list.QuotesListState
 import javax.inject.Inject
@@ -56,7 +57,10 @@ class QuotesReducer @Inject constructor() : Reducer<QuotesResult, QuotesState> {
 
     private fun QuotesState.updateQuotes(quotes: List<Quotation>): QuotesState = copy(
         quotesChartState = with(quotesChartState) {
-            copy(quotation = quotes)
+            copy(
+                quotation = quotes,
+                type = QuotesChartState.Type.DATA
+            )
         }
     )
 

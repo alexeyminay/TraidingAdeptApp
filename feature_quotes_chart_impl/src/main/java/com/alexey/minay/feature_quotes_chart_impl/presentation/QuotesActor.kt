@@ -34,8 +34,8 @@ class QuotesActor @Inject constructor(
     private suspend fun fetchQuotes() {
         val result = gateway.getQuotes()
         when (result) {
-            is Result.Error -> Unit
             is Result.Success -> reduce { QuotesResult.UpdateQuotes(result.data) }
+            is Result.Error -> Unit
         }.exhaustive
 
     }

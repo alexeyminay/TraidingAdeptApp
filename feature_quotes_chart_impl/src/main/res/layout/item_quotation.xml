@@ -5,43 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/bottomIcon"
-        android:layout_width="28dp"
-        android:layout_height="28dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="12dp"
-        app:cardCornerRadius="14dp"
-        app:layout_constraintStart_toStartOf="@id/topIcon"
-        app:layout_constraintTop_toTopOf="@id/topIcon">
-
-        <ImageView
-            android:id="@+id/bottomImage"
-            android:layout_width="26dp"
-            android:layout_height="26dp"
-            android:layout_gravity="center"
-            android:src="@drawable/ic_rus" />
-
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/topIcon"
-        android:layout_width="28dp"
-        android:layout_height="28dp"
+    <include
+        android:id="@+id/iconGroup"
+        layout="@layout/lay_exchange_rate_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="12dp"
-        app:cardCornerRadius="14dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/topImage"
-            android:layout_width="26dp"
-            android:layout_height="26dp"
-            android:layout_gravity="center"
-            android:src="@drawable/ic_us" />
-
-    </androidx.cardview.widget.CardView>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/title"
@@ -55,8 +27,8 @@
         android:textColor="@color/title_1"
         android:textSize="16sp"
         app:layout_constraintEnd_toStartOf="@id/value"
-        app:layout_constraintStart_toEndOf="@id/bottomIcon"
-        app:layout_constraintTop_toTopOf="@id/topIcon"
+        app:layout_constraintStart_toEndOf="@id/iconGroup"
+        app:layout_constraintTop_toTopOf="@id/iconGroup"
         tools:text="USD/RUB" />
 
     <TextView
@@ -92,16 +64,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:barrierDirection="bottom"
-        app:constraint_referenced_ids="bottomIcon, subtitle" />
+        app:constraint_referenced_ids="iconGroup, subtitle" />
 
     <TextView
         android:id="@+id/lastRefreshed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="11dp"
         android:textColor="@color/blue"
         android:textSize="11sp"
-        android:layout_marginTop="4dp"
         app:layout_constraintStart_toStartOf="@id/title"
         app:layout_constraintTop_toBottomOf="@id/barrier"
         tools:text="Last refreshed: 20:21:01 06.08.22" />

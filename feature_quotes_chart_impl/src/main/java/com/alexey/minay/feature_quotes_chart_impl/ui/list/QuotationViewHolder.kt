@@ -1,7 +1,6 @@
 package com.alexey.minay.feature_quotes_chart_impl.ui.list
 
 import androidx.core.view.isVisible
-import com.alexey.minay.feature_quotes_chart_impl.R
 import com.alexey.minay.feature_quotes_chart_impl.databinding.ItemQuotationBinding
 import com.alexey.minay.feature_quotes_chart_impl.domain.QuotesType
 import com.alexey.minay.feature_quotes_chart_impl.presentation.state.list.QuotesListItem
@@ -24,16 +23,16 @@ class QuotationViewHolder(
         when (val type = item.type) {
             is QuotesType.Currencies -> when (type.type) {
                 QuotesType.CurrenciesType.USD_RUB -> {
-                    topImage.setImageResource(R.drawable.ic_us)
-                    bottomImage.setImageResource(R.drawable.ic_rus)
+                    iconGroup.topImage.setImageResource(CoreUiR.drawable.ic_us)
+                    iconGroup.bottomImage.setImageResource(CoreUiR.drawable.ic_rus)
                 }
                 QuotesType.CurrenciesType.GBP_RUB -> {
-                    topImage.setImageResource(R.drawable.ic_gbp)
-                    bottomImage.setImageResource(R.drawable.ic_rus)
+                    iconGroup.topImage.setImageResource(CoreUiR.drawable.ic_gbp)
+                    iconGroup.bottomImage.setImageResource(CoreUiR.drawable.ic_rus)
                 }
                 QuotesType.CurrenciesType.EUR_RUB -> {
-                    topImage.setImageResource(R.drawable.ic_eur)
-                    bottomImage.setImageResource(R.drawable.ic_rus)
+                    iconGroup.topImage.setImageResource(CoreUiR.drawable.ic_eur)
+                    iconGroup.bottomImage.setImageResource(CoreUiR.drawable.ic_rus)
                 }
             }
         }

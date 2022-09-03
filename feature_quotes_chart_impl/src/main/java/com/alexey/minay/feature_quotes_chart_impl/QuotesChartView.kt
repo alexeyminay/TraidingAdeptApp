@@ -77,7 +77,6 @@ class QuotesChartView(
         var restoredState = state
         if (state is Bundle) {
             mFirstVisibleCandleIndex = state.getInt(INDEX)
-            //mFirstVisibleCandlePositionX = state.getFloat(POSITION)
             mQuotesChartViewState = state.getSerializable(STATE) as QuotesChartViewState
             mMaxMinPair.reset()
 
