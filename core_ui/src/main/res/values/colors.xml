@@ -19,4 +19,6 @@
     <color name="subtitle_1">#717171</color>
     <color name="separator">#E3E3E3</color>
 
+    <color name="border">#717171</color>
+
 </resources>

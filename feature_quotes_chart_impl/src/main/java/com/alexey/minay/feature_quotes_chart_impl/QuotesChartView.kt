@@ -7,13 +7,13 @@ import android.graphics.Paint
 import android.os.Bundle
 import android.os.Parcelable
 import android.util.AttributeSet
-import android.util.Log
 import android.view.MotionEvent
 import android.view.ScaleGestureDetector
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.alexey.minay.feature_quotes_chart_impl.domain.Quotation
 import kotlin.math.abs
+import kotlin.math.roundToInt
 import com.alexey.minay.core_ui.R as CoreuiR
 
 class QuotesChartView(
@@ -42,6 +42,24 @@ class QuotesChartView(
         color = ContextCompat.getColor(context, CoreuiR.color.grey)
     }
 
+    private val mValuePaint = Paint().apply {
+        flags = Paint.ANTI_ALIAS_FLAG
+        style = Paint.Style.FILL
+        strokeWidth = 1f
+    }
+
+    private val mBackgroundPaint = Paint().apply {
+        style = Paint.Style.FILL
+        color = ContextCompat.getColor(context, CoreuiR.color.pageBackground)
+    }
+
+    private val mValueTextPaint = Paint().apply {
+        flags = Paint.ANTI_ALIAS_FLAG
+        textSize = resources.getDimensionPixelSize(R.dimen.chartValueTextSize).toFloat()
+        textAlign = Paint.Align.LEFT
+    }
+    private val mFontMetrics = Paint.FontMetrics()
+
     private var mCandleWidth = 24f
     private var mCandleMargin = 12f
     private val mCenterCandleInterval get() = mCandleWidth + mCandleMargin
@@ -49,9 +67,11 @@ class QuotesChartView(
     private var mFirstVisibleCandlePositionX: Float? = null
     private var mMaxMinPair = MutableMaxMinPair(Float.MAX_VALUE, Float.MIN_VALUE)
     private val mDetector = ScaleGestureDetector(context, this)
+    private val mValueTextMargin = 1.5f * (mCandleWidth + mCandleMargin)
 
+    private val mMargin = resources.getDimensionPixelSize(R.dimen.chart_margin)
     private val mWidth: Float
-        get() = width.toFloat() - resources.getDimensionPixelSize(R.dimen.chart_margin)
+        get() = width.toFloat() - mMargin
 
     fun setValue(quotes: List<Quotation>) {
         if (mQuotesChartViewState.quotes == quotes) {
@@ -110,10 +130,10 @@ class QuotesChartView(
 
             val cantMoveRight =
                 moveValue > 0 && lastVisibleIndex == mQuotesChartViewState.quotes.lastIndex
-            Log.d(
-                "QuotesChartView",
-                "$mFirstVisibleCandleIndex $lastVisibleIndex $firstVisibleCandlePositionX $moveValue"
-            )
+//            Log.d(
+//                "QuotesChartView",
+//                "$mFirstVisibleCandleIndex $lastVisibleIndex $firstVisibleCandlePositionX $moveValue"
+//            )
             if (cantMoveLeft || cantMoveRight) {
                 return true
             }
@@ -122,12 +142,14 @@ class QuotesChartView(
             if ((firstVisibleCandlePositionX - mCandleWidth) > mWidth) {
                 val count = ((firstVisibleCandlePositionX - mWidth) /
                         (mCandleWidth + mCandleMargin)).toInt()
+
                 mFirstVisibleCandleIndex += count
                 firstVisibleCandlePositionX -= (mCandleWidth + mCandleMargin) * count
-            } else if ((firstVisibleCandlePositionX + mCandleWidth) < mWidth && mFirstVisibleCandleIndex > 0) {
+            } else if ((firstVisibleCandlePositionX) < mWidth && mFirstVisibleCandleIndex > 0) {
                 val count = ((mWidth - firstVisibleCandlePositionX) /
                         (mCandleWidth + mCandleMargin)).toInt()
-                    .takeIf { it - mFirstVisibleCandleIndex < 0 } ?: 0
+                //.takeIf { it - mFirstVisibleCandleIndex <= 0 } ?: 0
+
                 mFirstVisibleCandleIndex -= count
                 firstVisibleCandlePositionX += (mCandleWidth + mCandleMargin) * count
             }
@@ -152,6 +174,7 @@ class QuotesChartView(
         drawGrid()
         drawCandles(canvas, firstVisibleCandlePositionX, lastVisibleIndex)
         drawLastValueLine()
+        drawBackground()
     }
 
     override fun onScale(detector: ScaleGestureDetector): Boolean {
@@ -250,19 +273,66 @@ class QuotesChartView(
             mMaxMinPair.max
         )
         drawLine(0f, y, mWidth, y, mDotsLinePaint)
+
+        mValuePaint.color = when {
+            lastCandle.isGreen() -> ContextCompat.getColor(context, CoreuiR.color.green)
+            else -> ContextCompat.getColor(context, CoreuiR.color.red)
+        }
+
+        mValueTextPaint.getFontMetrics(mFontMetrics)
+
+        val margin = 10f
+        drawRect(
+            mWidth + mValueTextMargin,
+            y + margin,
+            mWidth + mValueTextMargin + mValueTextPaint.measureText(lastCandle.close.toString()) + 2 * margin,
+            y - resources.getDimensionPixelSize(R.dimen.chartValueTextSize).toFloat() - margin,
+            mValuePaint
+        )
+
+        mValueTextPaint.color = ContextCompat.getColor(context, CoreuiR.color.title_1)
+
+        drawText(
+            lastCandle.close.toString(),
+            margin + mWidth + mValueTextMargin,
+            y,
+            mValueTextPaint
+        )
     }
 
     private fun Canvas.drawGrid() {
-        val stepY = mMaxMinPair.div / 16
-        repeat(16) {
-            val y = (mMaxMinPair.min + it * stepY).extrapolate(
+        val stepY = mMaxMinPair.div / 12
+        repeat(12) {
+            val value = mMaxMinPair.min + it * stepY
+            val y = value.extrapolate(
                 0f,
                 height.toFloat(),
-                mMaxMinPair.min,
-                mMaxMinPair.max
+                mMaxMinPair.max,
+                mMaxMinPair.min
             )
             drawLine(0f, y, mWidth, y, mGridLinePaint)
+
+            mValueTextPaint.color = ContextCompat.getColor(context, CoreuiR.color.subtitle_1)
+
+            val roundedValue = ((value * 10000).roundToInt()).toFloat() / 10000
+            drawText(
+                roundedValue.toString(),
+                mWidth + mValueTextMargin,
+                y,
+                mValueTextPaint
+            )
         }
+    }
+
+    private fun Canvas.drawBackground() {
+        drawLine(mWidth, 0f, mWidth, height.toFloat(), mGridLinePaint)
+        drawRect(
+            mWidth,
+            0f,
+            mWidth + mValueTextMargin,
+            height.toFloat(),
+            mBackgroundPaint
+        )
     }
 
     private fun Quotation.isGreen() = close >= open
