@@ -8,7 +8,7 @@ data class AppState(
 ) {
     companion object {
         fun default() = AppState(
-            screen = Screen.OnBoarding,
+            screen = Screen.Menu,
             mainMenuState = MainMenuState.default()
         )
     }

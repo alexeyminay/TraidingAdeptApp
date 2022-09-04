@@ -69,9 +69,10 @@ class QuotesChartView(
     private val mDetector = ScaleGestureDetector(context, this)
     private val mValueTextMargin = 1.5f * (mCandleWidth + mCandleMargin)
 
-    private val mMargin = resources.getDimensionPixelSize(R.dimen.chart_margin)
+    private val mMarginEnd = resources.getDimensionPixelSize(R.dimen.chart_margin_end)
+    private val mMarginVertical = resources.getDimensionPixelSize(R.dimen.chart_margin_vertical)
     private val mWidth: Float
-        get() = width.toFloat() - mMargin
+        get() = width.toFloat() - mMarginEnd
 
     fun setValue(quotes: List<Quotation>) {
         if (mQuotesChartViewState.quotes == quotes) {
@@ -212,15 +213,15 @@ class QuotesChartView(
                 canvas.drawLine(
                     drawXPos,
                     height - quotation.low.extrapolate(
-                        0f,
-                        height.toFloat(),
+                        0f + mMarginVertical,
+                        height.toFloat() - mMarginVertical,
                         mMaxMinPair.min,
                         mMaxMinPair.max
                     ),
                     drawXPos,
                     height - quotation.high.extrapolate(
-                        0f,
-                        height.toFloat(),
+                        0f + mMarginVertical,
+                        height.toFloat() - mMarginVertical,
                         mMaxMinPair.min,
                         mMaxMinPair.max
                     ),
@@ -230,15 +231,15 @@ class QuotesChartView(
                 canvas.drawRect(
                     drawXPos - mCandleWidth / 2,
                     height - top.extrapolate(
-                        0f,
-                        height.toFloat(),
+                        0f + mMarginVertical,
+                        height.toFloat() - mMarginVertical,
                         mMaxMinPair.min,
                         mMaxMinPair.max
                     ),
                     drawXPos + mCandleWidth / 2,
                     height - bottom.extrapolate(
-                        0f,
-                        height.toFloat(),
+                        0f + mMarginVertical,
+                        height.toFloat() - mMarginVertical,
                         mMaxMinPair.min,
                         mMaxMinPair.max
                     ),
@@ -302,11 +303,11 @@ class QuotesChartView(
 
     private fun Canvas.drawGrid() {
         val stepY = mMaxMinPair.div / 12
-        repeat(12) {
+        repeat(13) {
             val value = mMaxMinPair.min + it * stepY
             val y = value.extrapolate(
-                0f,
-                height.toFloat(),
+                0f + mMarginVertical,
+                height.toFloat() - mMarginVertical,
                 mMaxMinPair.max,
                 mMaxMinPair.min
             )
