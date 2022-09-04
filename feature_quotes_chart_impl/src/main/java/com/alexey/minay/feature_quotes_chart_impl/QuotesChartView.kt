@@ -11,6 +11,7 @@ import android.view.MotionEvent
 import android.view.ScaleGestureDetector
 import android.view.View
 import androidx.core.content.ContextCompat
+import com.alexey.minay.core_utils.DateFormatter
 import com.alexey.minay.feature_quotes_chart_impl.domain.Quotation
 import kotlin.math.abs
 import kotlin.math.roundToInt
@@ -64,6 +65,7 @@ class QuotesChartView(
         textSize = resources.getDimensionPixelSize(R.dimen.chartValueTextSize).toFloat()
         textAlign = Paint.Align.LEFT
     }
+
     private val mFontMetrics = Paint.FontMetrics()
 
     private var mCandleWidth = 16f
@@ -178,7 +180,7 @@ class QuotesChartView(
         val lastVisibleIndex = findLastVisibleIndex(firstVisibleCandlePositionX)
         mQuotesChartViewState.findMaxAndMin(mMaxMinPair, mFirstVisibleCandleIndex, lastVisibleIndex)
 
-        drawGrid()
+        drawGrid(lastVisibleIndex, firstVisibleCandlePositionX)
         drawCandles(canvas, firstVisibleCandlePositionX, lastVisibleIndex)
         drawFirstVisibleCandleValue()
         drawLastValueLine()
@@ -308,7 +310,7 @@ class QuotesChartView(
         )
     }
 
-    private fun Canvas.drawGrid() {
+    private fun Canvas.drawGrid(lastVisibleIndex: Int, firstVisibleCandlePositionX: Float) {
         val maxHorizontalLines = 12
         val minHorizontalLines = 4
         val canMax = (height - mMarginVertical * 2) / maxHorizontalLines >
@@ -338,6 +340,48 @@ class QuotesChartView(
                 mValueTextPaint
             )
         }
+
+        drawLine(0f, height.toFloat(), mWidth, height.toFloat(), mGridLinePaint)
+
+        val bottomInfoHeight = resources.getDimensionPixelSize(R.dimen.chartBottomInfo) + 8f
+        drawLine(
+            0f,
+            height.toFloat() - bottomInfoHeight,
+            mWidth,
+            height.toFloat() - bottomInfoHeight,
+            mGridLinePaint
+        )
+
+        val visibleCount = lastVisibleIndex - mFirstVisibleCandleIndex
+
+        if (visibleCount in 25..150) {
+            for (index in mFirstVisibleCandleIndex..lastVisibleIndex) {
+                val date = mQuotesChartViewState.quotes[index].dateTime
+                if (date.dayOfMonth == 1) {
+                    val xPos =
+                        firstVisibleCandlePositionX - (index - mFirstVisibleCandleIndex) * mCenterCandleInterval
+                    drawLine(
+                        xPos,
+                        0f,
+                        xPos,
+                        height.toFloat() - bottomInfoHeight,
+                        mGridLinePaint
+                    )
+
+                    mValueTextPaint.color =
+                        ContextCompat.getColor(context, CoreuiR.color.subtitle_1)
+                    mValueTextPaint.textAlign = Paint.Align.CENTER
+                    drawText(
+                        DateFormatter.format2(date) ?: "",
+                        xPos,
+                        height - resources.getDimensionPixelSize(R.dimen.chartBottomInfo)
+                            .toFloat() / 2,
+                        mValueTextPaint
+                    )
+                }
+            }
+        }
+        mValueTextPaint.textAlign = Paint.Align.LEFT
     }
 
     private fun Canvas.drawFirstVisibleCandleValue() {

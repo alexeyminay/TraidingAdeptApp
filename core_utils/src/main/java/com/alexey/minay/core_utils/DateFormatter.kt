@@ -10,4 +10,9 @@ object DateFormatter {
         return date.format(formatter)
     }
 
+    fun format2(date: ZonedDateTime): String? {
+        val formatter = DateTimeFormatter.ofPattern("MMM")
+        return date.format(formatter)
+    }
+
 }

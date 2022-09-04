@@ -4,4 +4,5 @@
     <dimen name="chart_margin_vertical">40dp</dimen>
     <dimen name="chartValueTextSize">12sp</dimen>
     <dimen name="minLengthBetweenLines">50dp</dimen>
+    <dimen name="chartBottomInfo">20sp</dimen>
 </resources>
