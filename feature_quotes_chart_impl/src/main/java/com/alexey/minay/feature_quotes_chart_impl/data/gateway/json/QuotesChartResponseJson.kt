@@ -5,7 +5,7 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class QuotesChartResponseJson(
-    @Json(name = "Time Series FX (5min)")
+    @Json(name = "Time Series FX (Daily)")
     val timeSeries: Map<String, QuotationJson>,
     @Json(name = "Meta Data")
     val metadata: MetaDataJson
@@ -25,6 +25,6 @@ data class QuotationJson(
 
 @JsonClass(generateAdapter = true)
 data class MetaDataJson(
-    @Json(name = "7. Time Zone")
+    @Json(name = "6. Time Zone")
     val timeZone: String
 )

@@ -60,8 +60,8 @@ class QuotesChartView(
     }
     private val mFontMetrics = Paint.FontMetrics()
 
-    private var mCandleWidth = 24f
-    private var mCandleMargin = 12f
+    private var mCandleWidth = 18f
+    private var mCandleMargin = 8f
     private val mCenterCandleInterval get() = mCandleWidth + mCandleMargin
     private var mFirstVisibleCandleIndex = 0
     private var mFirstVisibleCandlePositionX: Float? = null

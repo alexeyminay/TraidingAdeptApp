@@ -24,10 +24,10 @@ class QuotesGateway @Inject constructor(
                 path = "query",
                 resultClass = QuotesChartResponseJson::class.java,
                 query = mapOf(
-                    "function" to "FX_INTRADAY",
-                    "from_symbol" to "EUR",
-                    "to_symbol" to "USD",
-                    "interval" to "5min",
+                    "function" to "FX_DAILY",
+                    "from_symbol" to "USD",
+                    "to_symbol" to "RUB",
+                    //"interval" to "15min",
                     "outputsize" to "full"
                 )
             )
@@ -51,7 +51,7 @@ class QuotesGateway @Inject constructor(
     private fun Map<String, QuotationJson>.asDomain(timeZone: String) =
         map {
             Quotation(
-                dateTime = ZonedDateTimeUtils.parse(it.key, timeZone),
+                dateTime = ZonedDateTimeUtils.parse2(it.key, timeZone),
                 open = it.value.open.toFloat(),
                 close = it.value.close.toFloat(),
                 high = it.value.high.toFloat(),

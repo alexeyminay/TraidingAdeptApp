@@ -25,8 +25,9 @@
         <entry key="..\:/otus/TradingAdept/TradingAdeptApp/feature_news_impl/src/main/res/layout/item_news_list.xml" value="0.4" />
         <entry key="..\:/otus/TradingAdept/TradingAdeptApp/feature_news_impl/src/main/res/layout/item_ticker.xml" value="1.6" />
         <entry key="..\:/otus/TradingAdept/TradingAdeptApp/feature_onboarding_impl/src/main/res/layout/fragmetn_onboarding.xml" value="0.25416666666666665" />
+        <entry key="..\:/otus/TradingAdept/TradingAdeptApp/feature_quotes_chart_impl/src/main/res/drawable/background_chart.xml" value="0.191" />
         <entry key="..\:/otus/TradingAdept/TradingAdeptApp/feature_quotes_chart_impl/src/main/res/drawable/ic_loading.xml" value="0.16" />
-        <entry key="..\:/otus/TradingAdept/TradingAdeptApp/feature_quotes_chart_impl/src/main/res/layout/fragment_chart.xml" value="0.25416666666666665" />
+        <entry key="..\:/otus/TradingAdept/TradingAdeptApp/feature_quotes_chart_impl/src/main/res/layout/fragment_chart.xml" value="0.6" />
         <entry key="..\:/otus/TradingAdept/TradingAdeptApp/feature_quotes_chart_impl/src/main/res/layout/fragment_list.xml" value="0.25416666666666665" />
         <entry key="..\:/otus/TradingAdept/TradingAdeptApp/feature_quotes_chart_impl/src/main/res/layout/fragmetn_chart.xml" value="0.25416666666666665" />
         <entry key="..\:/otus/TradingAdept/TradingAdeptApp/feature_quotes_chart_impl/src/main/res/layout/item_header.xml" value="0.25416666666666665" />
