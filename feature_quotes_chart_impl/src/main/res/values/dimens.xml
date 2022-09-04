@@ -3,4 +3,5 @@
     <dimen name="chart_margin_end">80dp</dimen>
     <dimen name="chart_margin_vertical">40dp</dimen>
     <dimen name="chartValueTextSize">12sp</dimen>
+    <dimen name="minLengthBetweenLines">50dp</dimen>
 </resources>

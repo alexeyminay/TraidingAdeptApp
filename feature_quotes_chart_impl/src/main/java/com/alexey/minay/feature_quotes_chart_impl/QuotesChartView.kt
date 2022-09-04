@@ -42,15 +42,21 @@ class QuotesChartView(
         color = ContextCompat.getColor(context, CoreuiR.color.grey)
     }
 
-    private val mValuePaint = Paint().apply {
-        flags = Paint.ANTI_ALIAS_FLAG
-        style = Paint.Style.FILL
-        strokeWidth = 1f
-    }
-
     private val mBackgroundPaint = Paint().apply {
         style = Paint.Style.FILL
         color = ContextCompat.getColor(context, CoreuiR.color.pageBackground)
+    }
+
+    private val mValuePaint = Paint().apply {
+        flags = Paint.ANTI_ALIAS_FLAG
+        style = Paint.Style.FILL
+    }
+
+    private val mValueStrokePaint = Paint().apply {
+        flags = Paint.ANTI_ALIAS_FLAG
+        style = Paint.Style.STROKE
+        strokeWidth = 1f
+        strokeCap = Paint.Cap.ROUND
     }
 
     private val mValueTextPaint = Paint().apply {
@@ -60,14 +66,14 @@ class QuotesChartView(
     }
     private val mFontMetrics = Paint.FontMetrics()
 
-    private var mCandleWidth = 18f
+    private var mCandleWidth = 16f
     private var mCandleMargin = 8f
     private val mCenterCandleInterval get() = mCandleWidth + mCandleMargin
     private var mFirstVisibleCandleIndex = 0
     private var mFirstVisibleCandlePositionX: Float? = null
     private var mMaxMinPair = MutableMaxMinPair(Float.MAX_VALUE, Float.MIN_VALUE)
     private val mDetector = ScaleGestureDetector(context, this)
-    private val mValueTextMargin = 1.5f * (mCandleWidth + mCandleMargin)
+    private val mValueTextMargin = 1.7f * (mCandleWidth + mCandleMargin)
 
     private val mMarginEnd = resources.getDimensionPixelSize(R.dimen.chart_margin_end)
     private val mMarginVertical = resources.getDimensionPixelSize(R.dimen.chart_margin_vertical)
@@ -174,6 +180,7 @@ class QuotesChartView(
 
         drawGrid()
         drawCandles(canvas, firstVisibleCandlePositionX, lastVisibleIndex)
+        drawFirstVisibleCandleValue()
         drawLastValueLine()
         drawBackground()
     }
@@ -268,8 +275,8 @@ class QuotesChartView(
         }
 
         val y = height - lastCandle.close.extrapolate(
-            0f,
-            height.toFloat(),
+            0f + mMarginVertical,
+            height.toFloat() - mMarginVertical,
             mMaxMinPair.min,
             mMaxMinPair.max
         )
@@ -287,7 +294,7 @@ class QuotesChartView(
             mWidth + mValueTextMargin,
             y + margin,
             mWidth + mValueTextMargin + mValueTextPaint.measureText(lastCandle.close.toString()) + 2 * margin,
-            y - resources.getDimensionPixelSize(R.dimen.chartValueTextSize).toFloat() - margin,
+            y - resources.getDimensionPixelSize(R.dimen.chartValueTextSize).toFloat() - margin / 2,
             mValuePaint
         )
 
@@ -302,8 +309,16 @@ class QuotesChartView(
     }
 
     private fun Canvas.drawGrid() {
-        val stepY = mMaxMinPair.div / 12
-        repeat(13) {
+        val maxHorizontalLines = 12
+        val minHorizontalLines = 4
+        val canMax = (height - mMarginVertical * 2) / maxHorizontalLines >
+                resources.getDimensionPixelSize(R.dimen.minLengthBetweenLines)
+
+        val horizontalLineCount = if (canMax) maxHorizontalLines
+        else minHorizontalLines
+
+        val stepY = mMaxMinPair.div / horizontalLineCount
+        repeat(horizontalLineCount + 1) {
             val value = mMaxMinPair.min + it * stepY
             val y = value.extrapolate(
                 0f + mMarginVertical,
@@ -318,11 +333,62 @@ class QuotesChartView(
             val roundedValue = ((value * 10000).roundToInt()).toFloat() / 10000
             drawText(
                 roundedValue.toString(),
-                mWidth + mValueTextMargin,
+                mWidth + mValueTextMargin + 10f,
                 y,
                 mValueTextPaint
             )
         }
+    }
+
+    private fun Canvas.drawFirstVisibleCandleValue() {
+        val firstVisibleCandle = mQuotesChartViewState.quotes[mFirstVisibleCandleIndex]
+        mValueTextPaint.color = when {
+            firstVisibleCandle.isGreen() -> ContextCompat.getColor(context, CoreuiR.color.green)
+            else -> ContextCompat.getColor(context, CoreuiR.color.red)
+        }
+
+        val value = firstVisibleCandle.close
+
+        val y = value.extrapolate(
+            0f + mMarginVertical,
+            height.toFloat() - mMarginVertical,
+            mMaxMinPair.max,
+            mMaxMinPair.min
+        )
+
+        mValueTextPaint.getFontMetrics(mFontMetrics)
+
+        val margin = 10f
+
+        mValuePaint.color = ContextCompat.getColor(context, CoreuiR.color.pageBackground)
+
+        drawRect(
+            mWidth + mValueTextMargin,
+            y + margin,
+            width.toFloat(),
+            y - resources.getDimensionPixelSize(R.dimen.chartValueTextSize).toFloat() - margin / 2,
+            mValuePaint
+        )
+
+        mValueStrokePaint.color = when {
+            firstVisibleCandle.isGreen() -> ContextCompat.getColor(context, CoreuiR.color.green)
+            else -> ContextCompat.getColor(context, CoreuiR.color.red)
+        }
+
+        drawRect(
+            mWidth + mValueTextMargin + 1,
+            y + margin,
+            mWidth + mValueTextMargin + mValueTextPaint.measureText(value.toString()) + 2 * margin,
+            y - resources.getDimensionPixelSize(R.dimen.chartValueTextSize).toFloat() - margin / 2,
+            mValueStrokePaint
+        )
+
+        drawText(
+            value.toString(),
+            mWidth + mValueTextMargin + 10f,
+            y,
+            mValueTextPaint
+        )
     }
 
     private fun Canvas.drawBackground() {
