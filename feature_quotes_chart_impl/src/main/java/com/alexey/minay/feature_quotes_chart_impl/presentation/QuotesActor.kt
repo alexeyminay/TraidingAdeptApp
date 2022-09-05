@@ -18,6 +18,7 @@ class QuotesActor @Inject constructor(
             QuotesAction.FetchQuotesList -> fetchQuotesList()
             QuotesAction.RefreshQuotesList -> refreshQuotesList()
             QuotesAction.FetchQuotes -> fetchQuotes()
+            is QuotesAction.Select -> reduce { QuotesResult.Select(action.type) }
         }.exhaustive
     }
 

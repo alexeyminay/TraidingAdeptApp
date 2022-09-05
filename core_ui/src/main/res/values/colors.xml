@@ -6,14 +6,15 @@
     <color name="red">#C93C20</color>
     <color name="green">#50C878</color>
     <color name="blue">#00bfff</color>
-    <color name="grey">#cc353535</color>
+    <color name="grey">#CCA5A5A5</color>
 
     <color name="pageBackground">#FFF7F9</color>
     <color name="pageBackground_2">#FFD3DE</color>
     <color name="cardBackground">#FFF7F9</color>
+    <color name="selectedItem">#E5EAE0</color>
 
-    <color name="primary">#c5e1a5</color>
-    <color name="primaryVariant">#94af76</color>
+    <color name="primary">#808F6D</color>
+    <color name="primaryVariant">#576748</color>
 
     <color name="title_1">#393838</color>
     <color name="subtitle_1">#717171</color>

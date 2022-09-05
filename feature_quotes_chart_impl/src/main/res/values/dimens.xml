@@ -5,4 +5,5 @@
     <dimen name="chartValueTextSize">12sp</dimen>
     <dimen name="minLengthBetweenLines">50dp</dimen>
     <dimen name="chartBottomInfo">20sp</dimen>
+    <dimen name="dp">1dp</dimen>
 </resources>

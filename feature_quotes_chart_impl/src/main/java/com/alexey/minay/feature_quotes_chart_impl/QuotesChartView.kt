@@ -22,6 +22,9 @@ class QuotesChartView(
     attrs: AttributeSet
 ) : View(context, attrs), ScaleGestureDetector.OnScaleGestureListener {
 
+    private val Int.dp: Float
+        get() = this * resources.getDimensionPixelSize(R.dimen.dp).toFloat()
+
     private var mQuotesChartViewState = QuotesChartViewState.default()
     private val mCandlestickPaint = Paint().apply {
         flags = Paint.ANTI_ALIAS_FLAG
@@ -139,10 +142,7 @@ class QuotesChartView(
 
             val cantMoveRight =
                 moveValue > 0 && lastVisibleIndex == mQuotesChartViewState.quotes.lastIndex
-//            Log.d(
-//                "QuotesChartView",
-//                "$mFirstVisibleCandleIndex $lastVisibleIndex $firstVisibleCandlePositionX $moveValue"
-//            )
+
             if (cantMoveLeft || cantMoveRight) {
                 return true
             }
@@ -157,7 +157,7 @@ class QuotesChartView(
             } else if ((firstVisibleCandlePositionX) < mWidth && mFirstVisibleCandleIndex > 0) {
                 val count = ((mWidth - firstVisibleCandlePositionX) /
                         (mCandleWidth + mCandleMargin)).toInt()
-                //.takeIf { it - mFirstVisibleCandleIndex <= 0 } ?: 0
+                    .takeIf { it - mFirstVisibleCandleIndex < 0 } ?: mFirstVisibleCandleIndex
 
                 mFirstVisibleCandleIndex -= count
                 firstVisibleCandlePositionX += (mCandleWidth + mCandleMargin) * count

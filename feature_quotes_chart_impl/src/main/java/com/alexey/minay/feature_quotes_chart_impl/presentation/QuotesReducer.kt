@@ -5,6 +5,7 @@ import com.alexey.minay.core_utils.DateFormatter
 import com.alexey.minay.core_utils.Result
 import com.alexey.minay.feature_quotes_chart_impl.domain.ExchangeRateInfo
 import com.alexey.minay.feature_quotes_chart_impl.domain.Quotation
+import com.alexey.minay.feature_quotes_chart_impl.domain.QuotesType
 import com.alexey.minay.feature_quotes_chart_impl.presentation.state.QuotesState
 import com.alexey.minay.feature_quotes_chart_impl.presentation.state.chart.QuotesChartState
 import com.alexey.minay.feature_quotes_chart_impl.presentation.state.list.QuotesListItem
@@ -18,6 +19,7 @@ class QuotesReducer @Inject constructor() : Reducer<QuotesResult, QuotesState> {
         is QuotesResult.UpdateQuotesList -> updateQuotesList(result.results)
         QuotesResult.StartRefreshingList -> startRefreshingList()
         is QuotesResult.UpdateQuotes -> updateQuotes(result.quotes)
+        is QuotesResult.Select -> select(result.type)
     }
 
     private fun QuotesState.updateQuotesList(result: Result<List<ExchangeRateInfo>, Nothing>): QuotesState {
@@ -25,7 +27,7 @@ class QuotesReducer @Inject constructor() : Reducer<QuotesResult, QuotesState> {
         items.add(QuotesListItem.Header(QuotesListItem.HeaderType.CURRENCY))
         when (result) {
             is Result.Success ->
-                result.data.forEach { info ->
+                result.data.forEachIndexed { index, info ->
                     items.add(
                         QuotesListItem.Quotes(
                             title = "${info.fromCode}/${info.toCode}",
@@ -33,7 +35,12 @@ class QuotesReducer @Inject constructor() : Reducer<QuotesResult, QuotesState> {
                             value = ((info.exchangeRate * 100).roundToInt().toFloat() / 100)
                                 .toString(),
                             type = info.type,
-                            lastRefreshed = DateFormatter.format1(info.lastRefresh)
+                            lastRefreshed = DateFormatter.format1(info.lastRefresh),
+                            isSelected = if (listState.items.isEmpty()) index == 0
+                            else when (listState.selectedIndex) {
+                                null -> index == 0
+                                else -> index == listState.selectedIndex
+                            }
                         )
                     )
                 }
@@ -63,5 +70,17 @@ class QuotesReducer @Inject constructor() : Reducer<QuotesResult, QuotesState> {
             )
         }
     )
+
+    private fun QuotesState.select(quotesType: QuotesType) =
+        copy(listState = with(listState) {
+            copy(items = items.map {
+                when (it) {
+                    is QuotesListItem.Header -> it
+                    is QuotesListItem.Quotes -> it.copy(
+                        isSelected = it.type == quotesType
+                    )
+                }
+            })
+        })
 
 }

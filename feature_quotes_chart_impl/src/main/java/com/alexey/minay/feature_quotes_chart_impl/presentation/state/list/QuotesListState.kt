@@ -1,10 +1,14 @@
 package com.alexey.minay.feature_quotes_chart_impl.presentation.state.list
 
+import com.alexey.minay.core_utils.indexOfFirstInstanceOrNull
+
 data class QuotesListState(
     val items: List<QuotesListItem>,
     val type: Type,
     val isRefreshing: Boolean
 ) {
+
+    val selectedIndex = items.indexOfFirstInstanceOrNull(QuotesListItem.Quotes::isSelected)
 
     enum class Type {
         INIT,

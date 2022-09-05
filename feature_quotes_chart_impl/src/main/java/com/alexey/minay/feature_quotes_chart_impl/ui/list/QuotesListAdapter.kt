@@ -8,16 +8,19 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.alexey.minay.feature_quotes_chart_impl.databinding.ItemHeaderBinding
 import com.alexey.minay.feature_quotes_chart_impl.databinding.ItemQuotationBinding
+import com.alexey.minay.feature_quotes_chart_impl.domain.QuotesType
 import com.alexey.minay.feature_quotes_chart_impl.presentation.state.list.QuotesListItem
 
-class QuotesListAdapter
-    : ListAdapter<QuotesListItem, QuotesListAdapter.ItemViewHolder>(QuotesDiffUtilsCallback()) {
+class QuotesListAdapter(
+    private val onSelect: (QuotesType) -> Unit
+) : ListAdapter<QuotesListItem, QuotesListAdapter.ItemViewHolder>(QuotesDiffUtilsCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         return when (viewType) {
             QuotesListItem.QUOTES -> QuotationViewHolder(
-                ItemQuotationBinding.inflate(inflater, parent, false)
+                ItemQuotationBinding.inflate(inflater, parent, false),
+                onSelect
             )
             QuotesListItem.HEADER -> HeaderViewHolder(
                 ItemHeaderBinding.inflate(inflater, parent, false)

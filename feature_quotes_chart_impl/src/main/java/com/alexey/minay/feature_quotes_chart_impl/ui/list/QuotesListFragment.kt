@@ -19,7 +19,7 @@ import com.alexey.minay.core_ui.R as CoreUiR
 
 class QuotesListFragment : Fragment(R.layout.fragment_list) {
 
-    private val mAdapter by uiLazy { QuotesListAdapter() }
+    private val mAdapter by uiLazy { QuotesListAdapter{ store.accept(QuotesAction.Select(it)) } }
 
     @Inject
     lateinit var store: QuotesStore
