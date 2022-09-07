@@ -9,6 +9,8 @@ data class QuotesListState(
 ) {
 
     val selectedIndex = items.indexOfFirstInstanceOrNull(QuotesListItem.Quotes::isSelected)
+    val selected = items.firstOrNull { it is QuotesListItem.Quotes && it.isSelected }
+            as? QuotesListItem.Quotes
 
     enum class Type {
         INIT,

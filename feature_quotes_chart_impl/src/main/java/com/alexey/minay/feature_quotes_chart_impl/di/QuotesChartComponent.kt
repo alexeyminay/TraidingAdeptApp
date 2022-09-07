@@ -14,8 +14,6 @@ import dagger.Component
 @FeatureScope
 interface QuotesChartComponent {
 
-    val viewModelProviderFactory: ViewModelProviderFactory
-
     fun inject(fragment: ChartFragment)
     fun inject(fragment: QuotesListFragment)
 

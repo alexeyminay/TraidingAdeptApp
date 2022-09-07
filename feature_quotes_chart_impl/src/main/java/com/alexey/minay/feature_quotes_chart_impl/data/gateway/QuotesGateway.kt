@@ -18,21 +18,23 @@ class QuotesGateway @Inject constructor(
     private val dispatchersProvider: DispatchersProvider
 ) : IQuotesChartGateway, IQuotesListGateway {
 
-    override suspend fun getQuotes() = withContext(dispatchersProvider.io) {
-        requestWrapper.wrap<List<Quotation>, Nothing> {
-            val result = basicApi.get(
-                path = "query",
-                resultClass = QuotesChartResponseJson::class.java,
-                query = mapOf(
-                    "function" to "FX_DAILY",
-                    "from_symbol" to "USD",
-                    "to_symbol" to "RUB",
-                    //"interval" to "15min",
-                    "outputsize" to "full"
+    override suspend fun getQuotes(quotesType: QuotesType) = withContext(dispatchersProvider.io) {
+        when (quotesType) {
+            is QuotesType.Currencies -> requestWrapper.wrap<List<Quotation>, Nothing> {
+                val result = basicApi.get(
+                    path = "query",
+                    resultClass = QuotesChartResponseJson::class.java,
+                    query = mapOf(
+                        "function" to "FX_DAILY",
+                        "from_symbol" to quotesType.type.from,
+                        "to_symbol" to quotesType.type.to,
+                        "outputsize" to "full"
+                    )
                 )
-            )
-            result?.timeSeries?.asDomain(result.metadata.timeZone)
+                result?.timeSeries?.asDomain(result.metadata.timeZone)
+            }
         }
+
     }
 
     override suspend fun getCurrency(

@@ -5,6 +5,7 @@ import com.alexey.minay.core_utils.Result
 import com.alexey.minay.core_utils.exhaustive
 import com.alexey.minay.feature_quotes_chart_impl.domain.GetQuotesListUseCase
 import com.alexey.minay.feature_quotes_chart_impl.domain.IQuotesChartGateway
+import com.alexey.minay.feature_quotes_chart_impl.domain.QuotesType
 import com.alexey.minay.feature_quotes_chart_impl.presentation.state.QuotesState
 import javax.inject.Inject
 
@@ -17,8 +18,8 @@ class QuotesActor @Inject constructor(
         when (action) {
             QuotesAction.FetchQuotesList -> fetchQuotesList()
             QuotesAction.RefreshQuotesList -> refreshQuotesList()
-            QuotesAction.FetchQuotes -> fetchQuotes()
-            is QuotesAction.Select -> reduce { QuotesResult.Select(action.type) }
+            QuotesAction.FetchQuotes -> fetchQuotes(getState)
+            is QuotesAction.Select -> selectQuotes(action.type)
         }.exhaustive
     }
 
@@ -32,13 +33,22 @@ class QuotesActor @Inject constructor(
         fetchQuotesList()
     }
 
-    private suspend fun fetchQuotes() {
-        val result = gateway.getQuotes()
+    private suspend fun fetchQuotes(getState: () -> QuotesState) {
+        val selected = getState().listState.selected ?: return
+        fetchQuotes(selected.type)
+    }
+
+    private suspend fun selectQuotes(type: QuotesType) {
+        reduceSuspend { QuotesResult.Select(type) }
+        fetchQuotes(type)
+    }
+
+    private suspend fun fetchQuotes(type: QuotesType) {
+        val result = gateway.getQuotes(type)
         when (result) {
             is Result.Success -> reduce { QuotesResult.UpdateQuotes(result.data) }
             is Result.Error -> Unit
         }.exhaustive
-
     }
 
 }

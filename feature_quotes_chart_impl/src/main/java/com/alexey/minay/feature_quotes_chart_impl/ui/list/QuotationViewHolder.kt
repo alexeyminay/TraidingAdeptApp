@@ -18,12 +18,15 @@ class QuotationViewHolder(
         title.text = item.title
         subtitle.text = item.subtitle
         value.text = item.value
+        setLastRefreshed(item)
+        setIcons(item)
+        setSelection(item)
+    }
+
+    private fun setLastRefreshed(item: QuotesListItem.Quotes) = with(binding) {
         lastRefreshed.text = itemView.resources.getString(CoreUiR.string.lastRefreshed)
             .format(item.lastRefreshed)
         lastRefreshed.isVisible = item.lastRefreshed != null
-
-        setIcons(item)
-        setSelection(item)
     }
 
     private fun setIcons(item: QuotesListItem.Quotes) = with(binding) {
