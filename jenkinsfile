@@ -3,7 +3,7 @@ pipeline {
     agent {
         docker {
             image 'android_otus'
-            args '-it --memory=12g --cpus="4"'
+            args '-it --memory=12g --cpus="4" -u root'
         }
     }
     stages {
