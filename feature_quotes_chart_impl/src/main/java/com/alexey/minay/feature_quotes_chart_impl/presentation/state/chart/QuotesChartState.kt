@@ -4,7 +4,8 @@ import com.alexey.minay.feature_quotes_chart_impl.domain.Quotation
 
 data class QuotesChartState(
     val quotation: List<Quotation>,
-    val type: Type
+    val type: Type,
+    val isRefreshing: Boolean
 ) {
 
     enum class Type {
@@ -16,7 +17,8 @@ data class QuotesChartState(
     companion object {
         fun default() = QuotesChartState(
             quotation = emptyList(),
-            type = Type.INIT
+            type = Type.INIT,
+            isRefreshing = false
         )
     }
 }

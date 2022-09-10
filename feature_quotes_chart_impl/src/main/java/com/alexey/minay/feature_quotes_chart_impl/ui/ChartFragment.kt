@@ -27,12 +27,20 @@ class ChartFragment : Fragment(R.layout.fragment_chart) {
         super.onViewCreated(view, savedInstanceState)
         mComponent.inject(this)
         store.accept(QuotesAction.FetchQuotes)
+        initSwipeRefreshLayout()
         subscribeStore()
+    }
+
+    private fun initSwipeRefreshLayout() = with(mBinding) {
+        swipeRefreshLayout.isEnabled = false
+        swipeRefreshLayout.setColorSchemeResources(com.alexey.minay.core_ui.R.color.primaryVariant)
+        swipeRefreshLayout.setProgressBackgroundColorSchemeResource(com.alexey.minay.core_ui.R.color.pageBackground)
     }
 
     private fun subscribeStore() = with(store.state.map { it.quotesChartState }) {
         render(viewLifecycleOwner, QuotesChartState::quotation, ::renderChart)
         render(viewLifecycleOwner, QuotesChartState::type, ::renderType)
+        render(viewLifecycleOwner, QuotesChartState::isRefreshing, ::renderRefreshing)
     }
 
     private fun renderChart(quotation: List<Quotation>) {
@@ -57,6 +65,10 @@ class ChartFragment : Fragment(R.layout.fragment_chart) {
                 emptyGroup.root.isVisible = true
             }
         }
+    }
+
+    private fun renderRefreshing(isRefreshing: Boolean) {
+        mBinding.swipeRefreshLayout.isRefreshing = isRefreshing
     }
 
     companion object {

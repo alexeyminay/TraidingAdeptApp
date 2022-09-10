@@ -16,6 +16,8 @@ sealed interface QuotesAction {
 sealed interface QuotesResult {
     class UpdateQuotesList(val results: Result<List<ExchangeRateInfo>, Nothing>) : QuotesResult
     object StartRefreshingList : QuotesResult
+    object SetChartRefreshing : QuotesResult
+
     class UpdateQuotes(val quotes: List<Quotation>) : QuotesResult
     class Select(val type: QuotesType) : QuotesResult
 }

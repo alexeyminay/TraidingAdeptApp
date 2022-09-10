@@ -20,6 +20,7 @@ class QuotesReducer @Inject constructor() : Reducer<QuotesResult, QuotesState> {
         QuotesResult.StartRefreshingList -> startRefreshingList()
         is QuotesResult.UpdateQuotes -> updateQuotes(result.quotes)
         is QuotesResult.Select -> select(result.type)
+        QuotesResult.SetChartRefreshing -> setChartRefreshing()
     }
 
     private fun QuotesState.updateQuotesList(result: Result<List<ExchangeRateInfo>, Nothing>): QuotesState {
@@ -37,10 +38,7 @@ class QuotesReducer @Inject constructor() : Reducer<QuotesResult, QuotesState> {
                             type = info.type,
                             lastRefreshed = DateFormatter.format1(info.lastRefresh),
                             isSelected = if (listState.items.isEmpty()) index == 0
-                            else when (listState.selectedIndex) {
-                                null -> index == 0
-                                else -> index == listState.selectedIndex
-                            }
+                            else index == listState.selectedIndex
                         )
                     )
                 }
@@ -66,7 +64,8 @@ class QuotesReducer @Inject constructor() : Reducer<QuotesResult, QuotesState> {
         quotesChartState = with(quotesChartState) {
             copy(
                 quotation = quotes,
-                type = QuotesChartState.Type.DATA
+                type = QuotesChartState.Type.DATA,
+                isRefreshing = false
             )
         }
     )
@@ -81,6 +80,11 @@ class QuotesReducer @Inject constructor() : Reducer<QuotesResult, QuotesState> {
                     )
                 }
             })
+        })
+
+    private fun QuotesState.setChartRefreshing() =
+        copy(quotesChartState = with(quotesChartState) {
+            copy(isRefreshing = true)
         })
 
 }

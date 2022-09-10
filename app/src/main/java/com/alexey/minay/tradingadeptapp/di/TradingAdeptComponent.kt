@@ -78,6 +78,7 @@ interface TradingAdeptComponent {
                 dependencies = object : QuotesChartDependencies {
                     override fun provideBasicApi() = get().basicApi
                     override fun provideRequestWrapper() = RequestWrapper()
+                    override fun provideNavigator() = NavigationComponent.get().screenNavigator
                 }
             )
 

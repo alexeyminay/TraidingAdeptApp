@@ -36,6 +36,7 @@ dependencies {
     implementation project(":core_utils")
     implementation project(':core_dagger2')
     implementation project(':core_remote')
+    implementation project(":feature_navigation_api")
     implementation project(":feature_quotes_chart_api")
 
     ksp "com.squareup.moshi:moshi-kotlin-codegen:1.13.0"
