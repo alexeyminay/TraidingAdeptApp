@@ -1,39 +1,36 @@
-#!groovy
-node {
-    pipeline {
-        agent {
-            docker {
-                image 'android_otus'
-                args '-it --memory=12g --cpus="4" -u root'
+pipeline {
+    agent {
+        docker {
+            image 'android_otus'
+            args '-it --memory=12g --cpus="4" -u root'
+        }
+    }
+    stages {
+        stage("init") {
+            steps {
+                sh "chmod +x gradlew"
+                sh "./gradlew"
             }
         }
-        stages {
-            stage("init") {
-                steps {
-                    sh "chmod +x gradlew"
-                    sh "./gradlew"
-                }
-            }
-            stage("lint") {
-                steps {
-                    sh "./gradlew lintDebug"
-                }
-            }
-            stage("test") {
-                steps {
-                    sh "./gradlew testDebugUnitTest"
-                }
-            }
-            stage("build") {
-                steps {
-                    sh "./gradlew assembleDebug"
-                }
+        stage("lint") {
+            steps {
+                 sh "./gradlew lintDebug"
             }
         }
-        post {
-            always {
-                archiveArtifacts(artifacts: '**/build/reports/**', allowEmptyArchive: true)
+        stage("test") {
+            steps {
+                  sh "./gradlew testDebugUnitTest"
             }
+        }
+        stage("build") {
+            steps {
+                  sh "./gradlew assembleDebug"
+            }
+        }
+    }
+    post {
+        always {
+            archiveArtifacts(artifacts: '**/build/reports/**', allowEmptyArchive: true)
         }
     }
 }
