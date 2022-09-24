@@ -1,7 +1,7 @@
 pipeline {
     agent {
         docker {
-            image 'android_otus'
+            image 'alexeyminay/android-docker-task01:1.0.2'
             args '-it --memory=12g --cpus="4" -u root'
         }
     }
@@ -10,16 +10,6 @@ pipeline {
             steps {
                 sh "chmod +x gradlew"
                 sh "./gradlew"
-            }
-        }
-        stage("lint") {
-            steps {
-                 sh "./gradlew lintDebug"
-            }
-        }
-        stage("test") {
-            steps {
-                  sh "./gradlew testDebugUnitTest"
             }
         }
         stage("build") {
