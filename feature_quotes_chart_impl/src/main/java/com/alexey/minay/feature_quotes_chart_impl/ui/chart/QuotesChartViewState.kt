@@ -1,4 +1,4 @@
-package com.alexey.minay.feature_quotes_chart_impl
+package com.alexey.minay.feature_quotes_chart_impl.ui.chart
 
 import com.alexey.minay.feature_quotes_chart_impl.domain.Quotation
 import java.io.Serializable

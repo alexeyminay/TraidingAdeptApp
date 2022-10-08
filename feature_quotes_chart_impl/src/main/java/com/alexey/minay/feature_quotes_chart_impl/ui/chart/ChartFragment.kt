@@ -1,4 +1,4 @@
-package com.alexey.minay.feature_quotes_chart_impl.ui
+package com.alexey.minay.feature_quotes_chart_impl.ui.chart
 
 import android.os.Bundle
 import android.view.View

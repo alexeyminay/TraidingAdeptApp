@@ -1,4 +1,4 @@
-package com.alexey.minay.feature_quotes_chart_impl
+package com.alexey.minay.feature_quotes_chart_impl.ui.chart
 
 import android.content.Context
 import android.graphics.Canvas
@@ -12,6 +12,7 @@ import android.view.ScaleGestureDetector
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.alexey.minay.core_utils.DateFormatter
+import com.alexey.minay.feature_quotes_chart_impl.R
 import com.alexey.minay.feature_quotes_chart_impl.domain.Quotation
 import kotlin.math.abs
 import kotlin.math.roundToInt
