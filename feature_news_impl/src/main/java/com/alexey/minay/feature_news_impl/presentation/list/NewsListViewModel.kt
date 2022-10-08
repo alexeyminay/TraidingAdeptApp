@@ -46,7 +46,7 @@ class NewsListViewModel @Inject constructor(
                             )
                         },
                         isRefreshing = false,
-                        type = when (items.isEmpty()) {
+                        type = when (result.data.isEmpty()) {
                             true -> NewsListState.Type.EMPTY
                             false -> NewsListState.Type.DATA
                         }
