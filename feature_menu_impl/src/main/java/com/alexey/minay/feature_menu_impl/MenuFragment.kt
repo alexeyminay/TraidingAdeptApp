@@ -48,16 +48,14 @@ class MenuFragment : Fragment(R.layout.fragment_menu) {
             .onEachWithLifecycle(viewLifecycleOwner) {
                 openFragment(it)
             }
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                val menuItem = mViewModel.selectedMenuItem.first()
+        mViewModel.selectedMenuItem
+            .onEachWithLifecycle(viewLifecycleOwner) { menuItem ->
                 mBinding.menu.selectedItemId = when (menuItem) {
                     MainMenuItem.QUOTES_LIST -> R.id.quotes
                     MainMenuItem.QUOTES_CHART -> R.id.chart
                     MainMenuItem.NEWS_LIST -> R.id.news
                 }
             }
-        }
     }
 
     private fun openFragment(pair: Pair<Fragment?, Extras?>) {
