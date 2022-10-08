@@ -12,7 +12,7 @@ android {
         minSdk rootProject.ext.minSdkVersion
         targetSdk rootProject.ext.targetSdkVersion
 
-        buildConfigField "String", "API_KEY", "\"demo\""
+        buildConfigField "String", "API_KEY", "\"${getLocalProperty("api.key", "demo")}\""
     }
 
     buildTypes {
