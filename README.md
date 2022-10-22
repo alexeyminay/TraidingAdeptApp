@@ -1,5 +1,7 @@
 # TraidingAdeptApp
 
+![Работа чарта](https://github.com/alexeyminay/TraidingAdeptApp/blob/main/example2.gif)
+
 ### Описани
 Приложение для просмотра котировок
 
