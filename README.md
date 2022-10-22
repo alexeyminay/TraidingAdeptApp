@@ -1,5 +1,14 @@
 # TraidingAdeptApp
 
+<img src="[example2.gif](https://user-images.githubusercontent.com/42173333/197358318-5875200b-489a-4e0f-8dc4-c62df5a587a5.png)" width="500" height="250"/>
+
+ <body>
+  <p>
+    <img src="example2.gif" width="250" height="550"/>
+    <img src="example1.gif" width="250" height="550"/>
+  </p>
+ </body>
+
 ### Описани
 Приложение для просмотра котировок
 
