@@ -1,6 +1,11 @@
 # TraidingAdeptApp
 
-<img src="example2.gif" width="250" height="550"/>
+ <body>
+  <p>
+    <img src="example2.gif" width="250" height="550"/>
+    <img src="example1.gif" width="250" height="550"/>
+  </p>
+ </body>
 
 ### Описани
 Приложение для просмотра котировок
