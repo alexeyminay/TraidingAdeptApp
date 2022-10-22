@@ -1,6 +1,6 @@
 # TraidingAdeptApp
 
-<img src="img.png" width="500" height="250"/>
+<img src="img.png" width="510" height="280"/>
 
  <body>
   <p>
