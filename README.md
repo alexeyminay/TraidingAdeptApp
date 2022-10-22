@@ -1,7 +1,6 @@
 # TraidingAdeptApp
 
-<img src="example2.gif" width="250" height="250"/>
-### ![Работа чарта](https://github.com/alexeyminay/TraidingAdeptApp/blob/main/example2.gif)
+<img src="example2.gif" width="250" height="600"/>
 
 ### Описани
 Приложение для просмотра котировок
